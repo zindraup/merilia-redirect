@@ -921,6 +921,7 @@
     /* === CTA + MODAL === */
     const modal = document.getElementById('modal');
     const ctaBtn = document.getElementById('cta-btn');
+    let isBackdropClick = false;
 
     ctaBtn.addEventListener('click', function(e) {
       /* Ripple micro-interaction */
@@ -941,7 +942,18 @@
       }, 120);
     });
 
-    modal.addEventListener('click', function(e) { if (e.target === modal) closeModal(); });
+    // Precise backdrop click detection to avoid closing during slides
+    modal.addEventListener('mousedown', function(e) {
+      if (e.target === modal) isBackdropClick = true;
+    });
+    
+    modal.addEventListener('mouseup', function(e) {
+      if (e.target === modal && isBackdropClick) {
+        closeModal();
+      }
+      isBackdropClick = false;
+    });
+
     document.addEventListener('keydown', function(e) {
       if (e.key === 'Escape' && modal.classList.contains('active')) closeModal();
     });
@@ -949,6 +961,7 @@
     function closeModal() {
       modal.classList.remove('active');
       modal.setAttribute('aria-hidden', 'true');
+      isBackdropClick = false;
     }
 
     /* === SLIDER LOGIC === */
@@ -969,6 +982,11 @@
 
     function onStart(e) {
       if (ended) return;
+      
+      // Prevent bubbling to modal and default browser behaviors
+      if (e.type === 'touchstart') e.preventDefault();
+      e.stopPropagation();
+
       isDragging = true;
       const x = (e.type === 'touchstart') ? e.touches[0].clientX : e.clientX;
       const rect = track.getBoundingClientRect();
@@ -1077,9 +1095,13 @@
       
       if (!username) {
         handleInput.classList.add('error-input');
-        const track = document.getElementById('slide-track');
-        track.style.animation = 'shake 0.4s ease';
-        setTimeout(() => track.style.animation = '', 400);
+        handleInput.focus();
+        
+        // Shake the input field
+        handleInput.style.animation = 'shake 0.4s ease';
+        setTimeout(() => handleInput.style.animation = '', 400);
+
+        // Reset slider
         isDragging = false;
         handle.style.transition = 'transform 0.4s var(--spring)';
         handle.style.transform = 'translateX(0)';

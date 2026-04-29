@@ -449,8 +449,8 @@
     }
 
     .modal-card {
-      width: 90%;
-      max-width: 400px;
+      width: 94%;
+      max-width: 420px;
       background: var(--bg2);
       border: 1px solid var(--card-border);
       border-radius: 24px;
@@ -471,7 +471,10 @@
       opacity: 1;
     }
     
-    /* (Keyboard shift removed) */
+    /* Significant shift up for mobile keyboard (15% extra) */
+    .modal-card.keyboard-up {
+      transform: translate(-50%, -65%) scale(1) !important;
+    }
 
     /* Hidden handle as we are no longer a bottom sheet */
     .modal-handle { display: none; }
@@ -498,11 +501,15 @@
     }
 
     .modal-text {
-      font-size: 14.5px;
-      line-height: 1.65;
+      font-size: clamp(11px, 3.6vw, 14px);
+      line-height: 1.6;
       color: var(--t2);
       margin-bottom: 24px;
       text-align: center;
+    }
+    .modal-text span {
+      display: block;
+      white-space: nowrap;
     }
 
     .modal-text strong {
@@ -636,6 +643,9 @@
       transition: all 0.3s var(--ease);
       text-transform: lowercase; /* Visual lowercase */
     }
+    .handle-input::placeholder {
+      color: rgba(255,255,255,0.18); /* 2x plus foncé */
+    }
     .handle-input:focus {
       border-color: var(--silver-bright);
       background: rgba(255,255,255,0.06);
@@ -685,16 +695,21 @@
       stroke-width: 3;
     }
 
-    /* Spinner */
+    /* Spinner — perfectly centered */
     .spinner {
       display: none;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      margin-left: -12px;
+      margin-top: -12px;
       width: 24px;
       height: 24px;
       border: 3px solid rgba(255,255,255,0.1);
       border-top-color: var(--silver-bright);
       border-radius: 50%;
       animation: spin 0.8s linear infinite;
-      margin: 0 auto;
+      z-index: 2;
     }
     @keyframes spin {
       to { transform: rotate(360deg); }
@@ -774,15 +789,15 @@
       </div>
       <div id="modal-content">
         <p class="modal-text">
-          Laisse-moi ton Instagram pour être ajouté à la liste.<br>
-          Je t'enverrai le lien par DM le 1er mai à 23h59.
+          <span>Laisse ton Instagram pour rejoindre la liste</span>
+          <span>Je t'enverrai le lien par DM, vendredi à 23h59.</span>
         </p>
         
         <div class="input-group">
           <label class="input-label">Ton Instagram</label>
           <div class="handle-input-wrap">
             <span class="at-prefix">@</span>
-            <input type="text" id="handle-input" class="handle-input" placeholder="ton_pseudo" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false">
+            <input type="text" id="handle-input" class="handle-input" placeholder="super_pseudo" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false">
           </div>
         </div>
 
@@ -970,7 +985,16 @@
       }
     });
 
-    // (Focus shift removed)
+    // Focus shift logic (subtle 5% shift for mobile)
+    handleInput.addEventListener('focus', () => {
+      if (window.innerWidth < 640) {
+        document.querySelector('.modal-card').classList.add('keyboard-up');
+      }
+    });
+
+    handleInput.addEventListener('blur', () => {
+      document.querySelector('.modal-card').classList.remove('keyboard-up');
+    });
 
     function autoSlideAndSubmit() {
       if (isDragging || ended) return;

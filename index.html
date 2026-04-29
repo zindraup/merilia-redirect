@@ -855,16 +855,28 @@
     window.addEventListener('touchend', onEnd);
 
     function triggerRedirect() {
-      const igUrl = 'https://ig.me/m/' + IG_USER;
-      window.location.href = igUrl;
-      
-      // Fallback
+      /*
+       * Aggressive deep-link strategy to escape IG in-app browser:
+       * 1. instagram:// URI scheme → forces native app switch
+       * 2. ig.me/m/ fallback → if URI scheme didn't work (800ms)
+       * 3. Android intent:// → last resort (2s)
+       */
+      window.location.href = 'instagram://user?username=' + IG_USER;
+
+      // Fallback 1: ig.me deep-link after 800ms
+      setTimeout(function() {
+        if (!document.hidden) {
+          window.location.href = 'https://ig.me/m/' + IG_USER;
+        }
+      }, 800);
+
+      // Fallback 2: Android intent after 2s
       setTimeout(function() {
         if (!document.hidden) {
           window.location.href = 'intent://user?username=' + IG_USER +
             '#Intent;package=com.instagram.android;scheme=https;end';
         }
-      }, 1500);
+      }, 2000);
       
       // Reset slider for if they come back
       setTimeout(() => {
@@ -872,7 +884,7 @@
         handle.style.transform = 'translateX(0)';
         track.querySelector('.slide-text').style.opacity = 1;
         currentX = 0;
-      }, 2000);
+      }, 3000);
     }
   </script>
 </body>

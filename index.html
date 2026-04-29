@@ -6,7 +6,7 @@
   <meta name="description" content="Merilia — Envie. Nouveau single disponible le 1er mai. Reçois le rappel en avant-première.">
   <meta name="theme-color" content="#060608">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <title>Merilia — Envie | Sortie le 1er mai</title>
+  <title>Merilia - Envie | Sortie le 1er mai</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -59,11 +59,12 @@
       position: fixed;
       inset: 0;
       z-index: 0;
-      background: url('ENVIE%20-%20COVER.png') center center / cover no-repeat;
+      background: url('cover.jpg') center center / cover no-repeat;
       filter: blur(12px) saturate(1) brightness(0.9);
-      transform: scale(1.05); /* avoid blur edge artifacts */
+      transform: scale(1.05) translateZ(0); /* GPU acceleration */
       opacity: 1;
       pointer-events: none;
+      will-change: transform;
     }
 
     /* Soft vignette — lets the cover breathe */
@@ -160,9 +161,11 @@
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
-      animation: fadeIn .8s .2s both, chromeShift 5s ease-in-out infinite;
+      animation: fadeIn .8s .2s both, chromeShift 8s ease-in-out infinite;
       margin-bottom: 6px;
       filter: drop-shadow(0 0 20px rgba(255,255,255,0.08));
+      will-change: background-position;
+      transform: translateZ(0);
     }
 
     @keyframes chromeShift {
@@ -350,6 +353,8 @@
         0 4px 24px rgba(0,0,0,0.5),
         inset 0 1px 0 rgba(255,255,255,0.4);
       animation: chromeBtn 6s ease-in-out infinite;
+      transform: translateZ(0);
+      will-change: transform;
     }
 
     /* Liquid chrome effect — smoother transitions */
@@ -504,6 +509,7 @@
       display: flex;
       flex-direction: column;
       gap: 10px;
+      padding: 0 5%;
     }
 
     /* Primary button — (unused now that we have the slider) */
@@ -526,6 +532,7 @@
       margin-bottom: 12px;
       box-shadow: inset 0 2px 10px rgba(0,0,0,0.5);
       user-select: none;
+      transform: translateZ(0);
     }
 
     .slide-text {
@@ -632,7 +639,7 @@
 
     <!-- Cover art in silver circle -->
     <div class="cover-circle">
-      <img src="ENVIE%20-%20COVER.png" alt="Merilia — Envie" width="110" height="110">
+      <img src="cover.jpg" alt="Merilia — Envie" width="110" height="110">
     </div>
 
     <!-- Artist branding -->
@@ -793,39 +800,44 @@
     ctaBtn.addEventListener('click', () => setTimeout(initSlider, 200));
 
     function onStart(e) {
-      if (ended) return; // Optional: handle if release is over
+      if (ended) return;
       isDragging = true;
-      startX = (e.type === 'touchstart') ? e.touches[0].clientX : e.clientX;
+      const x = (e.type === 'touchstart') ? e.touches[0].clientX : e.clientX;
+      const rect = track.getBoundingClientRect();
+      
+      // Calculate where on the track we touched
+      const touchX = x - rect.left - 25; // 25 is half handle width
+      startX = x - Math.max(0, Math.min(maxTranslate, touchX));
+      
       handle.style.transition = 'none';
+      onMove(e); // Initial move to snap handle if needed
     }
 
     function onMove(e) {
       if (!isDragging) return;
       const x = (e.type === 'touchmove') ? e.touches[0].clientX : e.clientX;
       currentX = Math.max(0, Math.min(maxTranslate, x - startX));
-      handle.style.transform = `translateX(${currentX}px)`;
       
-      // Dynamic opacity for text
-      const progress = currentX / maxTranslate;
-      track.querySelector('.slide-text').style.opacity = 1 - (progress * 1.5);
+      // Use requestAnimationFrame for smooth 60fps movement
+      requestAnimationFrame(() => {
+        if (!isDragging && currentX !== maxTranslate) return; 
+        handle.style.transform = `translateX(${currentX}px)`;
+        const progress = currentX / maxTranslate;
+        track.querySelector('.slide-text').style.opacity = 1 - (progress * 1.5);
+      });
     }
 
     function onEnd() {
       if (!isDragging) return;
       isDragging = false;
       
-      if (currentX >= maxTranslate * 0.9) {
-        // Success
+      if (currentX >= maxTranslate * 0.85) { // Slightly more indulgent threshold (85%)
         handle.style.transition = 'all 0.3s var(--ease)';
         handle.style.transform = `translateX(${maxTranslate}px)`;
         track.classList.add('slide-complete');
-        
-        // Haptic feedback if available
         if (window.navigator.vibrate) window.navigator.vibrate(20);
-        
         setTimeout(triggerRedirect, 300);
       } else {
-        // Reset
         handle.style.transition = 'transform 0.4s var(--spring)';
         handle.style.transform = 'translateX(0)';
         track.querySelector('.slide-text').style.opacity = 1;
@@ -833,11 +845,12 @@
       }
     }
 
-    handle.addEventListener('mousedown', onStart);
+    // Event listeners on the track instead of just the handle for "indulgent" UX
+    track.addEventListener('mousedown', onStart);
     window.addEventListener('mousemove', onMove);
     window.addEventListener('mouseup', onEnd);
 
-    handle.addEventListener('touchstart', onStart, {passive: true});
+    track.addEventListener('touchstart', onStart, {passive: false});
     window.addEventListener('touchmove', onMove, {passive: false});
     window.addEventListener('touchend', onEnd);
 

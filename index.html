@@ -718,6 +718,46 @@
     .slide-loading .slide-text { display: none; }
     /* (Redundant desktop media query removed) */
 
+    /* Error state for input */
+    .handle-input.error-input {
+      border-color: #ff4d4d !important;
+      box-shadow: 0 0 15px rgba(255, 77, 77, 0.4) !important;
+      background: rgba(255, 77, 77, 0.05);
+    }
+
+    .spotify-prompt {
+      margin-top: 24px;
+      padding-top: 24px;
+      border-top: 1px solid var(--card-border);
+      display: none; /* Shown after success */
+    }
+
+    .btn-spotify {
+      background: linear-gradient(135deg, #1db954, #1ed760, #1db954) !important;
+      color: #000 !important;
+      box-shadow: 0 4px 20px rgba(29, 185, 84, 0.3) !important;
+      margin-top: 12px;
+      animation: none !important;
+    }
+    
+    .btn-spotify::before { animation-duration: 3s !important; }
+
+    .btn-later {
+      background: transparent !important;
+      border: 1px solid var(--card-border) !important;
+      color: var(--t3) !important;
+      box-shadow: none !important;
+      margin-top: 8px;
+      font-size: 11px !important;
+      padding: 14px 24px !important;
+      animation: none !important;
+    }
+    .btn-later::after, .btn-later::before { display: none !important; }
+    .btn-later:hover {
+      border-color: var(--t2) !important;
+      color: var(--t2) !important;
+    }
+
     /* ============================================
        ACCESSIBILITY — Reduced motion
        ============================================ */
@@ -817,7 +857,15 @@
           <svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
         </div>
         <h3>T'es inscrit !</h3>
-        <p>Prépare-toi, je t'envoie ça <br><strong>vendredi à 23h59</strong>. 🔥</p>
+        <p id="success-message">Prépare-toi, je t'envoie ça <br><strong>vendredi à 23h59</strong>. 🔥</p>
+        
+        <div id="spotify-prompt" class="spotify-prompt">
+          <p style="font-size: 13px; color: var(--t2); margin-bottom: 16px;">Veux-tu aussi pré-sauvegarder sur Spotify ?</p>
+          <div style="display: flex; flex-direction: column; align-items: center; gap: 8px; width: 100%;">
+            <button class="cta-btn btn-spotify" id="btn-spotify">Pré-save Spotify</button>
+            <button class="cta-btn btn-later" onclick="closeModal()">Plus tard</button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -996,12 +1044,18 @@
       document.querySelector('.modal-card').classList.remove('keyboard-up');
     });
 
+    // Reset error state on type
+    handleInput.addEventListener('input', () => {
+      handleInput.classList.remove('error-input');
+    });
+
     function autoSlideAndSubmit() {
       if (isDragging || ended) return;
       
       const username = handleInput.value.trim();
       if (!username) {
-        // Shake if empty
+        // Error state
+        handleInput.classList.add('error-input');
         const trackEl = document.getElementById('slide-track');
         trackEl.style.animation = 'shake 0.4s ease';
         setTimeout(() => trackEl.style.animation = '', 400);
@@ -1022,6 +1076,7 @@
       const username = handleInput.value.trim().toLowerCase().replace(/^@/, '');
       
       if (!username) {
+        handleInput.classList.add('error-input');
         const track = document.getElementById('slide-track');
         track.style.animation = 'shake 0.4s ease';
         setTimeout(() => track.style.animation = '', 400);
@@ -1051,11 +1106,21 @@
 
       // Snappy transition to success state
       setTimeout(() => {
+        document.querySelector('.modal-icon').style.display = 'none';
         document.getElementById('modal-content').style.display = 'none';
         document.getElementById('modal-success').style.display = 'block';
         
-        // Auto close after 2.5s for faster feeling
-        setTimeout(closeModal, 2500);
+        // Show Spotify prompt after a short delay
+        setTimeout(() => {
+          const prompt = document.getElementById('spotify-prompt');
+          prompt.style.display = 'block';
+          prompt.style.animation = 'fadeIn .6s var(--ease) both';
+          
+          document.getElementById('btn-spotify').addEventListener('click', () => {
+            window.open('https://distrokid.com/hyperfollow/merilia/envie', '_blank');
+            closeModal();
+          });
+        }, 1200);
       }, 800);
     }
     

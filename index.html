@@ -60,7 +60,7 @@
       inset: 0;
       z-index: 0;
       background: url('cover.jpg') center center / cover no-repeat;
-      filter: blur(12px) saturate(1) brightness(0.9);
+      filter: blur(10px) saturate(1) brightness(1);
       transform: scale(1.05) translateZ(0); /* GPU acceleration */
       opacity: 1;
       pointer-events: none;
@@ -434,7 +434,7 @@
       inset: 0;
       z-index: 100;
       display: flex;
-      align-items: flex-end;
+      align-items: center; /* Center vertically for everyone */
       justify-content: center;
       background: rgba(0,0,0,0);
       pointer-events: none;
@@ -449,29 +449,32 @@
     }
 
     .modal-card {
-      width: 100%;
-      max-width: 440px;
+      width: 90%;
+      max-width: 400px;
       background: var(--bg2);
       border: 1px solid var(--card-border);
-      border-bottom: none;
-      border-radius: 18px 18px 0 0;
-      padding: 28px 24px;
-      padding-bottom: calc(28px + env(safe-area-inset-bottom, 20px));
-      transform: translateY(100%);
-      transition: transform .4s var(--ease);
+      border-radius: 24px;
+      padding: 32px 24px;
+      transform: translate(-50%, -40%) scale(0.9);
+      opacity: 0;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transition: all .4s var(--ease);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.8);
       max-height: 90vh;
       overflow-y: auto;
     }
 
-    .modal-ov.active .modal-card { transform: translateY(0) }
-
-    .modal-handle {
-      width: 36px;
-      height: 4px;
-      border-radius: 2px;
-      background: rgba(255,255,255,0.08);
-      margin: 0 auto 22px;
+    .modal-ov.active .modal-card { 
+      transform: translate(-50%, -50%) scale(1);
+      opacity: 1;
     }
+    
+    /* (Keyboard shift removed) */
+
+    /* Hidden handle as we are no longer a bottom sheet */
+    .modal-handle { display: none; }
 
     .modal-icon {
       width: 48px;
@@ -541,6 +544,7 @@
       position: absolute;
       width: 100%;
       text-align: center;
+      padding-left: 32px; /* Shifted back slightly to the left */
       font-size: 13px;
       font-weight: 600;
       letter-spacing: 0.05em;
@@ -630,6 +634,7 @@
       font-size: 16px;
       outline: none;
       transition: all 0.3s var(--ease);
+      text-transform: lowercase; /* Visual lowercase */
     }
     .handle-input:focus {
       border-color: var(--silver-bright);
@@ -679,20 +684,24 @@
       stroke: var(--bg);
       stroke-width: 3;
     }
-    @media (min-width: 640px) {
-      .modal-ov { align-items: center }
-      .modal-card {
-        border-radius: 18px;
-        border-bottom: 1px solid var(--card-border);
-        max-width: 400px;
-        padding-bottom: 28px;
-        transform: translateY(30px);
-        opacity: 0;
-        transition: transform .4s var(--ease), opacity .4s var(--ease);
-      }
-      .modal-ov.active .modal-card { transform: translateY(0); opacity: 1 }
-      .modal-handle { display: none }
+
+    /* Spinner */
+    .spinner {
+      display: none;
+      width: 24px;
+      height: 24px;
+      border: 3px solid rgba(255,255,255,0.1);
+      border-top-color: var(--silver-bright);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin: 0 auto;
     }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    .slide-loading .spinner { display: block; }
+    .slide-loading .slide-text { display: none; }
+    /* (Redundant desktop media query removed) */
 
     /* ============================================
        ACCESSIBILITY — Reduced motion
@@ -773,13 +782,14 @@
           <label class="input-label">Ton Instagram</label>
           <div class="handle-input-wrap">
             <span class="at-prefix">@</span>
-            <input type="text" id="handle-input" class="handle-input" placeholder="ton_pseudo" autocomplete="off" spellcheck="false">
+            <input type="text" id="handle-input" class="handle-input" placeholder="ton_pseudo" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false">
           </div>
         </div>
 
         <div class="modal-actions">
           <div class="slide-track" id="slide-track">
             <div class="slide-text">Glisser pour s'inscrire</div>
+            <div class="spinner"></div>
             <div class="slide-handle" id="slide-handle">
               <svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
             </div>
@@ -960,12 +970,7 @@
       }
     });
 
-    handleInput.addEventListener('focus', () => {
-      // Small delay to let keyboard appear, then scroll into view
-      setTimeout(() => {
-        handleInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      }, 300);
-    });
+    // (Focus shift removed)
 
     function autoSlideAndSubmit() {
       if (isDragging || ended) return;
@@ -990,7 +995,7 @@
 
     async function triggerRedirect() {
       const handleInput = document.getElementById('handle-input');
-      const username = handleInput.value.trim().replace(/^@/, '');
+      const username = handleInput.value.trim().toLowerCase().replace(/^@/, '');
       
       if (!username) {
         const track = document.getElementById('slide-track');
@@ -1005,29 +1010,29 @@
         return;
       }
 
-      // Display "processing" state slightly
-      track.querySelector('.slide-text').textContent = 'Enregistrement...';
+      // Display "processing" state
+      track.classList.add('slide-loading');
+      handle.style.opacity = '0';
 
-      /* 
-       * 🚀 DATA COLLECTION 
-       * This sends the handle to your secret admin page/central sheet
-       */
-      const SHEET_API_URL = 'https://script.google.com/macros/s/AKfycbwBokoSbC7lTjIfHVcCSkj8a-6gesAELVCFIJxPoM881iSqv0PZpTmtoloeOspKTZYo/exec'; // Colle ton lien Google Script ici plus tard
+      const SHEET_API_URL = 'https://script.google.com/macros/s/AKfycbwBokoSbC7lTjIfHVcCSkj8a-6gesAELVCFIJxPoM881iSqv0PZpTmtoloeOspKTZYo/exec';
       
+      // Fire and move on (don't block the UI for too long)
       if (SHEET_API_URL) {
-        try {
-          await fetch(SHEET_API_URL, {
-            method: 'POST',
-            mode: 'no-cors',
-            body: JSON.stringify({ handle: username, date: new Date().toLocaleString() })
-          });
-        } catch(e) { console.error(e); }
+        fetch(SHEET_API_URL, {
+          method: 'POST',
+          mode: 'no-cors',
+          body: JSON.stringify({ handle: username, date: new Date().toLocaleString() })
+        }).catch(e => console.error(e));
       }
 
-      // Show success state
-      document.getElementById('modal-content').style.display = 'none';
-      document.getElementById('modal-success').style.display = 'block';
-      setTimeout(closeModal, 3500);
+      // Snappy transition to success state
+      setTimeout(() => {
+        document.getElementById('modal-content').style.display = 'none';
+        document.getElementById('modal-success').style.display = 'block';
+        
+        // Auto close after 2.5s for faster feeling
+        setTimeout(closeModal, 2500);
+      }, 800);
     }
     
     // Keyframes for error shake

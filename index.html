@@ -599,8 +599,84 @@
     .btn-s { display: none; }
 
     /* ============================================
-       DESKTOP MODAL VARIANT
+       INPUT FIELD — Premium Silver
        ============================================ */
+    .input-group {
+      margin-bottom: 24px;
+      text-align: left;
+    }
+    .input-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--t3);
+      margin-bottom: 8px;
+      display: block;
+    }
+    .handle-input-wrap {
+      position: relative;
+      width: 100%;
+    }
+    .handle-input {
+      width: 100%;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 16px 16px 16px 36px;
+      color: #fff;
+      font-family: var(--font);
+      font-size: 16px;
+      outline: none;
+      transition: all 0.3s var(--ease);
+    }
+    .handle-input:focus {
+      border-color: var(--silver-bright);
+      background: rgba(255,255,255,0.06);
+      box-shadow: 0 0 15px var(--silver-glow);
+    }
+    .at-prefix {
+      position: absolute;
+      left: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--t3);
+      font-weight: 600;
+      pointer-events: none;
+    }
+    
+    .success-state {
+      display: none;
+      text-align: center;
+      padding: 20px 0;
+    }
+    .success-state h3 {
+      font-size: 24px;
+      margin-bottom: 12px;
+      color: var(--silver-bright);
+    }
+    .success-state p {
+      color: var(--t2);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+    .success-icon {
+      width: 60px;
+      height: 60px;
+      background: var(--silver-bright);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+      animation: scaleIn .6s var(--spring) both;
+    }
+    .success-icon svg {
+      width: 32px;
+      height: 32px;
+      fill: none;
+      stroke: var(--bg);
+      stroke-width: 3;
+    }
     @media (min-width: 640px) {
       .modal-ov { align-items: center }
       .modal-card {
@@ -685,19 +761,36 @@
       <div class="modal-icon" aria-hidden="true">
         <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.2" fill="var(--silver)" stroke="none"/></svg>
       </div>
-      <p class="modal-text">
-        Tu vas être redirigé vers Instagram.<br>
-        Envoie simplement le message <strong>"RAPPEL"</strong>.<br>
-        Je t'enverrai le lien le 1er mai à 23h59 dès la sortie.
-      </p>
-      <div class="modal-actions">
-        <!-- Slider instead of button -->
-        <div class="slide-track" id="slide-track">
-          <div class="slide-text">Glisser pour continuer</div>
-          <div class="slide-handle" id="slide-handle">
-            <svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
+      <div id="modal-content">
+        <p class="modal-text">
+          Laisse-moi ton Instagram pour être ajouté à la liste.<br>
+          Je t'enverrai le lien par DM le 1er mai à 23h59.
+        </p>
+        
+        <div class="input-group">
+          <label class="input-label">Ton Instagram</label>
+          <div class="handle-input-wrap">
+            <span class="at-prefix">@</span>
+            <input type="text" id="handle-input" class="handle-input" placeholder="ton_pseudo" autocomplete="off" spellcheck="false">
           </div>
         </div>
+
+        <div class="modal-actions">
+          <div class="slide-track" id="slide-track">
+            <div class="slide-text">Glisser pour s'inscrire</div>
+            <div class="slide-handle" id="slide-handle">
+              <svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="modal-success" class="success-state">
+        <div class="success-icon">
+          <svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
+        </div>
+        <h3>T'es inscrit !</h3>
+        <p>Prépare-toi, je t'envoie ça <br><strong>vendredi à 23h59</strong>. 🔥</p>
       </div>
     </div>
   </div>
@@ -854,38 +947,59 @@
     window.addEventListener('touchmove', onMove, {passive: false});
     window.addEventListener('touchend', onEnd);
 
-    function triggerRedirect() {
-      /*
-       * Aggressive deep-link strategy to escape IG in-app browser:
-       * 1. instagram:// URI scheme → forces native app switch
-       * 2. ig.me/m/ fallback → if URI scheme didn't work (800ms)
-       * 3. Android intent:// → last resort (2s)
-       */
-      window.location.href = 'instagram://user?username=' + IG_USER;
-
-      // Fallback 1: ig.me deep-link after 800ms
-      setTimeout(function() {
-        if (!document.hidden) {
-          window.location.href = 'https://ig.me/m/' + IG_USER;
-        }
-      }, 800);
-
-      // Fallback 2: Android intent after 2s
-      setTimeout(function() {
-        if (!document.hidden) {
-          window.location.href = 'intent://user?username=' + IG_USER +
-            '#Intent;package=com.instagram.android;scheme=https;end';
-        }
-      }, 2000);
+    async function triggerRedirect() {
+      const handleInput = document.getElementById('handle-input');
+      const username = handleInput.value.trim().replace(/^@/, '');
       
-      // Reset slider for if they come back
-      setTimeout(() => {
-        track.classList.remove('slide-complete');
+      if (!username) {
+        const track = document.getElementById('slide-track');
+        track.style.animation = 'shake 0.4s ease';
+        setTimeout(() => track.style.animation = '', 400);
+        isDragging = false;
+        handle.style.transition = 'transform 0.4s var(--spring)';
         handle.style.transform = 'translateX(0)';
         track.querySelector('.slide-text').style.opacity = 1;
         currentX = 0;
-      }, 3000);
+        track.classList.remove('slide-complete');
+        return;
+      }
+
+      // Display "processing" state slightly
+      track.querySelector('.slide-text').textContent = 'Enregistrement...';
+
+      /* 
+       * 🚀 DATA COLLECTION 
+       * This sends the handle to your secret admin page/central sheet
+       */
+      const SHEET_API_URL = 'https://script.google.com/macros/s/AKfycbwBokoSbC7lTjIfHVcCSkj8a-6gesAELVCFIJxPoM881iSqv0PZpTmtoloeOspKTZYo/exec'; // Colle ton lien Google Script ici plus tard
+      
+      if (SHEET_API_URL) {
+        try {
+          await fetch(SHEET_API_URL, {
+            method: 'POST',
+            mode: 'no-cors',
+            body: JSON.stringify({ handle: username, date: new Date().toLocaleString() })
+          });
+        } catch(e) { console.error(e); }
+      }
+
+      // Show success state
+      document.getElementById('modal-content').style.display = 'none';
+      document.getElementById('modal-success').style.display = 'block';
+      setTimeout(closeModal, 3500);
     }
+    
+    // Keyframes for error shake
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes shake {
+        0%, 100% { transform: translateX(0); }
+        25% { transform: translateX(-8px); }
+        75% { transform: translateX(8px); }
+      }
+    `;
+    document.head.appendChild(style);
+
   </script>
 </body>
 </html>

@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin — Liste Envie</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #060608;
+      --bg2: #0e0e12;
+      --silver: #d0d0dc;
+      --silver-bright: #eeeef4;
+      --font: 'Inter', sans-serif;
+    }
+    
+    body {
+      background: var(--bg);
+      color: #fff;
+      font-family: var(--font);
+      padding: 40px 20px;
+      margin: 0;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 40px;
+    }
+
+    h1 {
+      font-size: 24px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      background: linear-gradient(135deg, #fff, var(--silver));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .stats {
+      font-size: 14px;
+      color: rgba(255,255,255,0.4);
+    }
+
+    .card {
+      background: var(--bg2);
+      border: 1px solid rgba(255,255,255,0.05);
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+
+    .list-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .btn-copy {
+      background: var(--silver-bright);
+      color: var(--bg);
+      border: none;
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 13px;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+
+    .btn-copy:active { transform: scale(0.95); }
+
+    .user-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      max-height: 400px;
+      overflow-y: auto;
+    }
+
+    .user-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 12px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.03);
+    }
+
+    .user-item:last-child { border: none; }
+
+    .handle {
+      font-weight: 600;
+      color: var(--silver);
+    }
+
+    .date {
+      font-size: 12px;
+      color: rgba(255,255,255,0.3);
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 40px 0;
+      color: rgba(255,255,255,0.2);
+    }
+
+    /* Style for the Google Sheet setup instruction */
+    .setup-box {
+      margin-top: 30px;
+      padding: 20px;
+      background: rgba(192,192,204,0.05);
+      border-radius: 12px;
+      font-size: 13px;
+      line-height: 1.6;
+      border: 1px dashed rgba(255,255,255,0.1);
+    }
+    
+    code {
+      display: block;
+      background: #000;
+      padding: 10px;
+      border-radius: 6px;
+      margin-top: 10px;
+      color: #7d7;
+      overflow-x: auto;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Dashboard Inscrits</h1>
+      <div class="stats" id="count-label">0 inscrit(s)</div>
+    </header>
+
+    <div class="card">
+      <div class="list-header">
+        <span style="font-weight: 600;">Liste des pseudos</span>
+        <button class="btn-copy" onclick="copyAll()">Copier tout</button>
+      </div>
+
+      <ul class="user-list" id="user-list">
+        <!-- Les noms apparaîtront ici -->
+        <li class="empty-state">Chargement de la liste...</li>
+      </ul>
+    </div>
+
+    <div class="setup-box">
+      <strong>⚙️ Comment activer la récolte :</strong><br>
+      1. Crée un Google Sheet.<br>
+      2. Va dans Extensions > Apps Script.<br>
+      3. Colle le code que je t'ai donné et clique sur "Déployer".<br>
+      4. Copie l'URL obtenue et colle-la dans ton <code>index.html</code>.
+    </div>
+  </div>
+
+  <script>
+    // URL de ton Google Script (à remplir plus tard)
+    const SHEET_API_URL = 'https://script.google.com/macros/s/AKfycbwBokoSbC7lTjIfHVcCSkj8a-6gesAELVCFIJxPoM881iSqv0PZpTmtoloeOspKTZYo/exec'; 
+
+    async function loadUsers() {
+      const listEl = document.getElementById('user-list');
+      
+      if (!SHEET_API_URL) {
+        listEl.innerHTML = '<li class="empty-state">Tu dois configurer ton Google Sheet pour voir les vrais inscrits.</li>';
+        return;
+      }
+
+      try {
+        const response = await fetch(SHEET_API_URL);
+        const data = await response.json();
+        
+        if (data.length === 0) {
+          listEl.innerHTML = '<li class="empty-state">Aucun inscrit pour le moment.</li>';
+          return;
+        }
+
+        listEl.innerHTML = '';
+        document.getElementById('count-label').textContent = `${data.length} inscrit(s)`;
+        
+        data.forEach(user => {
+          const li = document.createElement('li');
+          li.className = 'user-item';
+          li.innerHTML = `
+            <span class="handle">@${user.handle}</span>
+            <span class="date">${user.date}</span>
+          `;
+          listEl.appendChild(li);
+        });
+      } catch (e) {
+        listEl.innerHTML = '<li class="empty-state">Erreur de connexion au Sheet.</li>';
+      }
+    }
+
+    function copyAll() {
+      const handles = Array.from(document.querySelectorAll('.handle'))
+                           .map(el => el.textContent)
+                           .join('\n');
+      
+      if (!handles) return;
+      
+      navigator.clipboard.writeText(handles).then(() => {
+        const btn = document.querySelector('.btn-copy');
+        const oldText = btn.textContent;
+        btn.textContent = 'Copié !';
+        setTimeout(() => btn.textContent = oldText, 2000);
+      });
+    }
+
+    loadUsers();
+  </script>
+</body>
+</html>

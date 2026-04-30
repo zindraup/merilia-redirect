@@ -759,6 +759,42 @@
     }
 
     /* ============================================
+       SMS OPTION & TOGGLE
+       ============================================ */
+    .option-toggle {
+      display: flex;
+      background: rgba(255,255,255,0.04);
+      padding: 4px;
+      border-radius: 12px;
+      margin-bottom: 24px;
+      border: 1px solid var(--card-border);
+    }
+    .option-btn {
+      flex: 1;
+      padding: 10px;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--t3);
+      cursor: pointer;
+      border-radius: 8px;
+      transition: all 0.3s var(--ease);
+      border: none;
+      background: transparent;
+      font-family: var(--font);
+    }
+    .option-btn.active {
+      background: var(--silver-dim);
+      color: var(--silver-bright);
+      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    }
+    
+    #phone-group {
+      display: none;
+    }
+
+    /* ============================================
        ACCESSIBILITY — Reduced motion
        ============================================ */
     @media (prefers-reduced-motion: reduce) {
@@ -824,20 +860,32 @@
   <div class="modal-ov" id="modal" role="dialog" aria-modal="true" aria-hidden="true">
     <div class="modal-card">
       <div class="modal-handle" aria-hidden="true"></div>
-      <div class="modal-icon" aria-hidden="true">
+      <div class="modal-icon" aria-hidden="true" id="modal-main-icon">
         <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.2" fill="var(--silver)" stroke="none"/></svg>
       </div>
       <div id="modal-content">
-        <p class="modal-text">
+        <p class="modal-text" id="modal-desc">
           <span>Laisse ton Instagram pour rejoindre la liste</span>
           <span>Je t'enverrai le lien par DM, vendredi à 23h59.</span>
         </p>
+
+        <div class="option-toggle">
+          <button type="button" class="option-btn active" id="btn-mode-ig">Instagram</button>
+          <button type="button" class="option-btn" id="btn-mode-sms">SMS</button>
+        </div>
         
-        <div class="input-group">
+        <div class="input-group" id="ig-group">
           <label class="input-label">Ton Instagram</label>
           <div class="handle-input-wrap">
             <span class="at-prefix">@</span>
             <input type="text" id="handle-input" class="handle-input" placeholder="super_pseudo" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false">
+          </div>
+        </div>
+
+        <div class="input-group" id="phone-group">
+          <label class="input-label">Ton Numéro (FR)</label>
+          <div class="handle-input-wrap">
+            <input type="tel" id="phone-input" class="handle-input" placeholder="06 12 34 56 78" style="padding-left: 16px;">
           </div>
         </div>
 
@@ -875,6 +923,11 @@
     const RELEASE_DATE = new Date('2026-05-01T23:59:00');
     const IG_USER = 'merilia_dnb';
 
+    /* === AUTO-REDIRECT IF RELEASED === */
+    if (Date.now() >= RELEASE_DATE.getTime()) {
+      window.location.href = 'release.html';
+    }
+
     /* === COUNTDOWN === */
     const els = {
       d: document.getElementById('cd-d'),
@@ -893,7 +946,11 @@
         ended = true;
         document.getElementById('countdown').innerHTML = '<span class="out-now">OUT NOW</span>';
         document.querySelector('.headline').textContent = '';
-        document.querySelector('.subtext').textContent = 'Le single est disponible maintenant';
+        
+        // Wait a moment so user sees the "OUT NOW" then redirect
+        setTimeout(() => {
+          window.location.href = 'release.html';
+        }, 1500);
         return;
       }
 
@@ -1040,40 +1097,78 @@
     window.addEventListener('touchmove', onMove, {passive: false});
     window.addEventListener('touchend', onEnd);
 
+    /* === MODE SELECTION (IG vs SMS) === */
+    let currentMode = 'ig';
+    const btnIg = document.getElementById('btn-mode-ig');
+    const btnSms = document.getElementById('btn-mode-sms');
+    const igGroup = document.getElementById('ig-group');
+    const phoneGroup = document.getElementById('phone-group');
+    const modalDesc = document.getElementById('modal-desc');
+    const phoneInput = document.getElementById('phone-input');
+    const modalIconContainer = document.getElementById('modal-main-icon');
+
+    const ICONS = {
+      ig: `<svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.2" fill="var(--silver)" stroke="none"/></svg>`,
+      sms: `<svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>`
+    };
+
+    function setMode(mode) {
+      currentMode = mode;
+      modalIconContainer.innerHTML = ICONS[mode];
+      
+      if (mode === 'ig') {
+        btnIg.classList.add('active');
+        btnSms.classList.remove('active');
+        igGroup.style.display = 'block';
+        phoneGroup.style.display = 'none';
+        modalDesc.innerHTML = '<span>Laisse ton Instagram pour rejoindre la liste</span><span>Je t\'enverrai le lien par DM, vendredi à 23h59.</span>';
+      } else {
+        btnIg.classList.remove('active');
+        btnSms.classList.add('active');
+        igGroup.style.display = 'none';
+        phoneGroup.style.display = 'block';
+        modalDesc.innerHTML = '<span>Laisse ton numéro pour rejoindre la liste</span><span>Je t\'enverrai le rappel par SMS, vendredi à 23h59.</span>';
+      }
+      setTimeout(initSlider, 50);
+    }
+
+    btnIg.addEventListener('click', () => setMode('ig'));
+    btnSms.addEventListener('click', () => setMode('sms'));
+
     // Enter Key Support & Keyboard focus fix
     const handleInput = document.getElementById('handle-input');
     
-    handleInput.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') {
-        e.preventDefault();
-        handleInput.blur();
-        autoSlideAndSubmit();
-      }
-    });
+    [handleInput, phoneInput].forEach(inp => {
+      inp.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          inp.blur();
+          autoSlideAndSubmit();
+        }
+      });
 
-    // Focus shift logic (subtle 5% shift for mobile)
-    handleInput.addEventListener('focus', () => {
-      if (window.innerWidth < 640) {
-        document.querySelector('.modal-card').classList.add('keyboard-up');
-      }
-    });
+      inp.addEventListener('focus', () => {
+        if (window.innerWidth < 640) {
+          document.querySelector('.modal-card').classList.add('keyboard-up');
+        }
+      });
 
-    handleInput.addEventListener('blur', () => {
-      document.querySelector('.modal-card').classList.remove('keyboard-up');
-    });
+      inp.addEventListener('blur', () => {
+        document.querySelector('.modal-card').classList.remove('keyboard-up');
+      });
 
-    // Reset error state on type
-    handleInput.addEventListener('input', () => {
-      handleInput.classList.remove('error-input');
+      inp.addEventListener('input', () => {
+        inp.classList.remove('error-input');
+      });
     });
 
     function autoSlideAndSubmit() {
       if (isDragging || ended) return;
       
-      const username = handleInput.value.trim();
-      if (!username) {
-        // Error state
-        handleInput.classList.add('error-input');
+      const val = currentMode === 'ig' ? handleInput.value.trim() : phoneInput.value.trim();
+      if (!val) {
+        const inputEl = currentMode === 'ig' ? handleInput : phoneInput;
+        inputEl.classList.add('error-input');
         const trackEl = document.getElementById('slide-track');
         trackEl.style.animation = 'shake 0.4s ease';
         setTimeout(() => trackEl.style.animation = '', 400);
@@ -1090,16 +1185,30 @@
     }
 
     async function triggerRedirect() {
-      const handleInput = document.getElementById('handle-input');
-      const username = handleInput.value.trim().toLowerCase().replace(/^@/, '');
+      let value = '';
+      let inputEl = null;
       
-      if (!username) {
-        handleInput.classList.add('error-input');
-        handleInput.focus();
+      if (currentMode === 'ig') {
+        inputEl = document.getElementById('handle-input');
+        value = inputEl.value.trim().toLowerCase().replace(/^@/, '');
+      } else {
+        inputEl = document.getElementById('phone-input');
+        value = inputEl.value.trim().replace(/\s/g, '').replace(/-/g, '').replace(/\./g, '');
+        
+        // French Phone Validation (06/07 or +336/+337)
+        const phoneRegex = /^(?:(?:\+|00)33|0)[67]\d{8}$/;
+        if (!phoneRegex.test(value)) {
+          value = ''; 
+        }
+      }
+      
+      if (!value) {
+        inputEl.classList.add('error-input');
+        inputEl.focus();
         
         // Shake the input field
-        handleInput.style.animation = 'shake 0.4s ease';
-        setTimeout(() => handleInput.style.animation = '', 400);
+        inputEl.style.animation = 'shake 0.4s ease';
+        setTimeout(() => inputEl.style.animation = '', 400);
 
         // Reset slider
         isDragging = false;
@@ -1117,12 +1226,18 @@
 
       const SHEET_API_URL = 'https://script.google.com/macros/s/AKfycbwBokoSbC7lTjIfHVcCSkj8a-6gesAELVCFIJxPoM881iSqv0PZpTmtoloeOspKTZYo/exec';
       
-      // Fire and move on (don't block the UI for too long)
+      const payload = { 
+        handle: currentMode === 'ig' ? value : '', 
+        phone: currentMode === 'sms' ? value : '',
+        method: currentMode,
+        date: new Date().toLocaleString() 
+      };
+
       if (SHEET_API_URL) {
         fetch(SHEET_API_URL, {
           method: 'POST',
           mode: 'no-cors',
-          body: JSON.stringify({ handle: username, date: new Date().toLocaleString() })
+          body: JSON.stringify(payload)
         }).catch(e => console.error(e));
       }
 

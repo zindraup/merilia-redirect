@@ -463,7 +463,9 @@
     <p class="headline">ÉCOUTER MAINTENANT</p>
 
     <div class="platform-list">
-      <div class="platform-item" data-platform="spotify" data-url="https://open.spotify.com/intl-fr/track/0mNGJ5sdhPVdp7AQiwWz2y?si=5e42aaeda5124f12">
+      <div class="platform-item" data-platform="spotify" 
+           data-url="https://open.spotify.com/intl-fr/track/0mNGJ5sdhPVdp7AQiwWz2y?si=5e42aaeda5124f12"
+           data-android-url="https://spotify.openinapp.co/31xu3">
         <div class="platform-icon-box">
           <div class="platform-icon">
             <svg viewBox="0 0 24 24"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.503 17.306c-.215.353-.674.464-1.027.249-2.863-1.748-6.467-2.144-10.712-1.173-.404.092-.81-.157-.903-.561-.092-.403.157-.809.561-.902 4.646-1.063 8.625-.615 11.832 1.34.353.215.464.674.249 1.027zm1.468-3.259c-.27.44-.847.579-1.287.308-3.277-2.014-8.273-2.597-12.149-1.42-.497.151-1.024-.131-1.174-.627-.151-.497.131-1.024.627-1.174 4.429-1.344 9.94-.693 13.676 1.605.44.271.579.848.308 1.288zm.139-3.391c-3.931-2.333-10.428-2.55-14.218-1.4c-.603.183-1.246-.168-1.429-.771-.183-.603.168-1.246.771-1.429 4.343-1.32 11.523-1.054 16.002 1.604.542.321.721 1.024.399 1.565-.321.543-1.024.722-1.565.401-.001 0-.001 0-.001 0z"/></svg>
@@ -561,23 +563,6 @@
   </main>
 
   <script>
-    /* === DEEP LINK HELPERS === */
-    function forceSpotify(url) {
-      const trackId = url.match(/track\/([a-zA-Z0-9]+)/)?.[1] || '0mNGJ5sdhPVdp7AQiwWz2y';
-      const isIOS = /iPhone|iPad|iPod/.test(navigator.userAgent) && !window.MSStream;
-      
-      if (isIOS) {
-        window.location.href = `spotify:track:${trackId}`;
-        setTimeout(() => {
-          if (document.hasFocus()) {
-            window.open(url, '_blank');
-          }
-        }, 500);
-      } else {
-        window.open(url, '_blank');
-      }
-    }
-
     document.addEventListener('DOMContentLoaded', () => {
       // Init Platform Buttons
       const items = document.querySelectorAll('.platform-item');
@@ -594,18 +579,14 @@
         }, 300 + (index * 100));
 
         item.addEventListener('click', () => {
-          const url = item.dataset.url;
-          const platform = item.dataset.platform;
+          const isAndroid = /Android/i.test(navigator.userAgent);
+          const url = (isAndroid && item.dataset.androidUrl) ? item.dataset.androidUrl : item.dataset.url;
           item.classList.add('success');
           
           if (window.navigator.vibrate) window.navigator.vibrate(30);
 
           setTimeout(() => {
-            if (platform === 'spotify') {
-              forceSpotify(url);
-            } else {
-              window.open(url, '_blank');
-            }
+            window.open(url, '_blank');
             setTimeout(() => item.classList.remove('success'), 1000);
           }, 200);
         });

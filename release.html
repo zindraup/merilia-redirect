@@ -202,83 +202,61 @@
       border-color: rgba(255, 255, 255, 0.15);
     }
 
-    .platform-item.active-drag {
-      transform: scale(0.98);
-      background: rgba(255, 255, 255, 0.07);
+    .platform-item:hover .platform-icon {
+      transform: scale(1.1);
     }
 
-    /* Track Text */
+    /* Button Content */
     .platform-name {
-      position: absolute;
-      left: 80px;
       font-size: 16px;
       font-weight: 600;
       color: var(--t1);
       letter-spacing: 0.02em;
-      transition: opacity 0.3s;
       pointer-events: none;
-      z-index: 1;
     }
 
-    .slide-hint {
-      position: absolute;
-      right: 28px;
-      font-size: 10px;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 0.15em;
-      color: var(--t3);
-      pointer-events: none;
-      opacity: 0.6;
-      transition: opacity 0.3s;
-      /* Shimmer effect like index.html */
-      background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.9) 50%, rgba(255,255,255,0) 100%);
-      background-size: 200% 100%;
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      animation: slideShimmer 3s infinite linear;
-    }
-
-    @keyframes slideShimmer {
-      0% { background-position: 200% 0%; }
-      100% { background-position: -200% 0%; }
-    }
-
-    /* Handle */
-    .slide-handle {
-      position: absolute;
-      left: 6px;
-      width: 60px;
-      height: 60px;
+    .platform-icon-box {
+      width: 50px;
+      height: 50px;
+      margin-left: 10px;
+      margin-right: 20px;
       background: rgba(255, 255, 255, 0.05);
       border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 16px;
+      border-radius: 14px;
       display: flex;
       align-items: center;
       justify-content: center;
-      cursor: grab;
-      z-index: 10;
-      transition: transform 0.1s linear, background 0.3s, border-color 0.3s;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      transition: all 0.3s;
     }
 
-    .platform-item:hover .slide-handle {
+    .platform-item:hover .platform-icon-box {
       background: rgba(255, 255, 255, 0.1);
       border-color: rgba(255, 255, 255, 0.2);
     }
 
-    .slide-handle:active { cursor: grabbing; }
-
     .platform-icon {
-      width: 32px;
-      height: 32px;
+      width: 28px;
+      height: 28px;
       fill: var(--silver-bright);
       transition: transform 0.3s var(--spring);
     }
 
-    .platform-item:hover .platform-icon {
-      transform: scale(1.1);
+    .platform-item::after {
+      content: 'ÉCOUTER';
+      position: absolute;
+      right: 28px;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.15em;
+      color: var(--t3);
+      opacity: 0.6;
+      transition: all 0.3s;
+    }
+
+    .platform-item:hover::after {
+      color: var(--t1);
+      opacity: 1;
+      transform: translateX(5px);
     }
 
     /* Success state */
@@ -286,11 +264,10 @@
       border-color: #fff;
       background: rgba(255, 255, 255, 0.1);
     }
-    .platform-item.success .slide-handle {
-      background: #fff;
-    }
-    .platform-item.success .platform-icon {
-      fill: var(--bg) !important;
+    
+    .platform-item.success::after {
+      content: '✓';
+      color: #fff;
     }
 
     /* Specific Platform Colors */
@@ -486,59 +463,49 @@
     <p class="headline">ÉCOUTER MAINTENANT</p>
 
     <div class="platform-list">
-      <!-- Spotify -->
       <div class="platform-item" data-platform="spotify" data-url="https://spotify.openinapp.co/31xu3">
-        <div class="platform-name">Spotify</div>
-        <div class="slide-hint">Glisser <svg viewBox="0 0 24 24" width="12" height="12" style="vertical-align:-2px; margin-left:2px;" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg></div>
-        <div class="slide-handle">
+        <div class="platform-icon-box">
           <div class="platform-icon">
             <svg viewBox="0 0 24 24"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.503 17.306c-.215.353-.674.464-1.027.249-2.863-1.748-6.467-2.144-10.712-1.173-.404.092-.81-.157-.903-.561-.092-.403.157-.809.561-.902 4.646-1.063 8.625-.615 11.832 1.34.353.215.464.674.249 1.027zm1.468-3.259c-.27.44-.847.579-1.287.308-3.277-2.014-8.273-2.597-12.149-1.42-.497.151-1.024-.131-1.174-.627-.151-.497.131-1.024.627-1.174 4.429-1.344 9.94-.693 13.676 1.605.44.271.579.848.308 1.288zm.139-3.391c-3.931-2.333-10.428-2.55-14.218-1.4c-.603.183-1.246-.168-1.429-.771-.183-.603.168-1.246.771-1.429 4.343-1.32 11.523-1.054 16.002 1.604.542.321.721 1.024.399 1.565-.321.543-1.024.722-1.565.401-.001 0-.001 0-.001 0z"/></svg>
           </div>
         </div>
+        <div class="platform-name">Spotify</div>
       </div>
 
-      <!-- YouTube -->
       <div class="platform-item" data-platform="youtube" data-url="https://yt.openinapp.co/c5d74">
-        <div class="platform-name">YouTube</div>
-        <div class="slide-hint">Glisser <svg viewBox="0 0 24 24" width="12" height="12" style="vertical-align:-2px; margin-left:2px;" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg></div>
-        <div class="slide-handle">
+        <div class="platform-icon-box">
           <div class="platform-icon">
             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/></svg>
           </div>
         </div>
+        <div class="platform-name">YouTube</div>
       </div>
 
-      <!-- Deezer -->
       <div class="platform-item" data-platform="deezer" data-url="https://openinapp.link/deezermeriliaenvie">
-        <div class="platform-name">Deezer</div>
-        <div class="slide-hint">Glisser <svg viewBox="0 0 24 24" width="12" height="12" style="vertical-align:-2px; margin-left:2px;" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg></div>
-        <div class="slide-handle">
+        <div class="platform-icon-box">
           <div class="platform-icon">
             <svg viewBox="0 0 24 24"><path d="M19.125 15.656h4.875v3.469h-4.875v-3.469zm-6.375 0h4.875v3.469h-4.875v-3.469zm-6.375 0h4.875v3.469h-4.875v-3.469zm-6.375 0h4.875v3.469h-4.875v-3.469zm19.125-5.25h4.875v3.469h-4.875v-3.469zm-6.375 0h4.875v3.469h-4.875v-3.469zm-6.375 0h4.875v3.469h-4.875v-3.469zm-6.375 0h4.875v3.469h-4.875v-3.469zm19.125-5.25h4.875v3.469h-4.875v-3.469zm-6.375 0h4.875v3.469h-4.875v-3.469zm-6.375 10.5h4.875v3.469h-4.875v-3.469zm0-15.75h4.875v3.469h-4.875v-3.469zm-6.375 10.5h4.875v3.469h-4.875v-3.469z"/></svg>
           </div>
         </div>
+        <div class="platform-name">Deezer</div>
       </div>
 
-      <!-- Amazon Music -->
       <div class="platform-item" data-platform="amazon" data-url="https://music.amazon.fr/albums/B0GY62S763?marketplaceId=A13V1IB3VIYZZH&musicTerritory=FR&ref=dm_sh_yGdKrg81QoKag3RXXluawFuVn&trackAsin=B0GY5V26SD">
-        <div class="platform-name">Amazon Music</div>
-        <div class="slide-hint">Glisser <svg viewBox="0 0 24 24" width="12" height="12" style="vertical-align:-2px; margin-left:2px;" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg></div>
-        <div class="slide-handle">
+        <div class="platform-icon-box">
           <div class="platform-icon" style="padding: 2px;">
             <img src="https://img.icons8.com/?size=512&id=lxwUaALAeQmr&format=png" alt="Amazon Music" style="width:100%; height:100%; object-fit:contain;">
           </div>
         </div>
+        <div class="platform-name">Amazon Music</div>
       </div>
 
-      <!-- Apple Music -->
       <div class="platform-item" data-platform="apple" data-url="https://applemusic.openinapp.co/od4mg">
-        <div class="platform-name">Apple Music</div>
-        <div class="slide-hint">Glisser <svg viewBox="0 0 24 24" width="12" height="12" style="vertical-align:-2px; margin-left:2px;" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg></div>
-        <div class="slide-handle">
+        <div class="platform-icon-box">
           <div class="platform-icon">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>
           </div>
         </div>
+        <div class="platform-name">Apple Music</div>
       </div>
 
       <button class="btn-others" id="btn-others">Autres plateformes</button>
@@ -594,192 +561,32 @@
   </main>
 
   <script>
-    /* ============================================
-       PLATFORM SLIDER CLASS
-       ============================================ */
-    class PlatformSlider {
-      constructor(el) {
-        this.el = el;
-        this.handle = el.querySelector('.slide-handle');
-        this.name = el.querySelector('.platform-name');
-        this.hint = el.querySelector('.slide-hint');
-        this.url = el.dataset.url;
-        
-        this.isDragging = false;
-        this.startX = 0;
-        this.startY = 0;
-        this.currentX = 0;
-        this.maxTranslate = 0;
-        this.isVerticalScroll = false;
-        this.touchLocked = false;
-        
-        this.init();
-      }
-
-      init() {
-        this.updateMaxTranslate();
-        window.addEventListener('resize', () => this.updateMaxTranslate());
-
-        this.el.addEventListener('mousedown', (e) => this.onStart(e));
-        this.el.addEventListener('click', () => this.onClick());
-        window.addEventListener('mousemove', (e) => this.onMove(e));
-        window.addEventListener('mouseup', () => this.onEnd());
-
-        this.el.addEventListener('touchstart', (e) => this.onStart(e), { passive: false });
-        this.el.addEventListener('touchmove', (e) => this.onMove(e), { passive: false });
-        this.el.addEventListener('touchend', () => this.onEnd());
-      }
-
-      updateMaxTranslate() {
-        this.maxTranslate = this.el.clientWidth - this.handle.clientWidth - 12;
-      }
-
-      onStart(e) {
-        if (this.el.classList.contains('success')) return;
-        
-        this.isDragging = true;
-        this.hasDragged = false;
-        this.isVerticalScroll = false;
-        this.touchLocked = false;
-        this.el.classList.add('active-drag');
-        const x = (e.type === 'touchstart') ? e.touches[0].clientX : e.clientX;
-        const y = (e.type === 'touchstart') ? e.touches[0].clientY : e.clientY;
-        
-        this.startX = x - this.currentX;
-        this.startY = y;
-        this.handle.style.transition = 'none';
-      }
-
-      onClick() {
-        if (this.el.classList.contains('success') || this.hasDragged) return;
-        this.autoSlide();
-      }
-
-      autoSlide() {
-        this.isDragging = false;
-        this.handle.style.transition = 'transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1)';
-        this.handle.style.transform = `translateX(${this.maxTranslate}px)`;
-        this.name.style.opacity = 0;
-        this.hint.style.opacity = 0;
-        
-        setTimeout(() => {
-          this.onSuccess();
-        }, 400);
-      }
-
-      autoCompleteFromDrag() {
-        this.isDragging = false;
-        this.el.classList.remove('active-drag');
-        
-        // Dynamic duration based on remaining distance for fluid velocity
-        const remaining = this.maxTranslate - this.currentX;
-        const duration = Math.max(0.15, (remaining / this.maxTranslate) * 0.4);
-
-        // Fast-start easing to simulate a "throw" or "magnet" pull
-        this.handle.style.transition = `transform ${duration}s cubic-bezier(0.1, 0.9, 0.2, 1)`;
-        this.handle.style.transform = `translateX(${this.maxTranslate}px)`;
-        
-        this.name.style.opacity = 0;
-        this.hint.style.opacity = 0;
-        
-        setTimeout(() => {
-          this.onSuccess();
-        }, duration * 1000);
-      }
-
-      onMove(e) {
-        if (!this.isDragging || this.isVerticalScroll) return;
-
-        const x = (e.type === 'touchmove') ? e.touches[0].clientX : e.clientX;
-        const y = (e.type === 'touchmove') ? e.touches[0].clientY : e.clientY;
-
-        // Direction detection
-        if (!this.touchLocked && e.type === 'touchmove') {
-          const dx = Math.abs(x - (this.startX + this.currentX));
-          const dy = Math.abs(y - this.startY);
-
-          if (dy > dx && dy > 10) {
-            this.isVerticalScroll = true;
-            this.isDragging = false;
-            this.el.classList.remove('active-drag');
-            this.reset();
-            return;
-          } else if (dx > 10) {
-            this.touchLocked = true;
-          } else {
-            return; // Wait for more movement to decide
-          }
-        }
-
-        if (e.type === 'touchmove') e.preventDefault();
-        this.currentX = Math.max(0, Math.min(this.maxTranslate, x - this.startX));
-
-        if (this.currentX > 5) this.hasDragged = true;
-
-        // Senior UX: Instant magnet effect at 50% threshold during drag
-        if (this.currentX >= this.maxTranslate * 0.5) {
-          this.autoCompleteFromDrag();
-          return;
-        }
-
-        requestAnimationFrame(() => {
-          if (!this.isDragging) return; 
-          this.handle.style.transform = `translateX(${this.currentX}px)`;
-          const progress = this.currentX / this.maxTranslate;
-          
-          this.name.style.opacity = 1 - (progress * 1.5);
-          this.hint.style.opacity = 0.6 * (1 - (progress * 2));
-        });
-      }
-
-      onEnd() {
-        if (!this.isDragging) return;
-        this.isDragging = false;
-        this.el.classList.remove('active-drag');
-
-        // Released before 50%, strictly snap back
-        this.reset();
-      }
-
-      onSuccess() {
-        this.el.classList.add('success');
-        this.handle.style.transition = 'all 0.3s ease';
-        this.handle.style.transform = `translateX(${this.maxTranslate}px)`;
-        
-        if (window.navigator.vibrate) window.navigator.vibrate(30);
-
-        setTimeout(() => {
-          window.open(this.url, '_blank');
-          setTimeout(() => this.reset(), 1000);
-        }, 250);
-      }
-
-      reset() {
-        this.el.classList.remove('success');
-        this.handle.style.transition = 'transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)';
-        this.handle.style.transform = 'translateX(0)';
-        this.name.style.opacity = 1;
-        this.hint.style.opacity = 0.6;
-        this.currentX = 0;
-      }
-    }
-
-    /* ============================================
-       INITIALIZATION
-       ============================================ */
     document.addEventListener('DOMContentLoaded', () => {
-      // Init Sliders
+      // Init Platform Buttons
       const items = document.querySelectorAll('.platform-item');
       items.forEach((item, index) => {
         // Entrance animation
         item.style.opacity = '0';
         item.style.transform = 'translateY(20px)';
+        item.style.cursor = 'pointer';
+
         setTimeout(() => {
           item.style.transition = 'all 0.8s cubic-bezier(0.16, 1, 0.3, 1)';
           item.style.opacity = '1';
           item.style.transform = 'translateY(0)';
-          new PlatformSlider(item);
         }, 300 + (index * 100));
+
+        item.addEventListener('click', () => {
+          const url = item.dataset.url;
+          item.classList.add('success');
+          
+          if (window.navigator.vibrate) window.navigator.vibrate(30);
+
+          setTimeout(() => {
+            window.open(url, '_blank');
+            setTimeout(() => item.classList.remove('success'), 1000);
+          }, 200);
+        });
       });
 
       // Modal Logic

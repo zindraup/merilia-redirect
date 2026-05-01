@@ -890,13 +890,8 @@
         </div>
 
         <div class="modal-actions">
-          <div class="slide-track" id="slide-track">
-            <div class="slide-text">Glisser pour s'inscrire</div>
-            <div class="spinner"></div>
-            <div class="slide-handle" id="slide-handle">
-              <svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
-            </div>
-          </div>
+          <button class="cta-btn" id="modal-submit-btn" type="button" style="max-width: 100%; width: 100%;">Confirmer l'inscription</button>
+          <div id="slide-track" style="display:none;"></div> <!-- Legacy compatibility -->
         </div>
       </div>
 
@@ -1021,110 +1016,14 @@
       isBackdropClick = false;
     }
 
-    /* === SLIDER LOGIC === */
-    const track = document.getElementById('slide-track');
-    const handle = document.getElementById('slide-handle');
-    let isDragging = false;
-    let startX = 0;
-    let startY = 0;
-    let currentX = 0;
-    let maxTranslate = 0;
-    let isVerticalScroll = false;
-    let touchLocked = false;
+    /* === BUTTON LOGIC === */
+    const modalSubmitBtn = document.getElementById('modal-submit-btn');
+    
+    modalSubmitBtn.addEventListener('click', () => {
+      autoSlideAndSubmit();
+    });
 
-    function initSlider() {
-      maxTranslate = track.clientWidth - handle.clientWidth - 10; // 10 is padding*2
-    }
-
-    // Recalculate on open/resize
-    window.addEventListener('resize', initSlider);
-    ctaBtn.addEventListener('click', () => setTimeout(initSlider, 200));
-
-    function onStart(e) {
-      if (ended) return;
-      
-      // Prevent bubbling to modal and default browser behaviors
-      // if (e.type === 'touchstart') e.preventDefault(); // Removed to allow scroll init
-      e.stopPropagation();
-
-      isDragging = true;
-      isVerticalScroll = false;
-      touchLocked = false;
-      const x = (e.type === 'touchstart') ? e.touches[0].clientX : e.clientX;
-      const y = (e.type === 'touchstart') ? e.touches[0].clientY : e.clientY;
-      const rect = track.getBoundingClientRect();
-      
-      // Calculate where on the track we touched
-      const touchX = x - rect.left - 25; // 25 is half handle width
-      startX = x - Math.max(0, Math.min(maxTranslate, touchX));
-      startY = y;
-      
-      handle.style.transition = 'none';
-      // onMove(e); // Removed to avoid premature scroll blocking
-    }
-
-    function onMove(e) {
-      if (!isDragging || isVerticalScroll) return;
-      const x = (e.type === 'touchmove') ? e.touches[0].clientX : e.clientX;
-      const y = (e.type === 'touchmove') ? e.touches[0].clientY : e.clientY;
-
-      // Direction detection
-      if (!touchLocked && e.type === 'touchmove') {
-        const dx = Math.abs(x - (startX + currentX));
-        const dy = Math.abs(y - startY);
-
-        if (dy > dx && dy > 10) {
-          isVerticalScroll = true;
-          isDragging = false;
-          handle.style.transition = 'transform 0.4s var(--spring)';
-          handle.style.transform = 'translateX(0)';
-          track.querySelector('.slide-text').style.opacity = 1;
-          return;
-        } else if (dx > 10) {
-          touchLocked = true;
-        } else {
-          return;
-        }
-      }
-
-      if (e.type === 'touchmove') e.preventDefault();
-      currentX = Math.max(0, Math.min(maxTranslate, x - startX));
-      
-      // Use requestAnimationFrame for smooth 60fps movement
-      requestAnimationFrame(() => {
-        if (!isDragging && currentX !== maxTranslate) return; 
-        handle.style.transform = `translateX(${currentX}px)`;
-        const progress = currentX / maxTranslate;
-        track.querySelector('.slide-text').style.opacity = 1 - (progress * 1.5);
-      });
-    }
-
-    function onEnd() {
-      if (!isDragging) return;
-      isDragging = false;
-      
-      if (currentX >= maxTranslate * 0.85) { // Slightly more indulgent threshold (85%)
-        handle.style.transition = 'all 0.3s var(--ease)';
-        handle.style.transform = `translateX(${maxTranslate}px)`;
-        track.classList.add('slide-complete');
-        if (window.navigator.vibrate) window.navigator.vibrate(20);
-        setTimeout(triggerRedirect, 300);
-      } else {
-        handle.style.transition = 'transform 0.4s var(--spring)';
-        handle.style.transform = 'translateX(0)';
-        track.querySelector('.slide-text').style.opacity = 1;
-        currentX = 0;
-      }
-    }
-
-    // Event listeners on the track instead of just the handle for "indulgent" UX
-    track.addEventListener('mousedown', onStart);
-    window.addEventListener('mousemove', onMove);
-    window.addEventListener('mouseup', onEnd);
-
-    track.addEventListener('touchstart', onStart, {passive: false});
-    window.addEventListener('touchmove', onMove, {passive: false});
-    window.addEventListener('touchend', onEnd);
+    function initSlider() {} // Legacy compatibility
 
     /* === MODE SELECTION (IG vs SMS) === */
     let currentMode = 'ig';
@@ -1192,25 +1091,23 @@
     });
 
     function autoSlideAndSubmit() {
-      if (isDragging || ended) return;
+      if (ended) return;
       
       const val = currentMode === 'ig' ? handleInput.value.trim() : phoneInput.value.trim();
       if (!val) {
         const inputEl = currentMode === 'ig' ? handleInput : phoneInput;
         inputEl.classList.add('error-input');
-        const trackEl = document.getElementById('slide-track');
-        trackEl.style.animation = 'shake 0.4s ease';
-        setTimeout(() => trackEl.style.animation = '', 400);
+        modalSubmitBtn.style.animation = 'shake 0.4s ease';
+        setTimeout(() => modalSubmitBtn.style.animation = '', 400);
         return;
       }
 
-      // Visual automated slide
-      handle.style.transition = 'transform 0.6s var(--ease)';
-      handle.style.transform = `translateX(${maxTranslate}px)`;
-      track.classList.add('slide-complete');
-      track.querySelector('.slide-text').style.opacity = 0;
+      // Visual feedback
+      modalSubmitBtn.textContent = 'Envoi en cours...';
+      modalSubmitBtn.style.opacity = '0.7';
+      modalSubmitBtn.style.pointerEvents = 'none';
       
-      setTimeout(triggerRedirect, 600);
+      setTimeout(triggerRedirect, 400);
     }
 
     async function triggerRedirect() {
@@ -1239,19 +1136,15 @@
         inputEl.style.animation = 'shake 0.4s ease';
         setTimeout(() => inputEl.style.animation = '', 400);
 
-        // Reset slider
-        isDragging = false;
-        handle.style.transition = 'transform 0.4s var(--spring)';
-        handle.style.transform = 'translateX(0)';
-        track.querySelector('.slide-text').style.opacity = 1;
-        currentX = 0;
-        track.classList.remove('slide-complete');
+        // Reset button
+        modalSubmitBtn.textContent = 'Confirmer l\'inscription';
+        modalSubmitBtn.style.opacity = '1';
+        modalSubmitBtn.style.pointerEvents = 'auto';
         return;
       }
 
       // Display "processing" state
-      track.classList.add('slide-loading');
-      handle.style.opacity = '0';
+      modalSubmitBtn.textContent = 'Chargement...';
 
       const SHEET_API_URL = 'https://script.google.com/macros/s/AKfycbwBokoSbC7lTjIfHVcCSkj8a-6gesAELVCFIJxPoM881iSqv0PZpTmtoloeOspKTZYo/exec';
       

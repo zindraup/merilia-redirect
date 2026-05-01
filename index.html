@@ -1019,7 +1019,25 @@
     /* === BUTTON LOGIC === */
     const modalSubmitBtn = document.getElementById('modal-submit-btn');
     
+    let btnSwipeStartX = 0;
+    let btnSwipeTriggered = false;
+
+    modalSubmitBtn.addEventListener('touchstart', (e) => {
+      btnSwipeStartX = e.touches[0].clientX;
+      btnSwipeTriggered = false;
+    }, { passive: true });
+
+    modalSubmitBtn.addEventListener('touchmove', (e) => {
+      if (btnSwipeTriggered) return;
+      const currentX = e.touches[0].clientX;
+      if (currentX - btnSwipeStartX > 70) {
+        btnSwipeTriggered = true;
+        autoSlideAndSubmit();
+      }
+    }, { passive: true });
+
     modalSubmitBtn.addEventListener('click', () => {
+      if (btnSwipeTriggered) return;
       autoSlideAndSubmit();
     });
 

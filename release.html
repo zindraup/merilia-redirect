@@ -578,19 +578,43 @@
           item.style.transform = 'translateY(0)';
         }, 300 + (index * 100));
 
-        item.addEventListener('click', () => {
-          const isAndroid = /Android/i.test(navigator.userAgent);
-          const url = (isAndroid && item.dataset.androidUrl) ? item.dataset.androidUrl : item.dataset.url;
-          item.classList.add('success');
-          
-          if (window.navigator.vibrate) window.navigator.vibrate(30);
+        // Swipe to click detection
+        let swipeStartX = 0;
+        let swipeTriggered = false;
+        item.addEventListener('touchstart', (e) => {
+          swipeStartX = e.touches[0].clientX;
+          swipeTriggered = false;
+        }, { passive: true });
 
-          setTimeout(() => {
-            window.open(url, '_blank');
-            setTimeout(() => item.classList.remove('success'), 1000);
-          }, 200);
+        item.addEventListener('touchmove', (e) => {
+          if (swipeTriggered) return;
+          const currentX = e.touches[0].clientX;
+          if (currentX - swipeStartX > 70) {
+            swipeTriggered = true;
+            triggerPlatformAction(item);
+          }
+        }, { passive: true });
+
+        item.addEventListener('click', () => {
+          if (swipeTriggered) return;
+          triggerPlatformAction(item);
         });
       });
+
+      function triggerPlatformAction(item) {
+        if (item.classList.contains('success')) return;
+        const url = item.dataset.url;
+        const isAndroid = /Android/i.test(navigator.userAgent);
+        const targetUrl = (isAndroid && item.dataset.androidUrl) ? item.dataset.androidUrl : url;
+        
+        item.classList.add('success');
+        if (window.navigator.vibrate) window.navigator.vibrate(30);
+
+        setTimeout(() => {
+          window.open(targetUrl, '_blank');
+          setTimeout(() => item.classList.remove('success'), 1000);
+        }, 200);
+      }
 
       // Modal Logic
       const modal = document.getElementById('modal-others');

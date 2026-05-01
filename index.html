@@ -40,7 +40,7 @@
        RESET
        ============================================ */
     *,*::before,*::after { margin:0; padding:0; box-sizing:border-box }
-    html, body { height:100%; overflow:hidden }
+    html, body { height:100%; overflow-x:hidden; overflow-y:auto; }
     body {
       font-family: var(--font);
       background: var(--bg);
@@ -585,7 +585,7 @@
       cursor: grab;
       box-shadow: 0 4px 15px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.5);
       transition: transform 0.1s linear; /* for subtle touch follow */
-      touch-action: none;
+      touch-action: pan-y;
     }
 
     .slide-handle:active { cursor: grabbing; }
@@ -1026,8 +1026,11 @@
     const handle = document.getElementById('slide-handle');
     let isDragging = false;
     let startX = 0;
+    let startY = 0;
     let currentX = 0;
     let maxTranslate = 0;
+    let isVerticalScroll = false;
+    let touchLocked = false;
 
     function initSlider() {
       maxTranslate = track.clientWidth - handle.clientWidth - 10; // 10 is padding*2
@@ -1041,24 +1044,50 @@
       if (ended) return;
       
       // Prevent bubbling to modal and default browser behaviors
-      if (e.type === 'touchstart') e.preventDefault();
+      // if (e.type === 'touchstart') e.preventDefault(); // Removed to allow scroll init
       e.stopPropagation();
 
       isDragging = true;
+      isVerticalScroll = false;
+      touchLocked = false;
       const x = (e.type === 'touchstart') ? e.touches[0].clientX : e.clientX;
+      const y = (e.type === 'touchstart') ? e.touches[0].clientY : e.clientY;
       const rect = track.getBoundingClientRect();
       
       // Calculate where on the track we touched
       const touchX = x - rect.left - 25; // 25 is half handle width
       startX = x - Math.max(0, Math.min(maxTranslate, touchX));
+      startY = y;
       
       handle.style.transition = 'none';
-      onMove(e); // Initial move to snap handle if needed
+      // onMove(e); // Removed to avoid premature scroll blocking
     }
 
     function onMove(e) {
-      if (!isDragging) return;
+      if (!isDragging || isVerticalScroll) return;
       const x = (e.type === 'touchmove') ? e.touches[0].clientX : e.clientX;
+      const y = (e.type === 'touchmove') ? e.touches[0].clientY : e.clientY;
+
+      // Direction detection
+      if (!touchLocked && e.type === 'touchmove') {
+        const dx = Math.abs(x - (startX + currentX));
+        const dy = Math.abs(y - startY);
+
+        if (dy > dx && dy > 10) {
+          isVerticalScroll = true;
+          isDragging = false;
+          handle.style.transition = 'transform 0.4s var(--spring)';
+          handle.style.transform = 'translateX(0)';
+          track.querySelector('.slide-text').style.opacity = 1;
+          return;
+        } else if (dx > 10) {
+          touchLocked = true;
+        } else {
+          return;
+        }
+      }
+
+      if (e.type === 'touchmove') e.preventDefault();
       currentX = Math.max(0, Math.min(maxTranslate, x - startX));
       
       // Use requestAnimationFrame for smooth 60fps movement
@@ -1254,7 +1283,7 @@
           prompt.style.animation = 'fadeIn .6s var(--ease) both';
           
           document.getElementById('btn-spotify').addEventListener('click', () => {
-            window.open('https://open.spotify.com/intl-fr/track/0mNGJ5sdhPVdp7AQiwWz2y?si=5e42aaeda5124f12', '_blank');
+            window.open('https://spotify.openinapp.co/31xu3', '_blank');
             closeModal();
           });
         }, 1200);

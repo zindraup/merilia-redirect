@@ -193,7 +193,7 @@
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
       user-select: none;
-      touch-action: none;
+      touch-action: pan-y;
       transition: border-color 0.3s, background 0.3s, transform 0.3s var(--ease);
     }
 
@@ -487,7 +487,7 @@
 
     <div class="platform-list">
       <!-- Spotify -->
-      <div class="platform-item" data-platform="spotify" data-url="https://open.spotify.com/intl-fr/track/0mNGJ5sdhPVdp7AQiwWz2y?si=5e42aaeda5124f12">
+      <div class="platform-item" data-platform="spotify" data-url="https://spotify.openinapp.co/31xu3">
         <div class="platform-name">Spotify</div>
         <div class="slide-hint">Glisser <svg viewBox="0 0 24 24" width="12" height="12" style="vertical-align:-2px; margin-left:2px;" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg></div>
         <div class="slide-handle">
@@ -498,7 +498,7 @@
       </div>
 
       <!-- YouTube -->
-      <div class="platform-item" data-platform="youtube" data-url="https://youtu.be/N_MpCc1RUUo?si=ugq5dqQC_VWJlK4p">
+      <div class="platform-item" data-platform="youtube" data-url="https://yt.openinapp.co/c5d74">
         <div class="platform-name">YouTube</div>
         <div class="slide-hint">Glisser <svg viewBox="0 0 24 24" width="12" height="12" style="vertical-align:-2px; margin-left:2px;" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg></div>
         <div class="slide-handle">
@@ -509,7 +509,7 @@
       </div>
 
       <!-- Deezer -->
-      <div class="platform-item" data-platform="deezer" data-url="https://link.deezer.com/s/339nMyOz2qN1WTUjzYAi5">
+      <div class="platform-item" data-platform="deezer" data-url="https://openinapp.link/deezermeriliaenvie">
         <div class="platform-name">Deezer</div>
         <div class="slide-hint">Glisser <svg viewBox="0 0 24 24" width="12" height="12" style="vertical-align:-2px; margin-left:2px;" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg></div>
         <div class="slide-handle">
@@ -531,7 +531,7 @@
       </div>
 
       <!-- Apple Music -->
-      <div class="platform-item" data-platform="apple" data-url="https://music.apple.com/fr/album/envie-single/1895541831">
+      <div class="platform-item" data-platform="apple" data-url="https://applemusic.openinapp.co/od4mg">
         <div class="platform-name">Apple Music</div>
         <div class="slide-hint">Glisser <svg viewBox="0 0 24 24" width="12" height="12" style="vertical-align:-2px; margin-left:2px;" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg></div>
         <div class="slide-handle">
@@ -607,8 +607,11 @@
         
         this.isDragging = false;
         this.startX = 0;
+        this.startY = 0;
         this.currentX = 0;
         this.maxTranslate = 0;
+        this.isVerticalScroll = false;
+        this.touchLocked = false;
         
         this.init();
       }
@@ -635,11 +638,15 @@
         if (this.el.classList.contains('success')) return;
         
         this.isDragging = true;
-        this.hasDragged = false; // Track if this was a real drag vs a click
+        this.hasDragged = false;
+        this.isVerticalScroll = false;
+        this.touchLocked = false;
         this.el.classList.add('active-drag');
         const x = (e.type === 'touchstart') ? e.touches[0].clientX : e.clientX;
+        const y = (e.type === 'touchstart') ? e.touches[0].clientY : e.clientY;
         
         this.startX = x - this.currentX;
+        this.startY = y;
         this.handle.style.transition = 'none';
       }
 
@@ -681,10 +688,30 @@
       }
 
       onMove(e) {
-        if (!this.isDragging) return;
-        if (e.type === 'touchmove') e.preventDefault();
+        if (!this.isDragging || this.isVerticalScroll) return;
 
         const x = (e.type === 'touchmove') ? e.touches[0].clientX : e.clientX;
+        const y = (e.type === 'touchmove') ? e.touches[0].clientY : e.clientY;
+
+        // Direction detection
+        if (!this.touchLocked && e.type === 'touchmove') {
+          const dx = Math.abs(x - (this.startX + this.currentX));
+          const dy = Math.abs(y - this.startY);
+
+          if (dy > dx && dy > 10) {
+            this.isVerticalScroll = true;
+            this.isDragging = false;
+            this.el.classList.remove('active-drag');
+            this.reset();
+            return;
+          } else if (dx > 10) {
+            this.touchLocked = true;
+          } else {
+            return; // Wait for more movement to decide
+          }
+        }
+
+        if (e.type === 'touchmove') e.preventDefault();
         this.currentX = Math.max(0, Math.min(this.maxTranslate, x - this.startX));
 
         if (this.currentX > 5) this.hasDragged = true;
@@ -696,7 +723,7 @@
         }
 
         requestAnimationFrame(() => {
-          if (!this.isDragging) return; // Prevent glitch if auto-completed
+          if (!this.isDragging) return; 
           this.handle.style.transform = `translateX(${this.currentX}px)`;
           const progress = this.currentX / this.maxTranslate;
           

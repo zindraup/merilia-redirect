@@ -1,0 +1,1226 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="description" content="Merilia — Envie. Nouveau single disponible le 1er mai. Reçois le rappel en avant-première.">
+  <meta name="theme-color" content="#060608">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <title>Merilia - Envie | Sortie le 1er mai</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    /* ============================================
+       🎨 DESIGN TOKENS — Silver / Chrome palette
+       ============================================ */
+    :root {
+      --bg: #060608;
+      --bg2: #0e0e12;
+      --card-border: rgba(255,255,255,0.07);
+
+      /* Silver text hierarchy — bright for readability */
+      --t1: #ffffff;
+      --t2: rgba(240,240,248,0.7);
+      --t3: rgba(220,220,230,0.45);
+
+      /* Chrome / Silver accent */
+      --silver: #d0d0dc;
+      --silver-light: #e2e2ee;
+      --silver-bright: #eeeef4;
+      --silver-dim: rgba(192,192,204,0.1);
+      --silver-glow: rgba(192,192,204,0.2);
+
+      --font: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      --ease: cubic-bezier(0.16,1,0.3,1);
+      --spring: cubic-bezier(0.34,1.56,0.64,1);
+    }
+
+    /* ============================================
+       RESET
+       ============================================ */
+    *,*::before,*::after { margin:0; padding:0; box-sizing:border-box }
+    html, body { height:100%; overflow-x:hidden; overflow-y:auto; }
+    body {
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--t1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      -webkit-font-smoothing: antialiased;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    /* ============================================
+       COVER ART BACKGROUND — Visible wallpaper
+       ============================================ */
+    .bg-cover {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      background: url('cover.jpg') center center / cover no-repeat;
+      filter: blur(10px) saturate(1) brightness(1);
+      transform: scale(1.05) translateZ(0); /* GPU acceleration */
+      opacity: 1;
+      pointer-events: none;
+      will-change: transform;
+    }
+
+    /* Soft vignette — lets the cover breathe */
+    .bg-vignette {
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      background:
+        radial-gradient(ellipse at center, rgba(6,6,8,0.3) 0%, rgba(6,6,8,0.7) 80%),
+        linear-gradient(180deg, rgba(6,6,8,0.2) 0%, rgba(6,6,8,0.5) 100%);
+    }
+
+    /* Subtle noise texture for depth */
+    .bg-noise {
+      position: fixed;
+      inset: 0;
+      z-index: 2;
+      opacity: 0.03;
+      pointer-events: none;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-size: 256px;
+    }
+
+    /* ============================================
+       LAYOUT
+       ============================================ */
+    .container {
+      position: relative;
+      z-index: 3;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 24px;
+      width: 100%;
+      max-width: 440px;
+      animation: fadeUp .9s var(--ease) both;
+    }
+
+    @keyframes fadeUp {
+      from { opacity:0; transform:translateY(24px) }
+      to   { opacity:1; transform:translateY(0) }
+    }
+    @keyframes fadeIn {
+      from { opacity:0; transform:translateY(10px) }
+      to   { opacity:1; transform:translateY(0) }
+    }
+
+    /* ============================================
+       COVER — Circle avatar with silver ring
+       ============================================ */
+    .cover-circle {
+      width: clamp(90px, 24vw, 110px);
+      height: clamp(90px, 24vw, 110px);
+      border-radius: 50%;
+      padding: 2px;
+      background: linear-gradient(135deg, #66666664, var(--silver-bright), #5b5b5b64, var(--silver-bright), #666);
+      background-size: 200% 200%;
+      animation: fadeIn .8s .1s both, chromeShift 5s ease-in-out infinite;
+      margin-bottom: 24px;
+      box-shadow:
+        0 0 24px rgba(200,200,220,0.1),
+        0 4px 20px rgba(0,0,0,0.4);
+    }
+
+    .cover-circle img {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+      display: block;
+    }
+
+
+    /* ============================================
+       ARTIST NAME — MERILIA (chrome gradient)
+       ============================================ */
+    .artist-name {
+      font-size: clamp(36px, 10.5vw, 52px);
+      font-weight: 900;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      line-height: 1;
+      background: linear-gradient(
+        135deg,
+        #888 0%,
+        var(--silver-bright) 25%,
+        #fff 50%,
+        var(--silver-bright) 75%,
+        #888 100%
+      );
+      background-size: 200% 200%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: fadeIn .8s .2s both, chromeShift 8s ease-in-out infinite;
+      margin-bottom: 6px;
+      filter: drop-shadow(0 0 20px rgba(255,255,255,0.08));
+      will-change: background-position;
+      transform: translateZ(0);
+    }
+
+    @keyframes chromeShift {
+      0%, 100% { background-position: 0% 50% }
+      50%      { background-position: 100% 50% }
+    }
+
+    /* ============================================
+       TRACK TITLE — "Envie"
+       ============================================ */
+    .track-title {
+      font-size: clamp(17px, 4.8vw, 22px);
+      font-weight: 300;
+      font-style: italic;
+      letter-spacing: 0.08em;
+      color: var(--silver);
+      opacity: .75;
+      margin-bottom: 32px;
+      animation: fadeIn .8s .35s both;
+    }
+
+    /* ============================================
+       DIVIDER — Metallic line
+       ============================================ */
+    .divider {
+      width: 40px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--silver), transparent);
+      opacity: .25;
+      margin-bottom: 28px;
+      animation: fadeIn .8s .4s both;
+    }
+
+    /* ============================================
+       HEADLINE — "Disponible dans"
+       ============================================ */
+    .headline {
+      font-size: clamp(11px, 3vw, 13px);
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--t3);
+      margin-bottom: 18px;
+      animation: fadeIn .8s .45s both;
+    }
+
+    /* ============================================
+       COUNTDOWN
+       ============================================ */
+    .countdown {
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      gap: 6px;
+      margin-bottom: 32px;
+      animation: fadeIn .8s .55s both;
+    }
+
+    .cd-unit {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .cd-box {
+      position: relative;
+      width: clamp(60px, 16.5vw, 74px);
+      height: clamp(70px, 19.5vw, 86px);
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.05);
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    /* Subtle top highlight — chrome reflection */
+    .cd-box::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 50%;
+      background: linear-gradient(180deg, rgba(255,255,255,0.03) 0%, transparent 100%);
+      pointer-events: none;
+    }
+
+    .cd-val {
+      font-size: clamp(26px, 7.5vw, 36px);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      font-variant-numeric: tabular-nums;
+      color: var(--silver-bright);
+      transition: transform .3s var(--spring), opacity .3s;
+    }
+
+    .cd-val.tick {
+      animation: digitTick .4s var(--spring);
+    }
+
+    @keyframes digitTick {
+      0%   { transform: scale(1.12); opacity:.5 }
+      100% { transform: scale(1);    opacity:1 }
+    }
+
+    .cd-label {
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--t3);
+    }
+
+    .cd-sep {
+      font-size: clamp(22px, 6.5vw, 32px);
+      font-weight: 300;
+      color: var(--t3);
+      padding-top: clamp(16px, 4.5vw, 20px);
+      opacity: .3;
+      animation: sepPulse 2s ease-in-out infinite;
+    }
+
+    @keyframes sepPulse {
+      0%, 100% { opacity:.3 }
+      50%      { opacity:.12 }
+    }
+
+    /* OUT NOW state */
+    .out-now {
+      font-size: clamp(46px, 13vw, 68px);
+      font-weight: 900;
+      letter-spacing: -0.03em;
+      background: linear-gradient(135deg, #888, var(--silver-bright), #fff, var(--silver-bright), #888);
+      background-size: 200% 200%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: chromeShift 3s ease-in-out infinite, scaleIn .6s var(--spring) both;
+      margin-bottom: 32px;
+    }
+
+    @keyframes scaleIn {
+      from { opacity:0; transform:scale(.8) }
+      to   { opacity:1; transform:scale(1) }
+    }
+
+    /* (subtext removed) */
+
+    /* ============================================
+       CTA BUTTON — Chrome / Silver premium
+       ============================================ */
+    .cta-wrap {
+      animation: fadeIn .8s .65s both;
+      width: 100%;
+      margin-top: 40px;
+    }
+
+    .cta-btn {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      max-width: 280px;
+      padding: 22px 30px;
+      font-family: var(--font);
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--bg);
+      background: linear-gradient(135deg, #999, var(--silver-light), #fff, var(--silver-light), #999);
+      background-size: 400% 400%;
+      border: none;
+      border-radius: 60px;
+      cursor: pointer;
+      outline: none;
+      overflow: hidden;
+      transition: all .4s var(--ease);
+      -webkit-user-select: none;
+      user-select: none;
+      touch-action: manipulation;
+      box-shadow:
+        0 4px 24px rgba(0,0,0,0.5),
+        inset 0 1px 0 rgba(255,255,255,0.4);
+      animation: chromeBtn 6s ease-in-out infinite;
+      transform: translateZ(0);
+      will-change: transform;
+    }
+
+    /* Liquid chrome effect — smoother transitions */
+    @keyframes chromeBtn {
+      0%   { background-position: 0% 50%; }
+      50%  { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* (ctaPulse removed for performance) */
+
+    /* Bright shimmer sweep */
+    .cta-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 50%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.4) 50%, transparent 100%);
+      animation: shimmer 2.5s linear infinite;
+    }
+
+    /* Continuous shimmer sweep — removed pauses for smoothness */
+    @keyframes shimmer {
+      0%   { left: -120%; }
+      100% { left: 150%; }
+    }
+
+    /* Outer silver glow — always slightly visible */
+    .cta-btn::after {
+      content: '';
+      position: absolute;
+      inset: -4px;
+      border-radius: 60px;
+      background: linear-gradient(135deg, var(--silver), #fff, var(--silver-bright));
+      z-index: -1;
+      opacity: 0.15;
+      filter: blur(20px);
+      transition: opacity .4s;
+      animation: glowBreath 4s ease-in-out infinite;
+      will-change: opacity, transform;
+    }
+
+    /* Ultra-smooth breathing glow using GPU-accelerated properties */
+    @keyframes glowBreath {
+      0%, 100% { opacity: 0.08; transform: scale(1.0); }
+      50%      { opacity: 0.25; transform: scale(1.08); }
+    }
+
+    .cta-btn:hover::after { opacity: .6; animation: none }
+    .cta-btn:hover {
+      transform: translateY(-3px) scale(1.02);
+      box-shadow:
+        0 0 40px rgba(220,220,235,0.3),
+        0 8px 40px rgba(0,0,0,0.5),
+        inset 0 1px 0 rgba(255,255,255,0.5);
+    }
+    .cta-btn:active { transform: translateY(0) scale(.96); transition-duration:.1s }
+
+    /* Ripple */
+    .ripple {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.4);
+      transform: scale(0);
+      animation: ripAnim .6s ease-out forwards;
+      pointer-events: none;
+    }
+    @keyframes ripAnim { to { transform:scale(4); opacity:0 } }
+
+    /* ============================================
+       MODAL
+       ============================================ */
+    .modal-ov {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center; /* Center vertically for everyone */
+      justify-content: center;
+      background: rgba(0,0,0,0);
+      pointer-events: none;
+      transition: background .4s var(--ease);
+    }
+
+    .modal-ov.active {
+      background: rgba(0,0,0,0.65);
+      pointer-events: auto;
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+    }
+
+    .modal-card {
+      width: 94%;
+      max-width: 420px;
+      background: var(--bg2);
+      border: 1px solid var(--card-border);
+      border-radius: 24px;
+      padding: 32px 24px;
+      transform: translate(-50%, -40%) scale(0.9);
+      opacity: 0;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transition: all .4s var(--ease);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.8);
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    .modal-ov.active .modal-card { 
+      transform: translate(-50%, -50%) scale(1);
+      opacity: 1;
+    }
+    
+    /* Significant shift up for mobile keyboard (15% extra) */
+    .modal-card.keyboard-up {
+      transform: translate(-50%, -65%) scale(1) !important;
+    }
+
+    /* Hidden handle as we are no longer a bottom sheet */
+    .modal-handle { display: none; }
+
+    .modal-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: var(--silver-dim);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 16px;
+    }
+
+    .modal-icon svg {
+      width: 22px;
+      height: 22px;
+      fill: none;
+      stroke: var(--silver);
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .modal-text {
+      font-size: clamp(11px, 3.6vw, 14px);
+      line-height: 1.6;
+      color: var(--t2);
+      margin-bottom: 24px;
+      text-align: center;
+    }
+    .modal-text span {
+      display: block;
+      white-space: nowrap;
+    }
+
+    .modal-text strong {
+      color: var(--t1);
+      font-weight: 600;
+    }
+
+    .modal-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      padding: 0 5%;
+    }
+
+    /* Primary button — (unused now that we have the slider) */
+    .btn-p { display: none; }
+
+    /* ============================================
+       SLIDER "SLIDE TO UNLOCK" — Premium Version
+       ============================================ */
+    .slide-track {
+      position: relative;
+      width: 100%;
+      height: 60px;
+      background: rgba(192, 192, 204, 0.25);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 40px;
+      padding: 5px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      margin-bottom: 12px;
+      box-shadow: inset 0 2px 10px rgba(0,0,0,0.5);
+      user-select: none;
+      transform: translateZ(0);
+    }
+
+    .slide-text {
+      position: absolute;
+      width: 100%;
+      text-align: center;
+      padding-left: 32px; /* Shifted back slightly to the left */
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      color: var(--t3);
+      text-transform: uppercase;
+      pointer-events: none;
+      z-index: 1;
+      background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.8) 50%, rgba(255,255,255,0) 100%);
+      background-size: 200% 100%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: slideShimmer 3s infinite linear;
+    }
+
+    @keyframes slideShimmer {
+      0% { background-position: 200% 0%; }
+      100% { background-position: -200% 0%; }
+    }
+
+    .slide-handle {
+      position: relative;
+      z-index: 2;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--silver-bright), var(--silver), #888);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: grab;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.5);
+      transition: transform 0.1s linear; /* for subtle touch follow */
+      touch-action: pan-y;
+    }
+
+    .slide-handle:active { cursor: grabbing; }
+
+    .slide-handle svg {
+      width: 20px;
+      height: 20px;
+      fill: none;
+      stroke: var(--bg);
+      stroke-width: 3;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      transform: translateX(1px);
+    }
+
+    .slide-complete .slide-handle {
+      background: #fff;
+    }
+    .slide-complete .slide-text {
+      display: none;
+    }
+
+    /* (Secondary button removed) */
+    .btn-s { display: none; }
+
+    /* ============================================
+       INPUT FIELD — Premium Silver
+       ============================================ */
+    .input-group {
+      margin-bottom: 24px;
+      text-align: left;
+    }
+    .input-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--t3);
+      margin-bottom: 8px;
+      display: block;
+    }
+    .handle-input-wrap {
+      position: relative;
+      width: 100%;
+    }
+    .handle-input {
+      width: 100%;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 16px 16px 16px 36px;
+      color: #fff;
+      font-family: var(--font);
+      font-size: 16px;
+      outline: none;
+      transition: all 0.3s var(--ease);
+      text-transform: lowercase; /* Visual lowercase */
+    }
+    .handle-input::placeholder {
+      color: rgba(255,255,255,0.18); /* 2x plus foncé */
+    }
+    .handle-input:focus {
+      border-color: var(--silver-bright);
+      background: rgba(255,255,255,0.06);
+      box-shadow: 0 0 15px var(--silver-glow);
+    }
+    .at-prefix {
+      position: absolute;
+      left: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--t3);
+      font-weight: 600;
+      pointer-events: none;
+    }
+    
+    .success-state {
+      display: none;
+      text-align: center;
+      padding: 20px 0;
+    }
+    .success-state h3 {
+      font-size: 24px;
+      margin-bottom: 12px;
+      color: var(--silver-bright);
+    }
+    .success-state p {
+      color: var(--t2);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+    .success-icon {
+      width: 60px;
+      height: 60px;
+      background: var(--silver-bright);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+      animation: scaleIn .6s var(--spring) both;
+    }
+    .success-icon svg {
+      width: 32px;
+      height: 32px;
+      fill: none;
+      stroke: var(--bg);
+      stroke-width: 3;
+    }
+
+    /* Spinner — perfectly centered */
+    .spinner {
+      display: none;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      margin-left: -12px;
+      margin-top: -12px;
+      width: 24px;
+      height: 24px;
+      border: 3px solid rgba(255,255,255,0.1);
+      border-top-color: var(--silver-bright);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      z-index: 2;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    .slide-loading .spinner { display: block; }
+    .slide-loading .slide-text { display: none; }
+    /* (Redundant desktop media query removed) */
+
+    /* Error state for input */
+    .handle-input.error-input {
+      border-color: #ff4d4d !important;
+      box-shadow: 0 0 15px rgba(255, 77, 77, 0.4) !important;
+      background: rgba(255, 77, 77, 0.05);
+    }
+
+    .spotify-prompt {
+      margin-top: 24px;
+      padding-top: 24px;
+      border-top: 1px solid var(--card-border);
+      display: none; /* Shown after success */
+    }
+
+    .btn-spotify {
+      background: linear-gradient(135deg, #1db954, #1ed760, #1db954) !important;
+      color: #000 !important;
+      box-shadow: 0 4px 20px rgba(29, 185, 84, 0.3) !important;
+      margin-top: 12px;
+      animation: none !important;
+    }
+    
+    .btn-spotify::before { animation-duration: 3s !important; }
+
+    .btn-later {
+      background: transparent !important;
+      border: 1px solid var(--card-border) !important;
+      color: var(--t3) !important;
+      box-shadow: none !important;
+      margin-top: 8px;
+      font-size: 11px !important;
+      padding: 14px 24px !important;
+      animation: none !important;
+    }
+    .btn-later::after, .btn-later::before { display: none !important; }
+    .btn-later:hover {
+      border-color: var(--t2) !important;
+      color: var(--t2) !important;
+    }
+
+    /* ============================================
+       SMS OPTION & TOGGLE
+       ============================================ */
+    .option-toggle {
+      display: flex;
+      background: rgba(255,255,255,0.04);
+      padding: 4px;
+      border-radius: 12px;
+      margin-bottom: 24px;
+      border: 1px solid var(--card-border);
+    }
+    .option-btn {
+      flex: 1;
+      padding: 10px;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--t3);
+      cursor: pointer;
+      border-radius: 8px;
+      transition: all 0.3s var(--ease);
+      border: none;
+      background: transparent;
+      font-family: var(--font);
+    }
+    .option-btn.active {
+      background: var(--silver-dim);
+      color: var(--silver-bright);
+      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    }
+    
+    #phone-group {
+      display: none;
+    }
+
+    /* ============================================
+       ACCESSIBILITY — Reduced motion
+       ============================================ */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: .01ms !important;
+        transition-duration: .01ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Background layers -->
+  <div class="bg-cover" aria-hidden="true"></div>
+  <div class="bg-vignette" aria-hidden="true"></div>
+  <div class="bg-noise" aria-hidden="true"></div>
+
+  <!-- Main content -->
+  <main class="container" role="main">
+
+    <!-- Cover art in silver circle -->
+    <div class="cover-circle">
+      <img src="cover.jpg" alt="Merilia — Envie" width="110" height="110">
+    </div>
+
+    <!-- Artist branding -->
+    <h1 class="artist-name">Merilia</h1>
+    <p class="track-title">Envie</p>
+    <div class="divider" aria-hidden="true"></div>
+
+    <!-- Countdown -->
+    <p class="headline">Disponible dans</p>
+    <div class="countdown" id="countdown" aria-live="polite">
+      <div class="cd-unit">
+        <div class="cd-box"><span class="cd-val" id="cd-d">--</span></div>
+        <span class="cd-label">Jours</span>
+      </div>
+      <span class="cd-sep">:</span>
+      <div class="cd-unit">
+        <div class="cd-box"><span class="cd-val" id="cd-h">--</span></div>
+        <span class="cd-label">Heures</span>
+      </div>
+      <span class="cd-sep">:</span>
+      <div class="cd-unit">
+        <div class="cd-box"><span class="cd-val" id="cd-m">--</span></div>
+        <span class="cd-label">Minutes</span>
+      </div>
+      <span class="cd-sep">:</span>
+      <div class="cd-unit">
+        <div class="cd-box"><span class="cd-val" id="cd-s">--</span></div>
+        <span class="cd-label">Secondes</span>
+      </div>
+    </div>
+
+
+    <!-- CTA -->
+    <div class="cta-wrap">
+      <button class="cta-btn" id="cta-btn" type="button">Recevoir le rappel</button>
+    </div>
+  </main>
+
+  <!-- Modal -->
+  <div class="modal-ov" id="modal" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="modal-card">
+      <div class="modal-handle" aria-hidden="true"></div>
+      <div class="modal-icon" aria-hidden="true" id="modal-main-icon">
+        <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.2" fill="var(--silver)" stroke="none"/></svg>
+      </div>
+      <div id="modal-content">
+        <p class="modal-text" id="modal-desc">
+          <span>Laisse ton Instagram pour rejoindre la liste</span>
+          <span>Je t'enverrai le lien par DM, vendredi à 23h59.</span>
+        </p>
+
+        <div class="option-toggle">
+          <button type="button" class="option-btn active" id="btn-mode-ig">Instagram</button>
+          <button type="button" class="option-btn" id="btn-mode-sms">SMS</button>
+        </div>
+        
+        <div class="input-group" id="ig-group">
+          <label class="input-label">Ton Instagram</label>
+          <div class="handle-input-wrap">
+            <span class="at-prefix">@</span>
+            <input type="text" id="handle-input" class="handle-input" placeholder="super_pseudo" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false">
+          </div>
+        </div>
+
+        <div class="input-group" id="phone-group">
+          <label class="input-label">Ton Numéro (FR)</label>
+          <div class="handle-input-wrap">
+            <input type="tel" id="phone-input" class="handle-input" placeholder="06 12 34 56 78" style="padding-left: 16px;">
+          </div>
+        </div>
+
+        <div class="modal-actions">
+          <button class="cta-btn" id="modal-submit-btn" type="button" style="max-width: 100%; width: 100%;">Confirmer l'inscription</button>
+          <div id="slide-track" style="display:none;"></div> <!-- Legacy compatibility -->
+        </div>
+      </div>
+
+      <div id="modal-success" class="success-state">
+        <div class="success-icon">
+          <svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
+        </div>
+        <h3>T'es inscrit !</h3>
+        <p id="success-message">Prépare-toi, je t'envoie ça <br><strong>vendredi à 23h59</strong>. 🔥</p>
+        
+        <div id="spotify-prompt" class="spotify-prompt">
+          <p style="font-size: 13px; color: var(--t2); margin-bottom: 16px;">Veux-tu aussi pré-sauvegarder sur Spotify ?</p>
+          <div style="display: flex; flex-direction: column; align-items: center; gap: 8px; width: 100%;">
+            <button class="cta-btn btn-spotify" id="btn-spotify">Pré-save Spotify</button>
+            <button class="cta-btn btn-later" onclick="closeModal()">Plus tard</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /* ⚙️ CONFIG — Easy to change */
+    const RELEASE_DATE = new Date('2026-05-01T23:59:00');
+    const IG_USER = 'merilia_dnb';
+
+    /* === AUTO-REDIRECT IF RELEASED === */
+    if (Date.now() >= RELEASE_DATE.getTime()) {
+      window.location.href = 'release.html';
+    }
+
+    /* === COUNTDOWN === */
+    const els = {
+      d: document.getElementById('cd-d'),
+      h: document.getElementById('cd-h'),
+      m: document.getElementById('cd-m'),
+      s: document.getElementById('cd-s')
+    };
+    const prev = { d:'', h:'', m:'', s:'' };
+    let ended = false;
+
+    function tick() {
+      if (ended) return;
+      const diff = RELEASE_DATE.getTime() - Date.now();
+
+      if (diff <= 0) {
+        ended = true;
+        document.getElementById('countdown').innerHTML = '<span class="out-now">OUT NOW</span>';
+        document.querySelector('.headline').textContent = '';
+        
+        // Wait a moment so user sees the "OUT NOW" then redirect
+        setTimeout(() => {
+          window.location.href = 'release.html';
+        }, 1500);
+        return;
+      }
+
+      const vals = {
+        d: String(Math.floor(diff / 864e5)).padStart(2, '0'),
+        h: String(Math.floor((diff % 864e5) / 36e5)).padStart(2, '0'),
+        m: String(Math.floor((diff % 36e5) / 6e4)).padStart(2, '0'),
+        s: String(Math.floor((diff % 6e4) / 1e3)).padStart(2, '0')
+      };
+
+      for (const k in vals) {
+        if (vals[k] !== prev[k]) {
+          els[k].textContent = vals[k];
+          els[k].classList.remove('tick');
+          void els[k].offsetWidth; /* reflow to restart animation */
+          els[k].classList.add('tick');
+          prev[k] = vals[k];
+        }
+      }
+    }
+
+    tick();
+    setInterval(tick, 1000);
+
+    /* === CTA + MODAL === */
+    const modal = document.getElementById('modal');
+    const ctaBtn = document.getElementById('cta-btn');
+    let isBackdropClick = false;
+
+    ctaBtn.addEventListener('click', function(e) {
+      /* Ripple micro-interaction */
+      const r = document.createElement('span');
+      r.classList.add('ripple');
+      const rect = this.getBoundingClientRect();
+      const sz = Math.max(rect.width, rect.height);
+      r.style.width = r.style.height = sz + 'px';
+      r.style.left = (e.clientX - rect.left - sz / 2) + 'px';
+      r.style.top = (e.clientY - rect.top - sz / 2) + 'px';
+      this.appendChild(r);
+      r.addEventListener('animationend', () => r.remove());
+
+      /* Open modal */
+      setTimeout(() => {
+        modal.classList.add('active');
+        modal.setAttribute('aria-hidden', 'false');
+      }, 120);
+    });
+
+    // Precise backdrop click detection to avoid closing during slides
+    modal.addEventListener('mousedown', function(e) {
+      if (e.target === modal) isBackdropClick = true;
+    });
+    
+    modal.addEventListener('mouseup', function(e) {
+      if (e.target === modal && isBackdropClick) {
+        closeModal();
+      }
+      isBackdropClick = false;
+    });
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && modal.classList.contains('active')) closeModal();
+    });
+
+    function closeModal() {
+      modal.classList.remove('active');
+      modal.setAttribute('aria-hidden', 'true');
+      isBackdropClick = false;
+    }
+
+    /* === BUTTON LOGIC === */
+    const modalSubmitBtn = document.getElementById('modal-submit-btn');
+    
+    let btnSwipeStartX = 0;
+    let btnSwipeTriggered = false;
+
+    modalSubmitBtn.addEventListener('touchstart', (e) => {
+      btnSwipeStartX = e.touches[0].clientX;
+      btnSwipeTriggered = false;
+    }, { passive: true });
+
+    modalSubmitBtn.addEventListener('touchmove', (e) => {
+      if (btnSwipeTriggered) return;
+      const currentX = e.touches[0].clientX;
+      if (currentX - btnSwipeStartX > 70) {
+        btnSwipeTriggered = true;
+        autoSlideAndSubmit();
+      }
+    }, { passive: true });
+
+    modalSubmitBtn.addEventListener('click', () => {
+      if (btnSwipeTriggered) return;
+      autoSlideAndSubmit();
+    });
+
+    function initSlider() {} // Legacy compatibility
+
+    /* === MODE SELECTION (IG vs SMS) === */
+    let currentMode = 'ig';
+    const btnIg = document.getElementById('btn-mode-ig');
+    const btnSms = document.getElementById('btn-mode-sms');
+    const igGroup = document.getElementById('ig-group');
+    const phoneGroup = document.getElementById('phone-group');
+    const modalDesc = document.getElementById('modal-desc');
+    const phoneInput = document.getElementById('phone-input');
+    const modalIconContainer = document.getElementById('modal-main-icon');
+
+    const ICONS = {
+      ig: `<svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.2" fill="var(--silver)" stroke="none"/></svg>`,
+      sms: `<svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>`
+    };
+
+    function setMode(mode) {
+      currentMode = mode;
+      modalIconContainer.innerHTML = ICONS[mode];
+      
+      if (mode === 'ig') {
+        btnIg.classList.add('active');
+        btnSms.classList.remove('active');
+        igGroup.style.display = 'block';
+        phoneGroup.style.display = 'none';
+        modalDesc.innerHTML = '<span>Laisse ton Instagram pour rejoindre la liste</span><span>Je t\'enverrai le lien par DM, vendredi à 23h59.</span>';
+      } else {
+        btnIg.classList.remove('active');
+        btnSms.classList.add('active');
+        igGroup.style.display = 'none';
+        phoneGroup.style.display = 'block';
+        modalDesc.innerHTML = '<span>Laisse ton numéro pour rejoindre la liste</span><span>Je t\'enverrai le rappel par SMS, vendredi à 23h59.</span>';
+      }
+      setTimeout(initSlider, 50);
+    }
+
+    btnIg.addEventListener('click', () => setMode('ig'));
+    btnSms.addEventListener('click', () => setMode('sms'));
+
+    // Enter Key Support & Keyboard focus fix
+    const handleInput = document.getElementById('handle-input');
+    
+    [handleInput, phoneInput].forEach(inp => {
+      inp.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          inp.blur();
+          autoSlideAndSubmit();
+        }
+      });
+
+      inp.addEventListener('focus', () => {
+        if (window.innerWidth < 640) {
+          document.querySelector('.modal-card').classList.add('keyboard-up');
+        }
+      });
+
+      inp.addEventListener('blur', () => {
+        document.querySelector('.modal-card').classList.remove('keyboard-up');
+      });
+
+      inp.addEventListener('input', () => {
+        inp.classList.remove('error-input');
+      });
+    });
+
+    /* === LINK HELPERS === */
+    function openSpotify() {
+      const isAndroid = /Android/i.test(navigator.userAgent);
+      const androidUrl = 'https://spotify.openinapp.co/31xu3';
+      const officialUrl = 'https://open.spotify.com/intl-fr/track/0mNGJ5sdhPVdp7AQiwWz2y?si=5e42aaeda5124f12';
+      
+      window.open(isAndroid ? androidUrl : officialUrl, '_blank');
+    }
+
+    function autoSlideAndSubmit() {
+      if (ended) return;
+      
+      const val = currentMode === 'ig' ? handleInput.value.trim() : phoneInput.value.trim();
+      if (!val) {
+        const inputEl = currentMode === 'ig' ? handleInput : phoneInput;
+        inputEl.classList.add('error-input');
+        modalSubmitBtn.style.animation = 'shake 0.4s ease';
+        setTimeout(() => modalSubmitBtn.style.animation = '', 400);
+        return;
+      }
+
+      // Visual feedback
+      modalSubmitBtn.textContent = 'Envoi en cours...';
+      modalSubmitBtn.style.opacity = '0.7';
+      modalSubmitBtn.style.pointerEvents = 'none';
+      
+      setTimeout(triggerRedirect, 400);
+    }
+
+    async function triggerRedirect() {
+      let value = '';
+      let inputEl = null;
+      
+      if (currentMode === 'ig') {
+        inputEl = document.getElementById('handle-input');
+        value = inputEl.value.trim().toLowerCase().replace(/^@/, '');
+      } else {
+        inputEl = document.getElementById('phone-input');
+        value = inputEl.value.trim().replace(/\s/g, '').replace(/-/g, '').replace(/\./g, '');
+        
+        // French Phone Validation (06/07 or +336/+337)
+        const phoneRegex = /^(?:(?:\+|00)33|0)[67]\d{8}$/;
+        if (!phoneRegex.test(value)) {
+          value = ''; 
+        }
+      }
+      
+      if (!value) {
+        inputEl.classList.add('error-input');
+        inputEl.focus();
+        
+        // Shake the input field
+        inputEl.style.animation = 'shake 0.4s ease';
+        setTimeout(() => inputEl.style.animation = '', 400);
+
+        // Reset button
+        modalSubmitBtn.textContent = 'Confirmer l\'inscription';
+        modalSubmitBtn.style.opacity = '1';
+        modalSubmitBtn.style.pointerEvents = 'auto';
+        return;
+      }
+
+      // Display "processing" state
+      modalSubmitBtn.textContent = 'Chargement...';
+
+      const SHEET_API_URL = 'https://script.google.com/macros/s/AKfycbwBokoSbC7lTjIfHVcCSkj8a-6gesAELVCFIJxPoM881iSqv0PZpTmtoloeOspKTZYo/exec';
+      
+      const payload = { 
+        handle: currentMode === 'ig' ? value : '', 
+        phone: currentMode === 'sms' ? value : '',
+        method: currentMode,
+        date: new Date().toLocaleString() 
+      };
+
+      if (SHEET_API_URL) {
+        fetch(SHEET_API_URL, {
+          method: 'POST',
+          mode: 'no-cors',
+          body: JSON.stringify(payload)
+        }).catch(e => console.error(e));
+      }
+
+      // Snappy transition to success state
+      setTimeout(() => {
+        document.querySelector('.modal-icon').style.display = 'none';
+        document.getElementById('modal-content').style.display = 'none';
+        document.getElementById('modal-success').style.display = 'block';
+        
+        // Show Spotify prompt after a short delay
+        setTimeout(() => {
+          const prompt = document.getElementById('spotify-prompt');
+          prompt.style.display = 'block';
+          prompt.style.animation = 'fadeIn .6s var(--ease) both';
+          
+          document.getElementById('btn-spotify').addEventListener('click', () => {
+            openSpotify();
+            closeModal();
+          });
+        }, 1200);
+      }, 800);
+    }
+    
+    // Keyframes for error shake
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes shake {
+        0%, 100% { transform: translateX(0); }
+        25% { transform: translateX(-8px); }
+        75% { transform: translateX(8px); }
+      }
+    `;
+    document.head.appendChild(style);
+
+  </script>
+</body>
+</html>

@@ -357,18 +357,17 @@
 
   <main class="container">
     <div class="cover-circle">
-      <img src="cover.jpg" alt="Merilia — Envie">
+      <img src="cover.jpg" alt="Merilia" id="cover-img">
     </div>
 
-    <h1 class="artist-name">Merilia</h1>
-    <p class="track-title">Envie</p>
+    <h1 class="artist-name" id="artist-name">Merilia</h1>
+    <p class="track-title" id="track-title">Envie</p>
 
     <p class="headline">ÉCOUTER MAINTENANT</p>
 
     <div class="platform-list">
-      <div class="platform-item" data-platform="spotify" 
-           data-url="https://open.spotify.com/intl-fr/track/0mNGJ5sdhPVdp7AQiwWz2y?si=5e42aaeda5124f12"
-           data-android-url="https://spotify.openinapp.co/31xu3">
+      <!-- Spotify -->
+      <div class="platform-item" data-platform="spotify" id="btn-spotify" style="display:none;">
         <div class="platform-icon-box">
           <div class="platform-icon">
             <svg viewBox="0 0 24 24"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.503 17.306c-.215.353-.674.464-1.027.249-2.863-1.748-6.467-2.144-10.712-1.173-.404.092-.81-.157-.903-.561-.092-.403.157-.809.561-.902 4.646-1.063 8.625-.615 11.832 1.34.353.215.464.674.249 1.027zm1.468-3.259c-.27.44-.847.579-1.287.308-3.277-2.014-8.273-2.597-12.149-1.42-.497.151-1.024-.131-1.174-.627-.151-.497.131-1.024.627-1.174 4.429-1.344 9.94-.693 13.676 1.605.44.271.579.848.308 1.288zm.139-3.391c-3.931-2.333-10.428-2.55-14.218-1.4c-.603.183-1.246-.168-1.429-.771-.183-.603.168-1.246.771-1.429 4.343-1.32 11.523-1.054 16.002 1.604.542.321.721 1.024.399 1.565-.321.543-1.024.722-1.565.401-.001 0-.001 0-.001 0z"/></svg>
@@ -377,7 +376,8 @@
         <div class="platform-name">Spotify</div>
       </div>
 
-      <div class="platform-item" data-platform="youtube" data-url="https://yt.openinapp.co/c5d74">
+      <!-- YouTube -->
+      <div class="platform-item" data-platform="youtube" id="btn-youtube" style="display:none;">
         <div class="platform-icon-box">
           <div class="platform-icon">
             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/></svg>
@@ -386,7 +386,8 @@
         <div class="platform-name">YouTube</div>
       </div>
 
-      <div class="platform-item" data-platform="deezer" data-url="https://openinapp.link/deezermeriliaenvie">
+      <!-- Deezer -->
+      <div class="platform-item" data-platform="deezer" id="btn-deezer" style="display:none;">
         <div class="platform-icon-box">
           <div class="platform-icon">
             <svg viewBox="0 0 24 24"><path d="M19.125 15.656h4.875v3.469h-4.875v-3.469zm-6.375 0h4.875v3.469h-4.875v-3.469zm-6.375 0h4.875v3.469h-4.875v-3.469zm-6.375 0h4.875v3.469h-4.875v-3.469zm19.125-5.25h4.875v3.469h-4.875v-3.469zm-6.375 0h4.875v3.469h-4.875v-3.469zm-6.375 0h4.875v3.469h-4.875v-3.469zm-6.375 0h4.875v3.469h-4.875v-3.469zm19.125-5.25h4.875v3.469h-4.875v-3.469zm-6.375 0h4.875v3.469h-4.875v-3.469zm-6.375 10.5h4.875v3.469h-4.875v-3.469zm0-15.75h4.875v3.469h-4.875v-3.469zm-6.375 10.5h4.875v3.469h-4.875v-3.469z"/></svg>
@@ -395,7 +396,8 @@
         <div class="platform-name">Deezer</div>
       </div>
 
-      <div class="platform-item" data-platform="amazon" data-url="https://music.amazon.fr/albums/B0GY62S763?marketplaceId=A13V1IB3VIYZZH&musicTerritory=FR&ref=dm_sh_yGdKrg81QoKag3RXXluawFuVn&trackAsin=B0GY5V26SD">
+      <!-- Amazon -->
+      <div class="platform-item" data-platform="amazon" id="btn-amazon" style="display:none;">
         <div class="platform-icon-box">
           <div class="platform-icon" style="padding: 2px;">
             <img src="https://img.icons8.com/?size=512&id=lxwUaALAeQmr&format=png" alt="Amazon Music" style="width:100%; height:100%; object-fit:contain;">
@@ -404,7 +406,8 @@
         <div class="platform-name">Amazon Music</div>
       </div>
 
-      <div class="platform-item" data-platform="apple" data-url="https://applemusic.openinapp.co/od4mg">
+      <!-- Apple -->
+      <div class="platform-item" data-platform="apple" id="btn-apple" style="display:none;">
         <div class="platform-icon-box">
           <div class="platform-icon">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>
@@ -413,7 +416,8 @@
         <div class="platform-name">Apple Music</div>
       </div>
 
-      <div class="platform-item" data-platform="tidal" data-url="https://openinapp.link/tidalenvie">
+      <!-- Tidal -->
+      <div class="platform-item" data-platform="tidal" id="btn-tidal" style="display:none;">
         <div class="platform-icon-box">
           <div class="platform-icon">
             <svg viewBox="0 0 24 24"><path d="M12.012 3.992L8.008 7.996 4.004 3.992 0 7.996 4.004 12l4.004-4.004L12.012 12l-4.004 4.004 4.004 4.004 4.004-4.004L12.012 12l4.004-4.004-4.004-4.004zM16.042 7.996l3.979-3.979L24 7.996l-3.979 3.979z"/></svg>
@@ -422,7 +426,8 @@
         <div class="platform-name">Tidal</div>
       </div>
 
-      <div class="platform-item" data-platform="qobuz" data-url="https://openinapp.link/qobuz">
+      <!-- Qobuz -->
+      <div class="platform-item" data-platform="qobuz" id="btn-qobuz" style="display:none;">
         <div class="platform-icon-box">
           <div class="platform-icon">
             <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 14c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4zm0-6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/></svg>
@@ -447,60 +452,77 @@
   </main>
 
   <script>
+    // ============================================
+    // ⚙️ CONFIGURATION (À MODIFIER ICI)
+    // ============================================
+    const CONFIG = {
+      artist: "Merilia",
+      title: "Envie",
+      cover: "cover.jpg",
+      links: {
+        spotify: "https://open.spotify.com/intl-fr/track/0mNGJ5sdhPVdp7AQiwWz2y?si=5e42aaeda5124f12",
+        youtube: "https://yt.openinapp.co/c5d74",
+        deezer: "https://openinapp.link/deezermeriliaenvie",
+        amazon: "https://music.amazon.fr/albums/B0GY62S763?marketplaceId=A13V1IB3VIYZZH&musicTerritory=FR&ref=dm_sh_yGdKrg81QoKag3RXXluawFuVn&trackAsin=B0GY5V26SD",
+        apple: "https://applemusic.openinapp.co/od4mg",
+        tidal: "https://openinapp.link/tidalenvie",
+        qobuz: "https://openinapp.link/qobuz"
+      }
+    };
+
     document.addEventListener('DOMContentLoaded', () => {
-      // Init Platform Buttons
-      const items = document.querySelectorAll('.platform-item');
-      items.forEach((item, index) => {
-        // Entrance animation
-        item.style.opacity = '0';
-        item.style.transform = 'translateY(20px)';
-        item.style.cursor = 'pointer';
+      // 1. Appliquer la config
+      document.title = `${CONFIG.artist} - ${CONFIG.title} | Écouter maintenant`;
+      document.getElementById('artist-name').textContent = CONFIG.artist;
+      document.getElementById('track-title').textContent = CONFIG.title;
+      document.getElementById('cover-img').src = CONFIG.cover;
 
-        setTimeout(() => {
-          item.style.transition = 'all 0.8s cubic-bezier(0.16, 1, 0.3, 1)';
-          item.style.opacity = '1';
-          item.style.transform = 'translateY(0)';
-        }, 300 + (index * 100));
+      // 2. Init Platform Buttons
+      const platforms = ['spotify', 'youtube', 'deezer', 'amazon', 'apple', 'tidal', 'qobuz'];
+      platforms.forEach((p, index) => {
+        const btn = document.getElementById(`btn-${p}`);
+        const url = CONFIG.links[p];
 
-        // Swipe to click detection
-        let swipeStartX = 0;
-        let swipeTriggered = false;
-        item.addEventListener('touchstart', (e) => {
-          swipeStartX = e.touches[0].clientX;
-          swipeTriggered = false;
-        }, { passive: true });
+        if (url && url.trim() !== "") {
+          btn.dataset.url = url;
+          btn.style.display = 'flex';
+          
+          // Entrance animation
+          btn.style.opacity = '0';
+          btn.style.transform = 'translateY(20px)';
+          btn.style.cursor = 'pointer';
 
-        item.addEventListener('touchmove', (e) => {
-          if (swipeTriggered) return;
-          const currentX = e.touches[0].clientX;
-          if (currentX - swipeStartX > 70) {
-            swipeTriggered = true;
-            triggerPlatformAction(item);
-          }
-        }, { passive: true });
+          setTimeout(() => {
+            btn.style.transition = 'all 0.8s cubic-bezier(0.16, 1, 0.3, 1)';
+            btn.style.opacity = '1';
+            btn.style.transform = 'translateY(0)';
+          }, 300 + (index * 100));
 
-        item.addEventListener('click', () => {
-          if (swipeTriggered) return;
-          triggerPlatformAction(item);
-        });
+          // Interaction
+          btn.addEventListener('click', () => triggerPlatformAction(btn));
+          
+          // Swipe detection
+          let startX = 0;
+          btn.addEventListener('touchstart', e => startX = e.touches[0].clientX, {passive:true});
+          btn.addEventListener('touchmove', e => {
+            if (e.touches[0].clientX - startX > 70) triggerPlatformAction(btn);
+          }, {passive:true});
+        } else {
+          btn.style.display = 'none';
+        }
       });
 
       function triggerPlatformAction(item) {
         if (item.classList.contains('success')) return;
         const url = item.dataset.url;
-        const isAndroid = /Android/i.test(navigator.userAgent);
-        const targetUrl = (isAndroid && item.dataset.androidUrl) ? item.dataset.androidUrl : url;
-        
         item.classList.add('success');
         if (window.navigator.vibrate) window.navigator.vibrate(30);
 
         setTimeout(() => {
-          window.open(targetUrl, '_blank');
+          window.open(url, '_blank');
           setTimeout(() => item.classList.remove('success'), 1000);
         }, 200);
       }
-
-
     });
   </script>
 </body>

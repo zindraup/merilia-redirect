@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="description" content="Merilia — Envie. Disponible maintenant sur toutes les plateformes.">
+  <meta name="theme-color" content="#060608">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <title>Merilia - Envie | Écouter maintenant</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    /* ============================================
+       🎨 DESIGN TOKENS — Silver / Chrome palette
+       ============================================ */
+    :root {
+      --bg: #060608;
+      --bg2: #0e0e12;
+      --card-border: rgba(255,255,255,0.07);
+
+      /* Silver text hierarchy */
+      --t1: #ffffff;
+      --t2: rgba(240,240,248,0.7);
+      --t3: rgba(220,220,230,0.45);
+
+      /* Chrome / Silver accent */
+      --silver: #d0d0dc;
+      --silver-light: #e2e2ee;
+      --silver-bright: #eeeef4;
+      --silver-dim: rgba(192,192,204,0.1);
+      --silver-glow: rgba(192,192,204,0.2);
+
+      --font: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      --ease: cubic-bezier(0.16,1,0.3,1);
+      --spring: cubic-bezier(0.34,1.56,0.64,1);
+    }
+
+    /* ============================================
+       RESET
+       ============================================ */
+    *,*::before,*::after { margin:0; padding:0; box-sizing:border-box }
+    html, body { height:100%; overflow-x:hidden; background: var(--bg); }
+    body {
+      font-family: var(--font);
+      color: var(--t1);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      -webkit-font-smoothing: antialiased;
+      -webkit-tap-highlight-color: transparent;
+      min-height: 100vh;
+    }
+
+    /* ============================================
+       BACKGROUND LAYERS
+       ============================================ */
+    .bg-cover {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      background: url('cover.jpg') center center / cover no-repeat;
+      filter: blur(15px) saturate(1.2) brightness(0.8);
+      transform: scale(1.1);
+      opacity: 1;
+      pointer-events: none;
+    }
+
+    .bg-vignette {
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      background:
+        radial-gradient(ellipse at center, rgba(6,6,8,0.2) 0%, rgba(6,6,8,0.8) 80%),
+        linear-gradient(180deg, rgba(6,6,8,0.1) 0%, rgba(6,6,8,0.6) 100%);
+    }
+
+    .bg-noise {
+      position: fixed;
+      inset: 0;
+      z-index: 2;
+      opacity: 0.04;
+      pointer-events: none;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+
+    /* ============================================
+       LAYOUT
+       ============================================ */
+    .container {
+      position: relative;
+      z-index: 3;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 60px 24px;
+      width: 100%;
+      max-width: 480px;
+      animation: fadeUp 1s var(--ease) both;
+    }
+
+    @keyframes fadeUp {
+      from { opacity:0; transform:translateY(30px) }
+      to   { opacity:1; transform:translateY(0) }
+    }
+
+    /* ============================================
+       HEADER — Cover Art & Artist Info
+       ============================================ */
+    .cover-circle {
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      padding: 3px;
+      background: linear-gradient(135deg, #666, var(--silver-bright), #555, var(--silver-bright), #666);
+      background-size: 200% 200%;
+      animation: chromeShift 6s ease-in-out infinite;
+      margin-bottom: 28px;
+      box-shadow: 0 0 40px rgba(200,200,220,0.15), 0 10px 30px rgba(0,0,0,0.5);
+    }
+
+    .cover-circle img {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .artist-name {
+      font-size: clamp(38px, 11vw, 56px);
+      font-weight: 900;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      line-height: 1;
+      background: linear-gradient(135deg, #888, var(--silver-bright), #fff, var(--silver-bright), #888);
+      background-size: 200% 200%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: chromeShift 10s ease-in-out infinite;
+      margin-bottom: 8px;
+      filter: drop-shadow(0 0 15px rgba(255,255,255,0.1));
+    }
+
+    @keyframes chromeShift {
+      0%, 100% { background-position: 0% 50% }
+      50%      { background-position: 100% 50% }
+    }
+
+    .track-title {
+      font-size: clamp(18px, 5vw, 24px);
+      font-weight: 300;
+      font-style: italic;
+      letter-spacing: 0.1em;
+      color: var(--silver);
+      opacity: .8;
+      margin-bottom: 40px;
+    }
+
+    .headline {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--t3);
+      margin-bottom: 24px;
+    }
+
+    /* ============================================
+       PLATFORM LIST & SLIDERS
+       ============================================ */
+    .platform-list {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin-top: 10px;
+    }
+
+    .platform-item {
+      position: relative;
+      width: 100%;
+      height: 72px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      user-select: none;
+      touch-action: pan-y;
+      transition: border-color 0.3s, background 0.3s, transform 0.3s var(--ease);
+    }
+
+    .platform-item:hover {
+      background: rgba(255, 255, 255, 0.05);
+      border-color: rgba(255, 255, 255, 0.15);
+    }
+
+    .platform-item:hover .platform-icon {
+      transform: scale(1.1);
+    }
+
+    /* Button Content */
+    .platform-name {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--t1);
+      letter-spacing: 0.02em;
+      pointer-events: none;
+    }
+
+    .platform-icon-box {
+      width: 50px;
+      height: 50px;
+      margin-left: 10px;
+      margin-right: 20px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s;
+    }
+
+    .platform-item:hover .platform-icon-box {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .platform-icon {
+      width: 28px;
+      height: 28px;
+      fill: var(--silver-bright);
+      transition: transform 0.3s var(--spring);
+    }
+
+    .platform-item::after {
+      content: 'ÉCOUTER';
+      position: absolute;
+      right: 28px;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.15em;
+      color: var(--t3);
+      opacity: 0.6;
+      transition: all 0.3s;
+    }
+
+    .platform-item:hover::after {
+      color: var(--t1);
+      opacity: 1;
+      transform: translateX(5px);
+    }
+
+    /* Success state */
+    .platform-item.success {
+      border-color: #fff;
+      background: rgba(255, 255, 255, 0.1);
+    }
+    
+    .platform-item.success::after {
+      content: '✓';
+      color: #fff;
+    }
+
+    /* Specific Platform Colors */
+    .platform-item[data-platform="spotify"] .platform-icon { fill: #1DB954; }
+    .platform-item[data-platform="apple"] .platform-icon { fill: none; stroke: #fff; color: #fff; }
+    .platform-item[data-platform="apple"] .platform-icon svg { transform: translateX(-1.5px); }
+    .platform-item[data-platform="apple"].success .platform-icon { stroke: var(--bg) !important; color: var(--bg) !important; }
+    .platform-item[data-platform="youtube"] .platform-icon { fill: #FF0000; }
+    .platform-item[data-platform="deezer"] .platform-icon { fill: #EF5464; }
+    .platform-item[data-platform="tidal"] .platform-icon { fill: #ffffff; }
+    .platform-item[data-platform="qobuz"] .platform-icon { fill: #ffffff; }
+    .platform-item[data-platform="amazon"] .platform-icon { fill: transparent; }
+    .platform-item[data-platform="amazon"] .platform-icon img { filter: none; }
+    .platform-item[data-platform="amazon"].success .platform-icon img { filter: brightness(0); }
+
+    /* Others Button */
+    .btn-others {
+      margin-top: 10px;
+      background: transparent;
+      border: 1px dashed rgba(255, 255, 255, 0.15);
+      border-radius: 16px;
+      padding: 14px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--t2);
+      cursor: pointer;
+      transition: all 0.3s;
+      width: 100%;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+    .btn-others:hover {
+      background: rgba(255, 255, 255, 0.03);
+      border-color: var(--t3);
+      color: var(--t1);
+    }
+
+
+
+    /* ============================================
+       FOOTER
+       ============================================ */
+    .footer {
+      margin-top: 60px;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      padding-bottom: 40px;
+    }
+
+    .social-links {
+      display: flex;
+      gap: 32px;
+    }
+
+    .social-link {
+      color: var(--t3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s var(--ease);
+      opacity: 0.6;
+    }
+    .social-link:hover {
+      opacity: 1;
+      transform: translateY(-3px);
+      color: var(--t1);
+    }
+
+    .social-icon {
+      width: 26px;
+      height: 26px;
+      fill: currentColor;
+    }
+
+    /* Icons Color Overrides */
+    .platform-item[data-platform="tidal"] .platform-icon { fill: #ffffff; }
+    .platform-item[data-platform="qobuz"] .platform-icon { fill: #ffffff; }
+
+  </style>
+</head>
+<body>
+
+  <div class="bg-cover"></div>
+  <div class="bg-vignette"></div>
+  <div class="bg-noise"></div>
+
+  <main class="container">
+    <div class="cover-circle">
+      <img src="cover.jpg" alt="Merilia — Envie">
+    </div>
+
+    <h1 class="artist-name">Merilia</h1>
+    <p class="track-title">Envie</p>
+
+    <p class="headline">ÉCOUTER MAINTENANT</p>
+
+    <div class="platform-list">
+      <div class="platform-item" data-platform="spotify" 
+           data-url="https://open.spotify.com/intl-fr/track/0mNGJ5sdhPVdp7AQiwWz2y?si=5e42aaeda5124f12"
+           data-android-url="https://spotify.openinapp.co/31xu3">
+        <div class="platform-icon-box">
+          <div class="platform-icon">
+            <svg viewBox="0 0 24 24"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.503 17.306c-.215.353-.674.464-1.027.249-2.863-1.748-6.467-2.144-10.712-1.173-.404.092-.81-.157-.903-.561-.092-.403.157-.809.561-.902 4.646-1.063 8.625-.615 11.832 1.34.353.215.464.674.249 1.027zm1.468-3.259c-.27.44-.847.579-1.287.308-3.277-2.014-8.273-2.597-12.149-1.42-.497.151-1.024-.131-1.174-.627-.151-.497.131-1.024.627-1.174 4.429-1.344 9.94-.693 13.676 1.605.44.271.579.848.308 1.288zm.139-3.391c-3.931-2.333-10.428-2.55-14.218-1.4c-.603.183-1.246-.168-1.429-.771-.183-.603.168-1.246.771-1.429 4.343-1.32 11.523-1.054 16.002 1.604.542.321.721 1.024.399 1.565-.321.543-1.024.722-1.565.401-.001 0-.001 0-.001 0z"/></svg>
+          </div>
+        </div>
+        <div class="platform-name">Spotify</div>
+      </div>
+
+      <div class="platform-item" data-platform="youtube" data-url="https://yt.openinapp.co/c5d74">
+        <div class="platform-icon-box">
+          <div class="platform-icon">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/></svg>
+          </div>
+        </div>
+        <div class="platform-name">YouTube</div>
+      </div>
+
+      <div class="platform-item" data-platform="deezer" data-url="https://openinapp.link/deezermeriliaenvie">
+        <div class="platform-icon-box">
+          <div class="platform-icon">
+            <svg viewBox="0 0 24 24"><path d="M19.125 15.656h4.875v3.469h-4.875v-3.469zm-6.375 0h4.875v3.469h-4.875v-3.469zm-6.375 0h4.875v3.469h-4.875v-3.469zm-6.375 0h4.875v3.469h-4.875v-3.469zm19.125-5.25h4.875v3.469h-4.875v-3.469zm-6.375 0h4.875v3.469h-4.875v-3.469zm-6.375 0h4.875v3.469h-4.875v-3.469zm-6.375 0h4.875v3.469h-4.875v-3.469zm19.125-5.25h4.875v3.469h-4.875v-3.469zm-6.375 0h4.875v3.469h-4.875v-3.469zm-6.375 10.5h4.875v3.469h-4.875v-3.469zm0-15.75h4.875v3.469h-4.875v-3.469zm-6.375 10.5h4.875v3.469h-4.875v-3.469z"/></svg>
+          </div>
+        </div>
+        <div class="platform-name">Deezer</div>
+      </div>
+
+      <div class="platform-item" data-platform="amazon" data-url="https://music.amazon.fr/albums/B0GY62S763?marketplaceId=A13V1IB3VIYZZH&musicTerritory=FR&ref=dm_sh_yGdKrg81QoKag3RXXluawFuVn&trackAsin=B0GY5V26SD">
+        <div class="platform-icon-box">
+          <div class="platform-icon" style="padding: 2px;">
+            <img src="https://img.icons8.com/?size=512&id=lxwUaALAeQmr&format=png" alt="Amazon Music" style="width:100%; height:100%; object-fit:contain;">
+          </div>
+        </div>
+        <div class="platform-name">Amazon Music</div>
+      </div>
+
+      <div class="platform-item" data-platform="apple" data-url="https://applemusic.openinapp.co/od4mg">
+        <div class="platform-icon-box">
+          <div class="platform-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>
+          </div>
+        </div>
+        <div class="platform-name">Apple Music</div>
+      </div>
+
+      <div class="platform-item" data-platform="tidal" data-url="https://openinapp.link/tidalenvie">
+        <div class="platform-icon-box">
+          <div class="platform-icon">
+            <svg viewBox="0 0 24 24"><path d="M12.012 3.992L8.008 7.996 4.004 3.992 0 7.996 4.004 12l4.004-4.004L12.012 12l-4.004 4.004 4.004 4.004 4.004-4.004L12.012 12l4.004-4.004-4.004-4.004zM16.042 7.996l3.979-3.979L24 7.996l-3.979 3.979z"/></svg>
+          </div>
+        </div>
+        <div class="platform-name">Tidal</div>
+      </div>
+
+      <div class="platform-item" data-platform="qobuz" data-url="https://openinapp.link/qobuz">
+        <div class="platform-icon-box">
+          <div class="platform-icon">
+            <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 14c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4zm0-6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/></svg>
+          </div>
+        </div>
+        <div class="platform-name">Qobuz</div>
+      </div>
+    </div>
+
+
+
+    <footer class="footer">
+      <div class="social-links">
+        <a href="https://instagram.com/merilia_dnb" class="social-link" target="_blank" aria-label="Instagram">
+          <svg class="social-icon" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+        </a>
+        <a href="https://tiktok.com/@merilia_dnb" class="social-link" target="_blank" aria-label="TikTok">
+          <svg class="social-icon" viewBox="0 0 24 24"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.9-.32-1.98-.23-2.81.36-.54.38-.89.98-1.03 1.64-.14.65-.01 1.34.33 1.91.43.72 1.21 1.2 2.04 1.24.89.07 1.83-.23 2.45-.88.6-.61.85-1.48.83-2.33-.03-4.75-.01-9.51-.02-14.26z"/></svg>
+        </a>
+      </div>
+    </footer>
+  </main>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Init Platform Buttons
+      const items = document.querySelectorAll('.platform-item');
+      items.forEach((item, index) => {
+        // Entrance animation
+        item.style.opacity = '0';
+        item.style.transform = 'translateY(20px)';
+        item.style.cursor = 'pointer';
+
+        setTimeout(() => {
+          item.style.transition = 'all 0.8s cubic-bezier(0.16, 1, 0.3, 1)';
+          item.style.opacity = '1';
+          item.style.transform = 'translateY(0)';
+        }, 300 + (index * 100));
+
+        // Swipe to click detection
+        let swipeStartX = 0;
+        let swipeTriggered = false;
+        item.addEventListener('touchstart', (e) => {
+          swipeStartX = e.touches[0].clientX;
+          swipeTriggered = false;
+        }, { passive: true });
+
+        item.addEventListener('touchmove', (e) => {
+          if (swipeTriggered) return;
+          const currentX = e.touches[0].clientX;
+          if (currentX - swipeStartX > 70) {
+            swipeTriggered = true;
+            triggerPlatformAction(item);
+          }
+        }, { passive: true });
+
+        item.addEventListener('click', () => {
+          if (swipeTriggered) return;
+          triggerPlatformAction(item);
+        });
+      });
+
+      function triggerPlatformAction(item) {
+        if (item.classList.contains('success')) return;
+        const url = item.dataset.url;
+        const isAndroid = /Android/i.test(navigator.userAgent);
+        const targetUrl = (isAndroid && item.dataset.androidUrl) ? item.dataset.androidUrl : url;
+        
+        item.classList.add('success');
+        if (window.navigator.vibrate) window.navigator.vibrate(30);
+
+        setTimeout(() => {
+          window.open(targetUrl, '_blank');
+          setTimeout(() => item.classList.remove('success'), 1000);
+        }, 200);
+      }
+
+
+    });
+  </script>
+</body>
+</html>

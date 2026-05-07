@@ -497,7 +497,19 @@
 
       function triggerPlatformAction(item) {
         if (item.classList.contains('success')) return;
-        const url = item.dataset.url;
+        
+        const platform = item.dataset.platform;
+        let url = item.dataset.url;
+        
+        // --- LOGIQUE DE REDIRECTION SPÉCIFIQUE ---
+        // Si c'est Spotify et qu'on est sur iPhone, on utilise la technique de redirection directe
+        // car openinapp ne fonctionne pas bien sur iOS.
+        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+        
+        if (platform === 'spotify' && isIOS && CONFIG.links.spotify_ios) {
+          url = CONFIG.links.spotify_ios;
+        }
+
         item.classList.add('success');
         if (window.navigator.vibrate) window.navigator.vibrate(30);
 

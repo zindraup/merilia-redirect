@@ -8,10 +8,11 @@ const CONFIG = {
   title: "Envie",
   cover: "cover.jpg",
   links: {
-    spotify: "https://open.spotify.com/intl-fr/track/0mNGJ5sdhPVdp7AQiwWz2y?si=5e42aaeda5124f12",
+    spotify: "https://spotify.openinapp.co/31xu3",
+    spotify_ios: "https://open.spotify.com/intl-fr/track/0mNGJ5sdhPVdp7AQiwWz2y?si=33753fe9380c4f25",
     youtube: "https://yt.openinapp.co/c5d74",
-    deezer: "https://openinapp.link/deezermeriliaenvie",
-    amazon: "https://music.amazon.fr/albums/B0GY62S763?marketplaceId=A13V1IB3VIYZZH&musicTerritory=FR&ref=dm_sh_yGdKrg81QoKag3RXXluawFuVn&trackAsin=B0GY5V26SD",
+    deezer: "https://deezer.openinapp.co/7z27z",
+    amazon: "https://amzn.openinapp.link/ugxi2",
     apple: "https://applemusic.openinapp.co/od4mg",
     tidal: "https://openinapp.link/tidalenvie",
     qobuz: "https://openinapp.link/qobuz"

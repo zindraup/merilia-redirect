@@ -502,9 +502,9 @@
         let url = item.dataset.url;
         
         // --- LOGIQUE DE REDIRECTION SPÉCIFIQUE ---
-        // Si c'est Spotify et qu'on est sur iPhone, on utilise la technique de redirection directe
-        // car openinapp ne fonctionne pas bien sur iOS.
+        // Détection de l'OS et de l'environnement (TikTok/Insta)
         const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+        const isTikTok = /TikTok/i.test(navigator.userAgent);
         
         if (platform === 'spotify' && isIOS && CONFIG.links.spotify_ios) {
           url = CONFIG.links.spotify_ios;
@@ -512,6 +512,16 @@
 
         item.classList.add('success');
         if (window.navigator.vibrate) window.navigator.vibrate(30);
+
+        // --- TECHNIQUE POUR TIKTOK / IPHONE ---
+        // Pour Spotify sur iOS, il est CRITIQUE de naviguer de façon synchrone 
+        // (sans setTimeout) pour que l'iPhone accepte d'ouvrir l'application.
+        // On utilise window.location.href au lieu de window.open pour forcer le système à proposer l'app.
+        if (platform === 'spotify' && isIOS) {
+          window.location.href = url;
+          setTimeout(() => item.classList.remove('success'), 1000);
+          return;
+        }
 
         setTimeout(() => {
           window.open(url, '_blank');

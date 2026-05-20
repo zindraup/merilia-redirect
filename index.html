@@ -347,6 +347,199 @@
     .platform-item[data-platform="tidal"] .platform-icon { fill: #ffffff; }
     .platform-item[data-platform="qobuz"] .platform-icon { fill: #ffffff; }
 
+    /* ============================================
+       📱 TIKTOK IN-APP BROWSER ASSISTANT MODAL
+       ============================================ */
+    .tt-modal-ov {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(4, 4, 6, 0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      padding: 20px;
+    }
+
+    .tt-modal-ov.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .tt-modal-card {
+      width: 100%;
+      max-width: 400px;
+      background: rgba(14, 14, 18, 0.95);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 24px;
+      padding: 32px 24px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), 0 0 30px rgba(255, 255, 255, 0.03);
+      transform: translateY(30px) scale(0.95);
+      transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.4s var(--ease);
+      opacity: 0;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    .tt-modal-ov.active .tt-modal-card {
+      transform: translateY(0) scale(1);
+      opacity: 1;
+    }
+
+    .tt-modal-close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: var(--t2);
+      transition: all 0.2s ease;
+    }
+
+    .tt-modal-close:hover {
+      background: rgba(255, 255, 255, 0.15);
+      color: #fff;
+      transform: scale(1.05);
+    }
+
+    .tt-modal-close svg {
+      width: 14px;
+      height: 14px;
+      fill: currentColor;
+    }
+
+    .tt-modal-title {
+      font-size: clamp(20px, 6vw, 24px);
+      font-weight: 800;
+      text-align: center;
+      margin-bottom: 8px;
+      background: linear-gradient(135deg, #fff, var(--silver-bright));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1.3;
+    }
+
+    .tt-modal-subtitle {
+      font-size: 13.5px;
+      color: var(--t2);
+      text-align: center;
+      line-height: 1.5;
+      margin-bottom: 24px;
+      padding: 0 10px;
+    }
+
+    .tt-modal-section {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 16px;
+      padding: 16px;
+      margin-bottom: 16px;
+      font-size: 13px;
+      line-height: 1.6;
+      color: var(--t2);
+      text-align: left;
+    }
+
+    .tt-modal-section.spotify {
+      border-left: 3px solid #1DB954;
+    }
+
+    .tt-modal-section.others {
+      border-left: 3px solid var(--silver);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .tt-track-display {
+      display: block;
+      font-size: 18px;
+      font-weight: 800;
+      color: #fff;
+      margin: 14px 0 12px 0;
+      letter-spacing: 0.05em;
+      text-align: center;
+    }
+
+    /* Copy Button Styling */
+    .tt-copy-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      max-width: 240px;
+      padding: 14px 20px;
+      border-radius: 50px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--silver-bright);
+      font-family: var(--font);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .tt-copy-btn:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.3);
+      transform: translateY(-2px);
+    }
+
+    .tt-copy-btn:active {
+      transform: translateY(0);
+    }
+
+    .tt-copy-btn.copied {
+      background: #1cb954 !important;
+      border-color: #1cb954 !important;
+      color: #000 !important;
+      box-shadow: 0 0 20px rgba(28, 185, 84, 0.4);
+    }
+
+    .tt-copy-btn svg {
+      width: 15px;
+      height: 15px;
+      fill: currentColor;
+    }
+
+    .tt-modal-footer-btn {
+      background: transparent;
+      border: none;
+      color: var(--t3);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      cursor: pointer;
+      margin-top: 8px;
+      text-align: center;
+      transition: color 0.2s ease;
+      font-family: var(--font);
+      font-weight: 600;
+    }
+
+    .tt-modal-footer-btn:hover {
+      color: var(--t1);
+    }
+
   </style>
 </head>
 <body>
@@ -451,6 +644,35 @@
     </footer>
   </main>
 
+  <!-- ============================================
+       📱 TIKTOK IN-APP BROWSER ASSISTANT MODAL
+       ============================================ -->
+  <div class="tt-modal-ov" id="tt-modal" role="dialog" aria-hidden="true">
+    <div class="tt-modal-card">
+      <button class="tt-modal-close" id="tt-modal-close" aria-label="Fermer">
+        <svg viewBox="0 0 24 24">
+          <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+        </svg>
+      </button>
+      
+      <h2 class="tt-modal-title">Prêt(e) à écouter <span id="tt-track-name-title">'Envie'</span> ? 🎧</h2>
+      <p class="tt-modal-subtitle">
+        Bon, c'est pas parfait mais c'est la faute de TikTok ! Il bloque l'ouverture des applis de musique. C'est l'occasion rêvée pour sortir de cette appli du diable et découvrir un super morceau. ✨</p>
+
+      <div class="tt-modal-section others">
+        <span>🎵 T'as juste à ouvrir ton application préférée (Spotify, Youtube...) et à coller le titre :</span>
+        <strong class="tt-track-display" id="tt-track-display">MERILIA - Envie</strong>
+        <button class="tt-copy-btn" id="tt-copy-btn" type="button">
+          <svg viewBox="0 0 24 24">
+            <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
+          </svg>
+          <span id="tt-copy-text">Copier le nom</span>
+        </button>
+      </div>
+
+    </div>
+  </div>
+
   <script src="config.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
@@ -527,6 +749,81 @@
           window.open(url, '_blank');
           setTimeout(() => item.classList.remove('success'), 1000);
         }, 200);
+      }
+
+      // --- LOGIQUE COMPAGNON TIKTOK (DÉTECTION IN-APP) ---
+      const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+      const isTikTokApp = /TikTok|ByteLocale/i.test(userAgent) || window.location.search.includes('tiktok');
+
+      if (isTikTokApp) {
+        const ttModal = document.getElementById('tt-modal');
+        const ttModalClose = document.getElementById('tt-modal-close');
+        const ttCopyBtn = document.getElementById('tt-copy-btn');
+        const ttCopyText = document.getElementById('tt-copy-text');
+ 
+         // Configurer dynamiquement le nom du morceau depuis config.js
+         const fullTrackTitle = `${CONFIG.artist} - ${CONFIG.title}`;
+         document.getElementById('tt-track-name-title').textContent = `'${CONFIG.title}'`;
+         document.getElementById('tt-track-display').textContent = fullTrackTitle;
+ 
+         // Entrée en scène en douceur après un court délai
+         setTimeout(() => {
+           ttModal.classList.add('active');
+           ttModal.setAttribute('aria-hidden', 'false');
+         }, 800);
+ 
+         // Fermeture de la modale
+         const closeTikTokModal = () => {
+           ttModal.classList.remove('active');
+           ttModal.setAttribute('aria-hidden', 'true');
+         };
+ 
+         ttModalClose.addEventListener('click', closeTikTokModal);
+         ttModal.addEventListener('click', (e) => {
+           if (e.target === ttModal) {
+             closeTikTokModal();
+           }
+         });
+
+        // Copie intelligente avec presse-papier et retour visuel
+        ttCopyBtn.addEventListener('click', () => {
+          navigator.clipboard.writeText(fullTrackTitle).then(() => {
+            triggerCopyFeedback();
+          }).catch(err => {
+            console.warn('Navigator clipboard blocked, trying fallback copy...', err);
+            // Fallback pour les Webviews restreintes de TikTok / iOS
+            const textArea = document.createElement("textarea");
+            textArea.value = fullTrackTitle;
+            textArea.style.position = "fixed"; 
+            textArea.style.opacity = "0";
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            try {
+              document.execCommand('copy');
+              triggerCopyFeedback();
+            } catch (fallbackErr) {
+              console.error('Fallback copy failed: ', fallbackErr);
+            }
+            document.body.removeChild(textArea);
+          });
+        });
+
+        function triggerCopyFeedback() {
+          ttCopyBtn.classList.add('copied');
+          ttCopyText.textContent = "Copié ! ✅";
+          
+          // Micro-vibration si supportée
+          if (window.navigator.vibrate) {
+            window.navigator.vibrate([40, 40]);
+          }
+
+          // Rétablir après 3 secondes
+          setTimeout(() => {
+            ttCopyBtn.classList.remove('copied');
+            ttCopyText.textContent = "Copier le titre";
+          }, 3000);
+        }
       }
     });
   </script>

@@ -861,7 +861,7 @@
 
       // --- LOGIQUE COMPAGNON TIKTOK (DÉTECTION IN-APP) ---
       const userAgent = navigator.userAgent || navigator.vendor || window.opera;
-      const isTikTokApp = /TikTok|ByteLocale/i.test(userAgent) || window.location.search.includes('tiktok');
+      const isTikTokApp = /TikTok|ByteLocale|musical_ly/i.test(userAgent) || window.location.search.includes('tiktok');
 
       if (isTikTokApp) {
         const ttModal = document.getElementById('tt-modal');

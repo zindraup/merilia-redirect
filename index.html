@@ -1,15 +1,17 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta name="description" content="Merilia — Envie. Disponible maintenant sur toutes les plateformes.">
   <meta name="theme-color" content="#060608">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <title>Merilia - Envie | Écouter maintenant</title>
+  <title>MERILIA - Envie | Écouter maintenant</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+    rel="stylesheet">
   <style>
     /* ============================================
        🎨 DESIGN TOKENS — Silver / Chrome palette
@@ -17,30 +19,43 @@
     :root {
       --bg: #060608;
       --bg2: #0e0e12;
-      --card-border: rgba(255,255,255,0.07);
+      --card-border: rgba(255, 255, 255, 0.07);
 
       /* Silver text hierarchy */
       --t1: #ffffff;
-      --t2: rgba(240,240,248,0.7);
-      --t3: rgba(220,220,230,0.45);
+      --t2: rgba(240, 240, 248, 0.7);
+      --t3: rgba(220, 220, 230, 0.45);
 
       /* Chrome / Silver accent */
       --silver: #d0d0dc;
       --silver-light: #e2e2ee;
       --silver-bright: #eeeef4;
-      --silver-dim: rgba(192,192,204,0.1);
-      --silver-glow: rgba(192,192,204,0.2);
+      --silver-dim: rgba(192, 192, 204, 0.1);
+      --silver-glow: rgba(192, 192, 204, 0.2);
 
       --font: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-      --ease: cubic-bezier(0.16,1,0.3,1);
-      --spring: cubic-bezier(0.34,1.56,0.64,1);
+      --ease: cubic-bezier(0.16, 1, 0.3, 1);
+      --spring: cubic-bezier(0.34, 1.56, 0.64, 1);
     }
 
     /* ============================================
        RESET
        ============================================ */
-    *,*::before,*::after { margin:0; padding:0; box-sizing:border-box }
-    html, body { height:100%; overflow-x:hidden; background: var(--bg); }
+    *,
+    *::before,
+    *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box
+    }
+
+    html,
+    body {
+      height: 100%;
+      overflow-x: hidden;
+      background: var(--bg);
+    }
+
     body {
       font-family: var(--font);
       color: var(--t1);
@@ -72,8 +87,8 @@
       z-index: 1;
       pointer-events: none;
       background:
-        radial-gradient(ellipse at center, rgba(6,6,8,0.2) 0%, rgba(6,6,8,0.8) 80%),
-        linear-gradient(180deg, rgba(6,6,8,0.1) 0%, rgba(6,6,8,0.6) 100%);
+        radial-gradient(ellipse at center, rgba(6, 6, 8, 0.2) 0%, rgba(6, 6, 8, 0.8) 80%),
+        linear-gradient(180deg, rgba(6, 6, 8, 0.1) 0%, rgba(6, 6, 8, 0.6) 100%);
     }
 
     .bg-noise {
@@ -102,8 +117,15 @@
     }
 
     @keyframes fadeUp {
-      from { opacity:0; transform:translateY(30px) }
-      to   { opacity:1; transform:translateY(0) }
+      from {
+        opacity: 0;
+        transform: translateY(30px)
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0)
+      }
     }
 
     /* ============================================
@@ -118,7 +140,7 @@
       background-size: 200% 200%;
       animation: chromeShift 6s ease-in-out infinite;
       margin-bottom: 28px;
-      box-shadow: 0 0 40px rgba(200,200,220,0.15), 0 10px 30px rgba(0,0,0,0.5);
+      box-shadow: 0 0 40px rgba(200, 200, 220, 0.15), 0 10px 30px rgba(0, 0, 0, 0.5);
     }
 
     .cover-circle img {
@@ -142,12 +164,19 @@
       background-clip: text;
       animation: chromeShift 10s ease-in-out infinite;
       margin-bottom: 8px;
-      filter: drop-shadow(0 0 15px rgba(255,255,255,0.1));
+      filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.1));
     }
 
     @keyframes chromeShift {
-      0%, 100% { background-position: 0% 50% }
-      50%      { background-position: 100% 50% }
+
+      0%,
+      100% {
+        background-position: 0% 50%
+      }
+
+      50% {
+        background-position: 100% 50%
+      }
     }
 
     .track-title {
@@ -264,24 +293,59 @@
       border-color: #fff;
       background: rgba(255, 255, 255, 0.1);
     }
-    
+
     .platform-item.success::after {
       content: '✓';
       color: #fff;
     }
 
     /* Specific Platform Colors */
-    .platform-item[data-platform="spotify"] .platform-icon { fill: #1DB954; }
-    .platform-item[data-platform="apple"] .platform-icon { fill: none; stroke: #fff; color: #fff; }
-    .platform-item[data-platform="apple"] .platform-icon svg { transform: translateX(-1.5px); }
-    .platform-item[data-platform="apple"].success .platform-icon { stroke: var(--bg) !important; color: var(--bg) !important; }
-    .platform-item[data-platform="youtube"] .platform-icon { fill: #FF0000; }
-    .platform-item[data-platform="deezer"] .platform-icon { fill: #EF5464; }
-    .platform-item[data-platform="tidal"] .platform-icon { fill: #ffffff; }
-    .platform-item[data-platform="qobuz"] .platform-icon { fill: #ffffff; }
-    .platform-item[data-platform="amazon"] .platform-icon { fill: transparent; }
-    .platform-item[data-platform="amazon"] .platform-icon img { filter: none; }
-    .platform-item[data-platform="amazon"].success .platform-icon img { filter: brightness(0); }
+    .platform-item[data-platform="spotify"] .platform-icon {
+      fill: #1DB954;
+    }
+
+    .platform-item[data-platform="apple"] .platform-icon {
+      fill: none;
+      stroke: #fff;
+      color: #fff;
+    }
+
+    .platform-item[data-platform="apple"] .platform-icon svg {
+      transform: translateX(-1.5px);
+    }
+
+    .platform-item[data-platform="apple"].success .platform-icon {
+      stroke: var(--bg) !important;
+      color: var(--bg) !important;
+    }
+
+    .platform-item[data-platform="youtube"] .platform-icon {
+      fill: #FF0000;
+    }
+
+    .platform-item[data-platform="deezer"] .platform-icon {
+      fill: #EF5464;
+    }
+
+    .platform-item[data-platform="tidal"] .platform-icon {
+      fill: #ffffff;
+    }
+
+    .platform-item[data-platform="qobuz"] .platform-icon {
+      fill: #ffffff;
+    }
+
+    .platform-item[data-platform="amazon"] .platform-icon {
+      fill: transparent;
+    }
+
+    .platform-item[data-platform="amazon"] .platform-icon img {
+      filter: none;
+    }
+
+    .platform-item[data-platform="amazon"].success .platform-icon img {
+      filter: brightness(0);
+    }
 
     /* Others Button */
     .btn-others {
@@ -299,6 +363,7 @@
       text-transform: uppercase;
       letter-spacing: 0.1em;
     }
+
     .btn-others:hover {
       background: rgba(255, 255, 255, 0.03);
       border-color: var(--t3);
@@ -331,6 +396,7 @@
       transition: all 0.3s var(--ease);
       opacity: 0.6;
     }
+
     .social-link:hover {
       opacity: 1;
       transform: translateY(-3px);
@@ -344,8 +410,13 @@
     }
 
     /* Icons Color Overrides */
-    .platform-item[data-platform="tidal"] .platform-icon { fill: #ffffff; }
-    .platform-item[data-platform="qobuz"] .platform-icon { fill: #ffffff; }
+    .platform-item[data-platform="tidal"] .platform-icon {
+      fill: #ffffff;
+    }
+
+    .platform-item[data-platform="qobuz"] .platform-icon {
+      fill: #ffffff;
+    }
 
     /* ============================================
        📱 TIKTOK IN-APP BROWSER ASSISTANT MODAL
@@ -373,18 +444,21 @@
 
     .tt-modal-card {
       width: 100%;
-      max-width: 400px;
-      background: rgba(14, 14, 18, 0.95);
+      max-width: 420px;
+      background: rgba(14, 14, 18, 0.7);
       border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 24px;
-      padding: 32px 24px;
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), 0 0 30px rgba(255, 255, 255, 0.03);
+      border-radius: 32px;
+      padding: 40px 30px;
+      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.05);
       transform: translateY(30px) scale(0.95);
       transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.4s var(--ease);
       opacity: 0;
       display: flex;
       flex-direction: column;
       position: relative;
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      overflow: hidden;
     }
 
     .tt-modal-ov.active .tt-modal-card {
@@ -392,87 +466,93 @@
       opacity: 1;
     }
 
-    .tt-modal-close {
+    .tt-modal-glow {
       position: absolute;
-      top: 20px;
-      right: 20px;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      color: var(--t2);
-      transition: all 0.2s ease;
-    }
-
-    .tt-modal-close:hover {
-      background: rgba(255, 255, 255, 0.15);
-      color: #fff;
-      transform: scale(1.05);
-    }
-
-    .tt-modal-close svg {
-      width: 14px;
-      height: 14px;
-      fill: currentColor;
+      top: -100px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 200px;
+      height: 200px;
+      background: radial-gradient(circle, rgba(200, 200, 220, 0.15) 0%, rgba(0, 0, 0, 0) 70%);
+      pointer-events: none;
+      z-index: 0;
     }
 
     .tt-modal-title {
-      font-size: clamp(20px, 6vw, 24px);
-      font-weight: 800;
+      font-size: clamp(22px, 6vw, 26px);
+      font-weight: 900;
       text-align: center;
-      margin-bottom: 8px;
+      margin-bottom: 24px;
       background: linear-gradient(135deg, #fff, var(--silver-bright));
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
-      line-height: 1.3;
+      line-height: 1.2;
+      position: relative;
+      z-index: 1;
     }
 
     .tt-modal-subtitle {
-      font-size: 13.5px;
+      font-size: 14px;
       color: var(--t2);
       text-align: center;
-      line-height: 1.5;
-      margin-bottom: 24px;
-      padding: 0 10px;
-    }
-
-    .tt-modal-section {
-      background: rgba(255, 255, 255, 0.02);
-      border: 1px solid rgba(255, 255, 255, 0.05);
-      border-radius: 16px;
-      padding: 16px;
-      margin-bottom: 16px;
-      font-size: 13px;
       line-height: 1.6;
-      color: var(--t2);
-      text-align: left;
+      margin-bottom: 30px;
+      position: relative;
+      z-index: 1;
     }
 
-    .tt-modal-section.spotify {
-      border-left: 3px solid #1DB954;
+    .tt-modal-instruction {
+      font-size: 13.5px;
+      color: rgba(255, 255, 255, 0.9);
+      text-align: center;
+      margin-bottom: 16px;
+      font-weight: 500;
+      line-height: 1.5;
+      position: relative;
+      z-index: 1;
     }
 
-    .tt-modal-section.others {
-      border-left: 3px solid var(--silver);
+    .tt-track-container {
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 20px;
+      padding: 24px;
       display: flex;
       flex-direction: column;
       align-items: center;
+      position: relative;
+      z-index: 1;
+      box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.5);
     }
 
     .tt-track-display {
       display: block;
-      font-size: 18px;
-      font-weight: 800;
+      font-size: 20px;
+      font-weight: 900;
       color: #fff;
-      margin: 14px 0 12px 0;
+      margin-bottom: 20px;
       letter-spacing: 0.05em;
       text-align: center;
+      background: linear-gradient(90deg, var(--silver-bright), #fff, var(--silver-bright));
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: chromeShift 5s linear infinite;
+    }
+
+    @keyframes pulseGreen {
+      0% {
+        box-shadow: 0 0 15px rgba(29, 185, 84, 0.4);
+      }
+
+      50% {
+        box-shadow: 0 0 30px rgba(29, 185, 84, 0.8);
+      }
+
+      100% {
+        box-shadow: 0 0 15px rgba(29, 185, 84, 0.4);
+      }
     }
 
     /* Copy Button Styling */
@@ -480,44 +560,44 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
+      gap: 10px;
       width: 100%;
-      max-width: 240px;
-      padding: 14px 20px;
+      padding: 18px 24px;
       border-radius: 50px;
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      background: rgba(255, 255, 255, 0.05);
-      color: var(--silver-bright);
+      border: none;
+      background: linear-gradient(135deg, #1ed760, #1DB954);
+      color: #000;
       font-family: var(--font);
-      font-size: 12px;
-      font-weight: 700;
+      font-size: 15px;
+      font-weight: 900;
       letter-spacing: 0.05em;
       text-transform: uppercase;
       cursor: pointer;
       transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      box-shadow: 0 10px 30px rgba(29, 185, 84, 0.4), inset 0 2px 0 rgba(255, 255, 255, 0.3);
+      animation: pulseGreen 2s infinite;
     }
 
     .tt-copy-btn:hover {
-      background: rgba(255, 255, 255, 0.1);
-      border-color: rgba(255, 255, 255, 0.3);
-      transform: translateY(-2px);
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 15px 40px rgba(29, 185, 84, 0.6), inset 0 2px 0 rgba(255, 255, 255, 0.5);
+      background: linear-gradient(135deg, #1fdf64, #1ed760);
     }
 
     .tt-copy-btn:active {
-      transform: translateY(0);
+      transform: translateY(1px) scale(0.98);
     }
 
     .tt-copy-btn.copied {
-      background: #1cb954 !important;
-      border-color: #1cb954 !important;
-      color: #000 !important;
-      box-shadow: 0 0 20px rgba(28, 185, 84, 0.4);
+      animation: none;
+      background: #fff !important;
+      color: #1DB954 !important;
+      box-shadow: 0 10px 30px rgba(255, 255, 255, 0.4) !important;
     }
 
     .tt-copy-btn svg {
-      width: 15px;
-      height: 15px;
+      width: 18px;
+      height: 18px;
       fill: currentColor;
     }
 
@@ -539,9 +619,9 @@
     .tt-modal-footer-btn:hover {
       color: var(--t1);
     }
-
   </style>
 </head>
+
 <body>
 
   <div class="bg-cover"></div>
@@ -563,7 +643,10 @@
       <div class="platform-item" data-platform="spotify" id="btn-spotify" style="display:none;">
         <div class="platform-icon-box">
           <div class="platform-icon">
-            <svg viewBox="0 0 24 24"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.503 17.306c-.215.353-.674.464-1.027.249-2.863-1.748-6.467-2.144-10.712-1.173-.404.092-.81-.157-.903-.561-.092-.403.157-.809.561-.902 4.646-1.063 8.625-.615 11.832 1.34.353.215.464.674.249 1.027zm1.468-3.259c-.27.44-.847.579-1.287.308-3.277-2.014-8.273-2.597-12.149-1.42-.497.151-1.024-.131-1.174-.627-.151-.497.131-1.024.627-1.174 4.429-1.344 9.94-.693 13.676 1.605.44.271.579.848.308 1.288zm.139-3.391c-3.931-2.333-10.428-2.55-14.218-1.4c-.603.183-1.246-.168-1.429-.771-.183-.603.168-1.246.771-1.429 4.343-1.32 11.523-1.054 16.002 1.604.542.321.721 1.024.399 1.565-.321.543-1.024.722-1.565.401-.001 0-.001 0-.001 0z"/></svg>
+            <svg viewBox="0 0 24 24">
+              <path
+                d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.503 17.306c-.215.353-.674.464-1.027.249-2.863-1.748-6.467-2.144-10.712-1.173-.404.092-.81-.157-.903-.561-.092-.403.157-.809.561-.902 4.646-1.063 8.625-.615 11.832 1.34.353.215.464.674.249 1.027zm1.468-3.259c-.27.44-.847.579-1.287.308-3.277-2.014-8.273-2.597-12.149-1.42-.497.151-1.024-.131-1.174-.627-.151-.497.131-1.024.627-1.174 4.429-1.344 9.94-.693 13.676 1.605.44.271.579.848.308 1.288zm.139-3.391c-3.931-2.333-10.428-2.55-14.218-1.4c-.603.183-1.246-.168-1.429-.771-.183-.603.168-1.246.771-1.429 4.343-1.32 11.523-1.054 16.002 1.604.542.321.721 1.024.399 1.565-.321.543-1.024.722-1.565.401-.001 0-.001 0-.001 0z" />
+            </svg>
           </div>
         </div>
         <div class="platform-name">Spotify</div>
@@ -573,7 +656,10 @@
       <div class="platform-item" data-platform="youtube" id="btn-youtube" style="display:none;">
         <div class="platform-icon-box">
           <div class="platform-icon">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/></svg>
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path
+                d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z" />
+            </svg>
           </div>
         </div>
         <div class="platform-name">YouTube</div>
@@ -583,7 +669,10 @@
       <div class="platform-item" data-platform="deezer" id="btn-deezer" style="display:none;">
         <div class="platform-icon-box">
           <div class="platform-icon">
-            <svg viewBox="0 0 24 24"><path d="M19.125 15.656h4.875v3.469h-4.875v-3.469zm-6.375 0h4.875v3.469h-4.875v-3.469zm-6.375 0h4.875v3.469h-4.875v-3.469zm-6.375 0h4.875v3.469h-4.875v-3.469zm19.125-5.25h4.875v3.469h-4.875v-3.469zm-6.375 0h4.875v3.469h-4.875v-3.469zm-6.375 0h4.875v3.469h-4.875v-3.469zm-6.375 0h4.875v3.469h-4.875v-3.469zm19.125-5.25h4.875v3.469h-4.875v-3.469zm-6.375 0h4.875v3.469h-4.875v-3.469zm-6.375 10.5h4.875v3.469h-4.875v-3.469zm0-15.75h4.875v3.469h-4.875v-3.469zm-6.375 10.5h4.875v3.469h-4.875v-3.469z"/></svg>
+            <svg viewBox="0 0 24 24">
+              <path
+                d="M19.125 15.656h4.875v3.469h-4.875v-3.469zm-6.375 0h4.875v3.469h-4.875v-3.469zm-6.375 0h4.875v3.469h-4.875v-3.469zm-6.375 0h4.875v3.469h-4.875v-3.469zm19.125-5.25h4.875v3.469h-4.875v-3.469zm-6.375 0h4.875v3.469h-4.875v-3.469zm-6.375 0h4.875v3.469h-4.875v-3.469zm-6.375 0h4.875v3.469h-4.875v-3.469zm19.125-5.25h4.875v3.469h-4.875v-3.469zm-6.375 0h4.875v3.469h-4.875v-3.469zm-6.375 10.5h4.875v3.469h-4.875v-3.469zm0-15.75h4.875v3.469h-4.875v-3.469zm-6.375 10.5h4.875v3.469h-4.875v-3.469z" />
+            </svg>
           </div>
         </div>
         <div class="platform-name">Deezer</div>
@@ -593,7 +682,8 @@
       <div class="platform-item" data-platform="amazon" id="btn-amazon" style="display:none;">
         <div class="platform-icon-box">
           <div class="platform-icon" style="padding: 2px;">
-            <img src="https://img.icons8.com/?size=512&id=lxwUaALAeQmr&format=png" alt="Amazon Music" style="width:100%; height:100%; object-fit:contain;">
+            <img src="https://img.icons8.com/?size=512&id=lxwUaALAeQmr&format=png" alt="Amazon Music"
+              style="width:100%; height:100%; object-fit:contain;">
           </div>
         </div>
         <div class="platform-name">Amazon Music</div>
@@ -603,7 +693,12 @@
       <div class="platform-item" data-platform="apple" id="btn-apple" style="display:none;">
         <div class="platform-icon-box">
           <div class="platform-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+              stroke-linejoin="round">
+              <path d="M9 18V5l12-2v13"></path>
+              <circle cx="6" cy="18" r="3"></circle>
+              <circle cx="18" cy="16" r="3"></circle>
+            </svg>
           </div>
         </div>
         <div class="platform-name">Apple Music</div>
@@ -613,7 +708,10 @@
       <div class="platform-item" data-platform="tidal" id="btn-tidal" style="display:none;">
         <div class="platform-icon-box">
           <div class="platform-icon">
-            <svg viewBox="0 0 24 24"><path d="M12.012 3.992L8.008 7.996 4.004 3.992 0 7.996 4.004 12l4.004-4.004L12.012 12l-4.004 4.004 4.004 4.004 4.004-4.004L12.012 12l4.004-4.004-4.004-4.004zM16.042 7.996l3.979-3.979L24 7.996l-3.979 3.979z"/></svg>
+            <svg viewBox="0 0 24 24">
+              <path
+                d="M12.012 3.992L8.008 7.996 4.004 3.992 0 7.996 4.004 12l4.004-4.004L12.012 12l-4.004 4.004 4.004 4.004 4.004-4.004L12.012 12l4.004-4.004-4.004-4.004zM16.042 7.996l3.979-3.979L24 7.996l-3.979 3.979z" />
+            </svg>
           </div>
         </div>
         <div class="platform-name">Tidal</div>
@@ -623,7 +721,10 @@
       <div class="platform-item" data-platform="qobuz" id="btn-qobuz" style="display:none;">
         <div class="platform-icon-box">
           <div class="platform-icon">
-            <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 14c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4zm0-6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/></svg>
+            <svg viewBox="0 0 24 24">
+              <path
+                d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 14c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4zm0-6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z" />
+            </svg>
           </div>
         </div>
         <div class="platform-name">Qobuz</div>
@@ -635,10 +736,16 @@
     <footer class="footer">
       <div class="social-links">
         <a href="https://instagram.com/merilia_dnb" class="social-link" target="_blank" aria-label="Instagram">
-          <svg class="social-icon" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+          <svg class="social-icon" viewBox="0 0 24 24">
+            <path
+              d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z" />
+          </svg>
         </a>
         <a href="https://tiktok.com/@merilia_dnb" class="social-link" target="_blank" aria-label="TikTok">
-          <svg class="social-icon" viewBox="0 0 24 24"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.9-.32-1.98-.23-2.81.36-.54.38-.89.98-1.03 1.64-.14.65-.01 1.34.33 1.91.43.72 1.21 1.2 2.04 1.24.89.07 1.83-.23 2.45-.88.6-.61.85-1.48.83-2.33-.03-4.75-.01-9.51-.02-14.26z"/></svg>
+          <svg class="social-icon" viewBox="0 0 24 24">
+            <path
+              d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.9-.32-1.98-.23-2.81.36-.54.38-.89.98-1.03 1.64-.14.65-.01 1.34.33 1.91.43.72 1.21 1.2 2.04 1.24.89.07 1.83-.23 2.45-.88.6-.61.85-1.48.83-2.33-.03-4.75-.01-9.51-.02-14.26z" />
+          </svg>
         </a>
       </div>
     </footer>
@@ -649,27 +756,28 @@
        ============================================ -->
   <div class="tt-modal-ov" id="tt-modal" role="dialog" aria-hidden="true">
     <div class="tt-modal-card">
-      <button class="tt-modal-close" id="tt-modal-close" aria-label="Fermer">
-        <svg viewBox="0 0 24 24">
-          <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
-        </svg>
-      </button>
-      
-      <h2 class="tt-modal-title">Prêt(e) à écouter <span id="tt-track-name-title">'Envie'</span> ? 🎧</h2>
-      <p class="tt-modal-subtitle">
-        Bon, c'est pas parfait mais c'est la faute de TikTok ! Il bloque l'ouverture des applis de musique. C'est l'occasion rêvée pour sortir de cette appli du diable et découvrir un super morceau. ✨</p>
+      <div class="tt-modal-glow"></div>
 
-      <div class="tt-modal-section others">
-        <span>🎵 T'as juste à ouvrir ton application préférée (Spotify, Youtube...) et à coller le titre :</span>
+      <h2 class="tt-modal-title">Prêt à écouter <span id="tt-track-name-title">'Envie'</span> ? ✨</h2>
+      <p class="tt-modal-subtitle">
+        TikTok bloque l'ouverture des applis de musique. C'est l'occasion de sortir de l'application du
+        diable et de découvrir un super morceau. 🫂
+      </p>
+
+      <div class="tt-modal-instruction">
+        T'as juste à coller le titre dans ton appli de musique préférée (Spotify, Youtube...) :
+      </div>
+
+      <div class="tt-track-container">
         <strong class="tt-track-display" id="tt-track-display">MERILIA - Envie</strong>
         <button class="tt-copy-btn" id="tt-copy-btn" type="button">
           <svg viewBox="0 0 24 24">
-            <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
+            <path
+              d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z" />
           </svg>
-          <span id="tt-copy-text">Copier le nom</span>
+          <span id="tt-copy-text">Copier le titre</span>
         </button>
       </div>
-
     </div>
   </div>
 
@@ -691,7 +799,7 @@
         if (url && url.trim() !== "") {
           btn.dataset.url = url;
           btn.style.display = 'flex';
-          
+
           // Entrance animation
           btn.style.opacity = '0';
           btn.style.transform = 'translateY(20px)';
@@ -705,13 +813,13 @@
 
           // Interaction
           btn.addEventListener('click', () => triggerPlatformAction(btn));
-          
+
           // Swipe detection
           let startX = 0;
-          btn.addEventListener('touchstart', e => startX = e.touches[0].clientX, {passive:true});
+          btn.addEventListener('touchstart', e => startX = e.touches[0].clientX, { passive: true });
           btn.addEventListener('touchmove', e => {
             if (e.touches[0].clientX - startX > 70) triggerPlatformAction(btn);
-          }, {passive:true});
+          }, { passive: true });
         } else {
           btn.style.display = 'none';
         }
@@ -719,15 +827,15 @@
 
       function triggerPlatformAction(item) {
         if (item.classList.contains('success')) return;
-        
+
         const platform = item.dataset.platform;
         let url = item.dataset.url;
-        
+
         // --- LOGIQUE DE REDIRECTION SPÉCIFIQUE ---
         // Détection de l'OS et de l'environnement (TikTok/Insta)
         const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
         const isTikTok = /TikTok/i.test(navigator.userAgent);
-        
+
         if (platform === 'spotify' && isIOS && CONFIG.links.spotify_ios) {
           url = CONFIG.links.spotify_ios;
         }
@@ -757,33 +865,19 @@
 
       if (isTikTokApp) {
         const ttModal = document.getElementById('tt-modal');
-        const ttModalClose = document.getElementById('tt-modal-close');
         const ttCopyBtn = document.getElementById('tt-copy-btn');
         const ttCopyText = document.getElementById('tt-copy-text');
- 
-         // Configurer dynamiquement le nom du morceau depuis config.js
-         const fullTrackTitle = `${CONFIG.artist} - ${CONFIG.title}`;
-         document.getElementById('tt-track-name-title').textContent = `'${CONFIG.title}'`;
-         document.getElementById('tt-track-display').textContent = fullTrackTitle;
- 
-         // Entrée en scène en douceur après un court délai
-         setTimeout(() => {
-           ttModal.classList.add('active');
-           ttModal.setAttribute('aria-hidden', 'false');
-         }, 800);
- 
-         // Fermeture de la modale
-         const closeTikTokModal = () => {
-           ttModal.classList.remove('active');
-           ttModal.setAttribute('aria-hidden', 'true');
-         };
- 
-         ttModalClose.addEventListener('click', closeTikTokModal);
-         ttModal.addEventListener('click', (e) => {
-           if (e.target === ttModal) {
-             closeTikTokModal();
-           }
-         });
+
+        // Configurer dynamiquement le nom du morceau depuis config.js
+        const fullTrackTitle = `${CONFIG.artist.toUpperCase()} - ${CONFIG.title}`;
+        document.getElementById('tt-track-name-title').textContent = `'${CONFIG.title}'`;
+        document.getElementById('tt-track-display').textContent = fullTrackTitle;
+
+        // Entrée en scène en douceur après un court délai
+        setTimeout(() => {
+          ttModal.classList.add('active');
+          ttModal.setAttribute('aria-hidden', 'false');
+        }, 800);
 
         // Copie intelligente avec presse-papier et retour visuel
         ttCopyBtn.addEventListener('click', () => {
@@ -794,7 +888,7 @@
             // Fallback pour les Webviews restreintes de TikTok / iOS
             const textArea = document.createElement("textarea");
             textArea.value = fullTrackTitle;
-            textArea.style.position = "fixed"; 
+            textArea.style.position = "fixed";
             textArea.style.opacity = "0";
             document.body.appendChild(textArea);
             textArea.focus();
@@ -812,20 +906,44 @@
         function triggerCopyFeedback() {
           ttCopyBtn.classList.add('copied');
           ttCopyText.textContent = "Copié ! ✅";
-          
+
           // Micro-vibration si supportée
           if (window.navigator.vibrate) {
             window.navigator.vibrate([40, 40]);
           }
 
-          // Rétablir après 3 secondes
+          // Wait 1.5 seconds, then permanently switch the modal state
           setTimeout(() => {
-            ttCopyBtn.classList.remove('copied');
-            ttCopyText.textContent = "Copier le titre";
-          }, 3000);
+            const modalTitle = document.querySelector('.tt-modal-title');
+            const modalSubtitle = document.querySelector('.tt-modal-subtitle');
+            const modalInstruction = document.querySelector('.tt-modal-instruction');
+            const trackContainer = document.querySelector('.tt-track-container');
+
+            // Fade out animations for smooth transition
+            modalTitle.style.transition = 'opacity 0.1s';
+            trackContainer.style.transition = 'opacity 0.1s';
+            modalTitle.style.opacity = '0';
+            trackContainer.style.opacity = '0';
+
+            setTimeout(() => {
+              // Hide elements entirely
+              modalTitle.style.display = 'none';
+              trackContainer.style.display = 'none';
+
+              // Inject new state
+              modalSubtitle.innerHTML = "<strong style='font-size: 16px; display: block; margin-bottom: 10px; color: #1ed760;'>Merci ! Ouvre ton appli de musique préférée et colle le titre dans la barre de recherche.</strong>";
+              modalInstruction.innerHTML = "Tu as le pouvoir de <strong style='color: #fff;'>changer la vie d'une petite artiste</strong>.<br><br>Merci du fond du cœur ! ❤️";
+
+              // Refine layout
+              modalSubtitle.style.marginTop = '20px';
+              modalSubtitle.style.animation = 'fadeUp 0.1s ease both';
+              modalInstruction.style.animation = 'fadeUp 0.1s ease both 0.1s';
+            }, 300);
+          }, 300);
         }
       }
     });
   </script>
 </body>
+
 </html>

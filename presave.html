@@ -1,15 +1,18 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <meta name="description" content="Merilia — Envie. Nouveau single disponible le 1er mai. Reçois le rappel en avant-première.">
+  <meta name="description"
+    content="Merilia — Envie. Nouveau single disponible le 1er mai. Reçois le rappel en avant-première.">
   <meta name="theme-color" content="#060608">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <title>Merilia - Envie | Sortie le 1er mai</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+    rel="stylesheet">
   <style>
     /* ============================================
        🎨 DESIGN TOKENS — Silver / Chrome palette
@@ -17,30 +20,43 @@
     :root {
       --bg: #060608;
       --bg2: #0e0e12;
-      --card-border: rgba(255,255,255,0.07);
+      --card-border: rgba(255, 255, 255, 0.07);
 
       /* Silver text hierarchy — bright for readability */
       --t1: #ffffff;
-      --t2: rgba(240,240,248,0.7);
-      --t3: rgba(220,220,230,0.45);
+      --t2: rgba(240, 240, 248, 0.7);
+      --t3: rgba(220, 220, 230, 0.45);
 
       /* Chrome / Silver accent */
       --silver: #d0d0dc;
       --silver-light: #e2e2ee;
       --silver-bright: #eeeef4;
-      --silver-dim: rgba(192,192,204,0.1);
-      --silver-glow: rgba(192,192,204,0.2);
+      --silver-dim: rgba(192, 192, 204, 0.1);
+      --silver-glow: rgba(192, 192, 204, 0.2);
 
       --font: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-      --ease: cubic-bezier(0.16,1,0.3,1);
-      --spring: cubic-bezier(0.34,1.56,0.64,1);
+      --ease: cubic-bezier(0.16, 1, 0.3, 1);
+      --spring: cubic-bezier(0.34, 1.56, 0.64, 1);
     }
 
     /* ============================================
        RESET
        ============================================ */
-    *,*::before,*::after { margin:0; padding:0; box-sizing:border-box }
-    html, body { height:100%; overflow-x:hidden; overflow-y:auto; }
+    *,
+    *::before,
+    *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box
+    }
+
+    html,
+    body {
+      height: 100%;
+      overflow-x: hidden;
+      overflow-y: auto;
+    }
+
     body {
       font-family: var(--font);
       background: var(--bg);
@@ -61,7 +77,8 @@
       z-index: 0;
       background: url('cover.jpg') center center / cover no-repeat;
       filter: blur(10px) saturate(1) brightness(1);
-      transform: scale(1.05) translateZ(0); /* GPU acceleration */
+      transform: scale(1.05) translateZ(0);
+      /* GPU acceleration */
       opacity: 1;
       pointer-events: none;
       will-change: transform;
@@ -74,8 +91,8 @@
       z-index: 1;
       pointer-events: none;
       background:
-        radial-gradient(ellipse at center, rgba(6,6,8,0.3) 0%, rgba(6,6,8,0.7) 80%),
-        linear-gradient(180deg, rgba(6,6,8,0.2) 0%, rgba(6,6,8,0.5) 100%);
+        radial-gradient(ellipse at center, rgba(6, 6, 8, 0.3) 0%, rgba(6, 6, 8, 0.7) 80%),
+        linear-gradient(180deg, rgba(6, 6, 8, 0.2) 0%, rgba(6, 6, 8, 0.5) 100%);
     }
 
     /* Subtle noise texture for depth */
@@ -106,12 +123,27 @@
     }
 
     @keyframes fadeUp {
-      from { opacity:0; transform:translateY(24px) }
-      to   { opacity:1; transform:translateY(0) }
+      from {
+        opacity: 0;
+        transform: translateY(24px)
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0)
+      }
     }
+
     @keyframes fadeIn {
-      from { opacity:0; transform:translateY(10px) }
-      to   { opacity:1; transform:translateY(0) }
+      from {
+        opacity: 0;
+        transform: translateY(10px)
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0)
+      }
     }
 
     /* ============================================
@@ -127,8 +159,8 @@
       animation: fadeIn .8s .1s both, chromeShift 5s ease-in-out infinite;
       margin-bottom: 24px;
       box-shadow:
-        0 0 24px rgba(200,200,220,0.1),
-        0 4px 20px rgba(0,0,0,0.4);
+        0 0 24px rgba(200, 200, 220, 0.1),
+        0 4px 20px rgba(0, 0, 0, 0.4);
     }
 
     .cover-circle img {
@@ -149,28 +181,33 @@
       letter-spacing: 0.1em;
       text-transform: uppercase;
       line-height: 1;
-      background: linear-gradient(
-        135deg,
-        #888 0%,
-        var(--silver-bright) 25%,
-        #fff 50%,
-        var(--silver-bright) 75%,
-        #888 100%
-      );
+      background: linear-gradient(135deg,
+          #888 0%,
+          var(--silver-bright) 25%,
+          #fff 50%,
+          var(--silver-bright) 75%,
+          #888 100%);
       background-size: 200% 200%;
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
       animation: fadeIn .8s .2s both, chromeShift 8s ease-in-out infinite;
       margin-bottom: 6px;
-      filter: drop-shadow(0 0 20px rgba(255,255,255,0.08));
+      filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.08));
       will-change: background-position;
       transform: translateZ(0);
     }
 
     @keyframes chromeShift {
-      0%, 100% { background-position: 0% 50% }
-      50%      { background-position: 100% 50% }
+
+      0%,
+      100% {
+        background-position: 0% 50%
+      }
+
+      50% {
+        background-position: 100% 50%
+      }
     }
 
     /* ============================================
@@ -235,8 +272,8 @@
       position: relative;
       width: clamp(60px, 16.5vw, 74px);
       height: clamp(70px, 19.5vw, 86px);
-      background: rgba(255,255,255,0.02);
-      border: 1px solid rgba(255,255,255,0.05);
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.05);
       border-radius: 14px;
       display: flex;
       align-items: center;
@@ -248,9 +285,11 @@
     .cd-box::before {
       content: '';
       position: absolute;
-      top: 0; left: 0; right: 0;
+      top: 0;
+      left: 0;
+      right: 0;
       height: 50%;
-      background: linear-gradient(180deg, rgba(255,255,255,0.03) 0%, transparent 100%);
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.03) 0%, transparent 100%);
       pointer-events: none;
     }
 
@@ -268,8 +307,15 @@
     }
 
     @keyframes digitTick {
-      0%   { transform: scale(1.12); opacity:.5 }
-      100% { transform: scale(1);    opacity:1 }
+      0% {
+        transform: scale(1.12);
+        opacity: .5
+      }
+
+      100% {
+        transform: scale(1);
+        opacity: 1
+      }
     }
 
     .cd-label {
@@ -290,8 +336,15 @@
     }
 
     @keyframes sepPulse {
-      0%, 100% { opacity:.3 }
-      50%      { opacity:.12 }
+
+      0%,
+      100% {
+        opacity: .3
+      }
+
+      50% {
+        opacity: .12
+      }
     }
 
     /* OUT NOW state */
@@ -309,8 +362,15 @@
     }
 
     @keyframes scaleIn {
-      from { opacity:0; transform:scale(.8) }
-      to   { opacity:1; transform:scale(1) }
+      from {
+        opacity: 0;
+        transform: scale(.8)
+      }
+
+      to {
+        opacity: 1;
+        transform: scale(1)
+      }
     }
 
     /* (subtext removed) */
@@ -350,8 +410,8 @@
       user-select: none;
       touch-action: manipulation;
       box-shadow:
-        0 4px 24px rgba(0,0,0,0.5),
-        inset 0 1px 0 rgba(255,255,255,0.4);
+        0 4px 24px rgba(0, 0, 0, 0.5),
+        inset 0 1px 0 rgba(255, 255, 255, 0.4);
       animation: chromeBtn 6s ease-in-out infinite;
       transform: translateZ(0);
       will-change: transform;
@@ -359,9 +419,17 @@
 
     /* Liquid chrome effect — smoother transitions */
     @keyframes chromeBtn {
-      0%   { background-position: 0% 50%; }
-      50%  { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
+      0% {
+        background-position: 0% 50%;
+      }
+
+      50% {
+        background-position: 100% 50%;
+      }
+
+      100% {
+        background-position: 0% 50%;
+      }
     }
 
     /* (ctaPulse removed for performance) */
@@ -374,14 +442,19 @@
       left: -100%;
       width: 50%;
       height: 100%;
-      background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.4) 50%, transparent 100%);
+      background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.4) 50%, transparent 100%);
       animation: shimmer 2.5s linear infinite;
     }
 
     /* Continuous shimmer sweep — removed pauses for smoothness */
     @keyframes shimmer {
-      0%   { left: -120%; }
-      100% { left: 150%; }
+      0% {
+        left: -120%;
+      }
+
+      100% {
+        left: 150%;
+      }
     }
 
     /* Outer silver glow — always slightly visible */
@@ -401,30 +474,53 @@
 
     /* Ultra-smooth breathing glow using GPU-accelerated properties */
     @keyframes glowBreath {
-      0%, 100% { opacity: 0.08; transform: scale(1.0); }
-      50%      { opacity: 0.25; transform: scale(1.08); }
+
+      0%,
+      100% {
+        opacity: 0.08;
+        transform: scale(1.0);
+      }
+
+      50% {
+        opacity: 0.25;
+        transform: scale(1.08);
+      }
     }
 
-    .cta-btn:hover::after { opacity: .6; animation: none }
+    .cta-btn:hover::after {
+      opacity: .6;
+      animation: none
+    }
+
     .cta-btn:hover {
       transform: translateY(-3px) scale(1.02);
       box-shadow:
-        0 0 40px rgba(220,220,235,0.3),
-        0 8px 40px rgba(0,0,0,0.5),
-        inset 0 1px 0 rgba(255,255,255,0.5);
+        0 0 40px rgba(220, 220, 235, 0.3),
+        0 8px 40px rgba(0, 0, 0, 0.5),
+        inset 0 1px 0 rgba(255, 255, 255, 0.5);
     }
-    .cta-btn:active { transform: translateY(0) scale(.96); transition-duration:.1s }
+
+    .cta-btn:active {
+      transform: translateY(0) scale(.96);
+      transition-duration: .1s
+    }
 
     /* Ripple */
     .ripple {
       position: absolute;
       border-radius: 50%;
-      background: rgba(255,255,255,0.4);
+      background: rgba(255, 255, 255, 0.4);
       transform: scale(0);
       animation: ripAnim .6s ease-out forwards;
       pointer-events: none;
     }
-    @keyframes ripAnim { to { transform:scale(4); opacity:0 } }
+
+    @keyframes ripAnim {
+      to {
+        transform: scale(4);
+        opacity: 0
+      }
+    }
 
     /* ============================================
        MODAL
@@ -434,15 +530,16 @@
       inset: 0;
       z-index: 100;
       display: flex;
-      align-items: center; /* Center vertically for everyone */
+      align-items: center;
+      /* Center vertically for everyone */
       justify-content: center;
-      background: rgba(0,0,0,0);
+      background: rgba(0, 0, 0, 0);
       pointer-events: none;
       transition: background .4s var(--ease);
     }
 
     .modal-ov.active {
-      background: rgba(0,0,0,0.65);
+      background: rgba(0, 0, 0, 0.65);
       pointer-events: auto;
       backdrop-filter: blur(6px);
       -webkit-backdrop-filter: blur(6px);
@@ -461,23 +558,25 @@
       top: 50%;
       left: 50%;
       transition: all .4s var(--ease);
-      box-shadow: 0 20px 60px rgba(0,0,0,0.8);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
       max-height: 90vh;
       overflow-y: auto;
     }
 
-    .modal-ov.active .modal-card { 
+    .modal-ov.active .modal-card {
       transform: translate(-50%, -50%) scale(1);
       opacity: 1;
     }
-    
+
     /* Significant shift up for mobile keyboard (15% extra) */
     .modal-card.keyboard-up {
       transform: translate(-50%, -65%) scale(1) !important;
     }
 
     /* Hidden handle as we are no longer a bottom sheet */
-    .modal-handle { display: none; }
+    .modal-handle {
+      display: none;
+    }
 
     .modal-icon {
       width: 48px;
@@ -507,6 +606,7 @@
       margin-bottom: 24px;
       text-align: center;
     }
+
     .modal-text span {
       display: block;
       white-space: nowrap;
@@ -525,7 +625,9 @@
     }
 
     /* Primary button — (unused now that we have the slider) */
-    .btn-p { display: none; }
+    .btn-p {
+      display: none;
+    }
 
     /* ============================================
        SLIDER "SLIDE TO UNLOCK" — Premium Version
@@ -535,14 +637,14 @@
       width: 100%;
       height: 60px;
       background: rgba(192, 192, 204, 0.25);
-      border: 1px solid rgba(255,255,255,0.15);
+      border: 1px solid rgba(255, 255, 255, 0.15);
       border-radius: 40px;
       padding: 5px;
       overflow: hidden;
       display: flex;
       align-items: center;
       margin-bottom: 12px;
-      box-shadow: inset 0 2px 10px rgba(0,0,0,0.5);
+      box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.5);
       user-select: none;
       transform: translateZ(0);
     }
@@ -551,7 +653,8 @@
       position: absolute;
       width: 100%;
       text-align: center;
-      padding-left: 32px; /* Shifted back slightly to the left */
+      padding-left: 32px;
+      /* Shifted back slightly to the left */
       font-size: 13px;
       font-weight: 600;
       letter-spacing: 0.05em;
@@ -559,7 +662,7 @@
       text-transform: uppercase;
       pointer-events: none;
       z-index: 1;
-      background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.8) 50%, rgba(255,255,255,0) 100%);
+      background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.8) 50%, rgba(255, 255, 255, 0) 100%);
       background-size: 200% 100%;
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
@@ -568,8 +671,13 @@
     }
 
     @keyframes slideShimmer {
-      0% { background-position: 200% 0%; }
-      100% { background-position: -200% 0%; }
+      0% {
+        background-position: 200% 0%;
+      }
+
+      100% {
+        background-position: -200% 0%;
+      }
     }
 
     .slide-handle {
@@ -583,12 +691,15 @@
       align-items: center;
       justify-content: center;
       cursor: grab;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.5);
-      transition: transform 0.1s linear; /* for subtle touch follow */
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.5);
+      transition: transform 0.1s linear;
+      /* for subtle touch follow */
       touch-action: pan-y;
     }
 
-    .slide-handle:active { cursor: grabbing; }
+    .slide-handle:active {
+      cursor: grabbing;
+    }
 
     .slide-handle svg {
       width: 20px;
@@ -604,12 +715,15 @@
     .slide-complete .slide-handle {
       background: #fff;
     }
+
     .slide-complete .slide-text {
       display: none;
     }
 
     /* (Secondary button removed) */
-    .btn-s { display: none; }
+    .btn-s {
+      display: none;
+    }
 
     /* ============================================
        INPUT FIELD — Premium Silver
@@ -618,6 +732,7 @@
       margin-bottom: 24px;
       text-align: left;
     }
+
     .input-label {
       font-size: 11px;
       text-transform: uppercase;
@@ -626,13 +741,15 @@
       margin-bottom: 8px;
       display: block;
     }
+
     .handle-input-wrap {
       position: relative;
       width: 100%;
     }
+
     .handle-input {
       width: 100%;
-      background: rgba(255,255,255,0.03);
+      background: rgba(255, 255, 255, 0.03);
       border: 1px solid var(--card-border);
       border-radius: 12px;
       padding: 16px 16px 16px 36px;
@@ -641,16 +758,21 @@
       font-size: 16px;
       outline: none;
       transition: all 0.3s var(--ease);
-      text-transform: lowercase; /* Visual lowercase */
+      text-transform: lowercase;
+      /* Visual lowercase */
     }
+
     .handle-input::placeholder {
-      color: rgba(255,255,255,0.18); /* 2x plus foncé */
+      color: rgba(255, 255, 255, 0.18);
+      /* 2x plus foncé */
     }
+
     .handle-input:focus {
       border-color: var(--silver-bright);
-      background: rgba(255,255,255,0.06);
+      background: rgba(255, 255, 255, 0.06);
       box-shadow: 0 0 15px var(--silver-glow);
     }
+
     .at-prefix {
       position: absolute;
       left: 16px;
@@ -660,22 +782,25 @@
       font-weight: 600;
       pointer-events: none;
     }
-    
+
     .success-state {
       display: none;
       text-align: center;
       padding: 20px 0;
     }
+
     .success-state h3 {
       font-size: 24px;
       margin-bottom: 12px;
       color: var(--silver-bright);
     }
+
     .success-state p {
       color: var(--t2);
       font-size: 14px;
       line-height: 1.5;
     }
+
     .success-icon {
       width: 60px;
       height: 60px;
@@ -687,6 +812,7 @@
       margin: 0 auto 20px;
       animation: scaleIn .6s var(--spring) both;
     }
+
     .success-icon svg {
       width: 32px;
       height: 32px;
@@ -705,17 +831,27 @@
       margin-top: -12px;
       width: 24px;
       height: 24px;
-      border: 3px solid rgba(255,255,255,0.1);
+      border: 3px solid rgba(255, 255, 255, 0.1);
       border-top-color: var(--silver-bright);
       border-radius: 50%;
       animation: spin 0.8s linear infinite;
       z-index: 2;
     }
+
     @keyframes spin {
-      to { transform: rotate(360deg); }
+      to {
+        transform: rotate(360deg);
+      }
     }
-    .slide-loading .spinner { display: block; }
-    .slide-loading .slide-text { display: none; }
+
+    .slide-loading .spinner {
+      display: block;
+    }
+
+    .slide-loading .slide-text {
+      display: none;
+    }
+
     /* (Redundant desktop media query removed) */
 
     /* Error state for input */
@@ -729,7 +865,8 @@
       margin-top: 24px;
       padding-top: 24px;
       border-top: 1px solid var(--card-border);
-      display: none; /* Shown after success */
+      display: none;
+      /* Shown after success */
     }
 
     .btn-spotify {
@@ -739,8 +876,10 @@
       margin-top: 12px;
       animation: none !important;
     }
-    
-    .btn-spotify::before { animation-duration: 3s !important; }
+
+    .btn-spotify::before {
+      animation-duration: 3s !important;
+    }
 
     .btn-later {
       background: transparent !important;
@@ -752,7 +891,12 @@
       padding: 14px 24px !important;
       animation: none !important;
     }
-    .btn-later::after, .btn-later::before { display: none !important; }
+
+    .btn-later::after,
+    .btn-later::before {
+      display: none !important;
+    }
+
     .btn-later:hover {
       border-color: var(--t2) !important;
       color: var(--t2) !important;
@@ -763,12 +907,13 @@
        ============================================ */
     .option-toggle {
       display: flex;
-      background: rgba(255,255,255,0.04);
+      background: rgba(255, 255, 255, 0.04);
       padding: 4px;
       border-radius: 12px;
       margin-bottom: 24px;
       border: 1px solid var(--card-border);
     }
+
     .option-btn {
       flex: 1;
       padding: 10px;
@@ -784,12 +929,13 @@
       background: transparent;
       font-family: var(--font);
     }
+
     .option-btn.active {
       background: var(--silver-dim);
       color: var(--silver-bright);
-      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
     }
-    
+
     #phone-group {
       display: none;
     }
@@ -798,7 +944,10 @@
        ACCESSIBILITY — Reduced motion
        ============================================ */
     @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after {
+
+      *,
+      *::before,
+      *::after {
         animation-duration: .01ms !important;
         transition-duration: .01ms !important;
       }
@@ -996,9 +1145,9 @@
     .tt-modal-footer-btn:hover {
       color: var(--t1);
     }
-
   </style>
 </head>
+
 <body>
 
   <!-- Background layers -->
@@ -1057,19 +1206,23 @@
     <div class="tt-modal-card">
       <button class="tt-modal-close" id="tt-modal-close" aria-label="Fermer">
         <svg viewBox="0 0 24 24">
-          <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+          <path
+            d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" />
         </svg>
       </button>
-      
+
       <h2 class="tt-modal-title">Prêt(e) à écouter <span id="tt-track-name-title">'Envie'</span> ? 🎧</h2>
-      <p class="tt-modal-subtitle">Oui, c'est un peu la flemme. Mais c'est la faute de TikTok, pas la mienne — il bloque l'ouverture des applis de musique. Profites-en quand même pour quitter cette appli du diable et découvrir un super morceau. 😈</p>
+      <p class="tt-modal-subtitle">Oui, c'est un peu la flemme. Mais c'est la faute de TikTok, pas la mienne — il bloque
+        l'ouverture des applis de musique. Profites-en quand même pour quitter cette appli du diable et découvrir un
+        super morceau. 😈</p>
 
       <div class="tt-modal-section others">
         <span>🎵 Ouvre ton appli préférée et colle le titre. Je te l'ai préparé ici :</span>
         <strong class="tt-track-display" id="tt-track-display">Mérilia - Envie</strong>
         <button class="tt-copy-btn" id="tt-copy-btn" type="button">
           <svg viewBox="0 0 24 24">
-            <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
+            <path
+              d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z" />
           </svg>
           <span id="tt-copy-text">Copier le titre</span>
         </button>
@@ -1082,7 +1235,11 @@
     <div class="modal-card">
       <div class="modal-handle" aria-hidden="true"></div>
       <div class="modal-icon" aria-hidden="true" id="modal-main-icon">
-        <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.2" fill="var(--silver)" stroke="none"/></svg>
+        <svg viewBox="0 0 24 24">
+          <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+          <circle cx="12" cy="12" r="5" />
+          <circle cx="17.5" cy="6.5" r="1.2" fill="var(--silver)" stroke="none" />
+        </svg>
       </div>
       <div id="modal-content">
         <p class="modal-text" id="modal-desc">
@@ -1094,37 +1251,43 @@
           <button type="button" class="option-btn active" id="btn-mode-ig">Instagram</button>
           <button type="button" class="option-btn" id="btn-mode-sms">SMS</button>
         </div>
-        
+
         <div class="input-group" id="ig-group">
           <label class="input-label">Ton Instagram</label>
           <div class="handle-input-wrap">
             <span class="at-prefix">@</span>
-            <input type="text" id="handle-input" class="handle-input" placeholder="super_pseudo" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false">
+            <input type="text" id="handle-input" class="handle-input" placeholder="super_pseudo" autocomplete="off"
+              autocapitalize="none" autocorrect="off" spellcheck="false">
           </div>
         </div>
 
         <div class="input-group" id="phone-group">
           <label class="input-label">Ton Numéro (FR)</label>
           <div class="handle-input-wrap">
-            <input type="tel" id="phone-input" class="handle-input" placeholder="06 12 34 56 78" style="padding-left: 16px;">
+            <input type="tel" id="phone-input" class="handle-input" placeholder="06 12 34 56 78"
+              style="padding-left: 16px;">
           </div>
         </div>
 
         <div class="modal-actions">
-          <button class="cta-btn" id="modal-submit-btn" type="button" style="max-width: 100%; width: 100%;">Confirmer l'inscription</button>
+          <button class="cta-btn" id="modal-submit-btn" type="button" style="max-width: 100%; width: 100%;">Confirmer
+            l'inscription</button>
           <div id="slide-track" style="display:none;"></div> <!-- Legacy compatibility -->
         </div>
       </div>
 
       <div id="modal-success" class="success-state">
         <div class="success-icon">
-          <svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
+          <svg viewBox="0 0 24 24">
+            <path d="M20 6L9 17l-5-5" />
+          </svg>
         </div>
         <h3>T'es inscrit !</h3>
         <p id="success-message">Prépare-toi, je t'envoie ça <br><strong>vendredi à 23h59</strong>. 🔥</p>
-        
+
         <div id="spotify-prompt" class="spotify-prompt">
-          <p style="font-size: 13px; color: var(--t2); margin-bottom: 16px;">Veux-tu aussi pré-sauvegarder sur Spotify ?</p>
+          <p style="font-size: 13px; color: var(--t2); margin-bottom: 16px;">Veux-tu aussi pré-sauvegarder sur Spotify ?
+          </p>
           <div style="display: flex; flex-direction: column; align-items: center; gap: 8px; width: 100%;">
             <button class="cta-btn btn-spotify" id="btn-spotify">Pré-save Spotify</button>
             <button class="cta-btn btn-later" onclick="closeModal()">Plus tard</button>
@@ -1151,7 +1314,7 @@
       m: document.getElementById('cd-m'),
       s: document.getElementById('cd-s')
     };
-    const prev = { d:'', h:'', m:'', s:'' };
+    const prev = { d: '', h: '', m: '', s: '' };
     let ended = false;
 
     function tick() {
@@ -1162,7 +1325,7 @@
         ended = true;
         document.getElementById('countdown').innerHTML = '<span class="out-now">OUT NOW</span>';
         document.querySelector('.headline').textContent = '';
-        
+
         // Wait a moment so user sees the "OUT NOW" then redirect
         setTimeout(() => {
           window.location.href = 'release.html';
@@ -1196,7 +1359,7 @@
     const ctaBtn = document.getElementById('cta-btn');
     let isBackdropClick = false;
 
-    ctaBtn.addEventListener('click', function(e) {
+    ctaBtn.addEventListener('click', function (e) {
       /* Ripple micro-interaction */
       const r = document.createElement('span');
       r.classList.add('ripple');
@@ -1216,18 +1379,18 @@
     });
 
     // Precise backdrop click detection to avoid closing during slides
-    modal.addEventListener('mousedown', function(e) {
+    modal.addEventListener('mousedown', function (e) {
       if (e.target === modal) isBackdropClick = true;
     });
-    
-    modal.addEventListener('mouseup', function(e) {
+
+    modal.addEventListener('mouseup', function (e) {
       if (e.target === modal && isBackdropClick) {
         closeModal();
       }
       isBackdropClick = false;
     });
 
-    document.addEventListener('keydown', function(e) {
+    document.addEventListener('keydown', function (e) {
       if (e.key === 'Escape' && modal.classList.contains('active')) closeModal();
     });
 
@@ -1239,7 +1402,7 @@
 
     /* === BUTTON LOGIC === */
     const modalSubmitBtn = document.getElementById('modal-submit-btn');
-    
+
     let btnSwipeStartX = 0;
     let btnSwipeTriggered = false;
 
@@ -1262,7 +1425,7 @@
       autoSlideAndSubmit();
     });
 
-    function initSlider() {} // Legacy compatibility
+    function initSlider() { } // Legacy compatibility
 
     /* === MODE SELECTION (IG vs SMS) === */
     let currentMode = 'ig';
@@ -1282,7 +1445,7 @@
     function setMode(mode) {
       currentMode = mode;
       modalIconContainer.innerHTML = ICONS[mode];
-      
+
       if (mode === 'ig') {
         btnIg.classList.add('active');
         btnSms.classList.remove('active');
@@ -1304,7 +1467,7 @@
 
     // Enter Key Support & Keyboard focus fix
     const handleInput = document.getElementById('handle-input');
-    
+
     [handleInput, phoneInput].forEach(inp => {
       inp.addEventListener('keydown', (e) => {
         if (e.key === 'Enter') {
@@ -1334,13 +1497,13 @@
       const isAndroid = /Android/i.test(navigator.userAgent);
       const androidUrl = 'https://spotify.openinapp.co/31xu3';
       const officialUrl = 'https://open.spotify.com/intl-fr/track/0mNGJ5sdhPVdp7AQiwWz2y?si=5e42aaeda5124f12';
-      
+
       window.open(isAndroid ? androidUrl : officialUrl, '_blank');
     }
 
     function autoSlideAndSubmit() {
       if (ended) return;
-      
+
       const val = currentMode === 'ig' ? handleInput.value.trim() : phoneInput.value.trim();
       if (!val) {
         const inputEl = currentMode === 'ig' ? handleInput : phoneInput;
@@ -1354,32 +1517,32 @@
       modalSubmitBtn.textContent = 'Envoi en cours...';
       modalSubmitBtn.style.opacity = '0.7';
       modalSubmitBtn.style.pointerEvents = 'none';
-      
+
       setTimeout(triggerRedirect, 400);
     }
 
     async function triggerRedirect() {
       let value = '';
       let inputEl = null;
-      
+
       if (currentMode === 'ig') {
         inputEl = document.getElementById('handle-input');
         value = inputEl.value.trim().toLowerCase().replace(/^@/, '');
       } else {
         inputEl = document.getElementById('phone-input');
         value = inputEl.value.trim().replace(/\s/g, '').replace(/-/g, '').replace(/\./g, '');
-        
+
         // French Phone Validation (06/07 or +336/+337)
         const phoneRegex = /^(?:(?:\+|00)33|0)[67]\d{8}$/;
         if (!phoneRegex.test(value)) {
-          value = ''; 
+          value = '';
         }
       }
-      
+
       if (!value) {
         inputEl.classList.add('error-input');
         inputEl.focus();
-        
+
         // Shake the input field
         inputEl.style.animation = 'shake 0.4s ease';
         setTimeout(() => inputEl.style.animation = '', 400);
@@ -1395,12 +1558,12 @@
       modalSubmitBtn.textContent = 'Chargement...';
 
       const SHEET_API_URL = 'https://script.google.com/macros/s/AKfycbwBokoSbC7lTjIfHVcCSkj8a-6gesAELVCFIJxPoM881iSqv0PZpTmtoloeOspKTZYo/exec';
-      
-      const payload = { 
-        handle: currentMode === 'ig' ? value : '', 
+
+      const payload = {
+        handle: currentMode === 'ig' ? value : '',
         phone: currentMode === 'sms' ? value : '',
         method: currentMode,
-        date: new Date().toLocaleString() 
+        date: new Date().toLocaleString()
       };
 
       if (SHEET_API_URL) {
@@ -1416,13 +1579,13 @@
         document.querySelector('.modal-icon').style.display = 'none';
         document.getElementById('modal-content').style.display = 'none';
         document.getElementById('modal-success').style.display = 'block';
-        
+
         // Show Spotify prompt after a short delay
         setTimeout(() => {
           const prompt = document.getElementById('spotify-prompt');
           prompt.style.display = 'block';
           prompt.style.animation = 'fadeIn .6s var(--ease) both';
-          
+
           document.getElementById('btn-spotify').addEventListener('click', () => {
             openSpotify();
             closeModal();
@@ -1430,7 +1593,7 @@
         }, 1200);
       }, 800);
     }
-    
+
     // Keyframes for error shake
     const style = document.createElement('style');
     style.textContent = `
@@ -1456,7 +1619,7 @@
       const artist = document.querySelector('.artist-name')?.textContent.trim() || 'Merilia';
       const title = document.querySelector('.track-title')?.textContent.trim() || 'Envie';
       const fullTrackTitle = `${artist} - ${title}`;
-      
+
       document.getElementById('tt-track-name-title').textContent = `'${title}'`;
       document.getElementById('tt-track-display').textContent = fullTrackTitle;
 
@@ -1487,7 +1650,7 @@
           console.warn('Navigator clipboard blocked, trying fallback copy...', err);
           const textArea = document.createElement("textarea");
           textArea.value = fullTrackTitle;
-          textArea.style.position = "fixed"; 
+          textArea.style.position = "fixed";
           textArea.style.opacity = "0";
           document.body.appendChild(textArea);
           textArea.focus();
@@ -1505,7 +1668,7 @@
       function triggerCopyFeedback() {
         ttCopyBtn.classList.add('copied');
         ttCopyText.textContent = "Copié ! ✅";
-        
+
         if (window.navigator.vibrate) {
           window.navigator.vibrate([40, 40]);
         }
@@ -1518,4 +1681,5 @@
     }
   </script>
 </body>
+
 </html>

@@ -5,26 +5,26 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta name="description"
-    content="Merilia — Envie. Nouveau single disponible le 1er mai. Reçois le rappel en avant-première.">
+    content="Merilia — Détail. Nouveau single à venir. Pré-sauvegarde dès maintenant et reçois le rappel en avant-première.">
   <meta name="theme-color" content="#060608">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <title>Merilia - Envie | Sortie le 1er mai</title>
+  <title>Merilia - Détail | Pre-Save Single</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
     rel="stylesheet">
   <style>
     /* ============================================
-       🎨 DESIGN TOKENS — Silver / Chrome palette
+       🎨 DESIGN TOKENS — Silver / Chrome Liquid Palette
        ============================================ */
     :root {
       --bg: #060608;
       --bg2: #0e0e12;
-      --card-border: rgba(255, 255, 255, 0.07);
+      --card-border: rgba(255, 255, 255, 0.08);
 
-      /* Silver text hierarchy — bright for readability */
+      /* Silver text hierarchy */
       --t1: #ffffff;
-      --t2: rgba(240, 240, 248, 0.7);
+      --t2: rgba(240, 240, 248, 0.75);
       --t3: rgba(220, 220, 230, 0.45);
 
       /* Chrome / Silver accent */
@@ -32,7 +32,7 @@
       --silver-light: #e2e2ee;
       --silver-bright: #eeeef4;
       --silver-dim: rgba(192, 192, 204, 0.1);
-      --silver-glow: rgba(192, 192, 204, 0.2);
+      --silver-glow: rgba(192, 192, 204, 0.25);
 
       --font: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
       --ease: cubic-bezier(0.16, 1, 0.3, 1);
@@ -40,7 +40,7 @@
     }
 
     /* ============================================
-       RESET
+       RESET & BASE STYLES
        ============================================ */
     *,
     *::before,
@@ -52,62 +52,61 @@
 
     html,
     body {
-      height: 100%;
+      min-height: 100%;
       overflow-x: hidden;
       overflow-y: auto;
+      background: var(--bg);
     }
 
     body {
       font-family: var(--font);
-      background: var(--bg);
       color: var(--t1);
       display: flex;
+      flex-direction: column;
       align-items: center;
-      justify-content: center;
+      justify-content: flex-start;
       -webkit-font-smoothing: antialiased;
       -webkit-tap-highlight-color: transparent;
+      padding-bottom: 40px;
     }
 
     /* ============================================
-       COVER ART BACKGROUND — Visible wallpaper
+       BACKGROUND ATMOSPHERE
        ============================================ */
     .bg-cover {
       position: fixed;
       inset: 0;
       z-index: 0;
-      background: url('cover.jpg') center center / cover no-repeat;
-      filter: blur(10px) saturate(1) brightness(1);
-      transform: scale(1.05) translateZ(0);
-      /* GPU acceleration */
-      opacity: 1;
+      background: url('cover_detail.jpg') center center / cover no-repeat;
+      filter: blur(14px) saturate(1.1) brightness(0.8);
+      transform: scale(1.08) translateZ(0);
+      opacity: 0.9;
       pointer-events: none;
       will-change: transform;
     }
 
-    /* Soft vignette — lets the cover breathe */
     .bg-vignette {
       position: fixed;
       inset: 0;
       z-index: 1;
       pointer-events: none;
       background:
-        radial-gradient(ellipse at center, rgba(6, 6, 8, 0.3) 0%, rgba(6, 6, 8, 0.7) 80%),
-        linear-gradient(180deg, rgba(6, 6, 8, 0.2) 0%, rgba(6, 6, 8, 0.5) 100%);
+        radial-gradient(ellipse at center, rgba(6, 6, 8, 0.3) 0%, rgba(6, 6, 8, 0.85) 75%),
+        linear-gradient(180deg, rgba(6, 6, 8, 0.3) 0%, rgba(6, 6, 8, 0.9) 100%);
     }
 
-    /* Subtle noise texture for depth */
     .bg-noise {
       position: fixed;
       inset: 0;
       z-index: 2;
-      opacity: 0.03;
+      opacity: 0.04;
       pointer-events: none;
       background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
       background-size: 256px;
     }
 
     /* ============================================
-       LAYOUT
+       LAYOUT CONTAINER
        ============================================ */
     .container {
       position: relative;
@@ -116,9 +115,9 @@
       flex-direction: column;
       align-items: center;
       text-align: center;
-      padding: 24px;
+      padding: 32px 20px;
       width: 100%;
-      max-width: 440px;
+      max-width: 460px;
       animation: fadeUp .9s var(--ease) both;
     }
 
@@ -147,20 +146,55 @@
     }
 
     /* ============================================
-       COVER — Circle avatar with silver ring
+       HERO — MAIN TRACK (DÉTAIL)
        ============================================ */
-    .cover-circle {
-      width: clamp(90px, 24vw, 110px);
-      height: clamp(90px, 24vw, 110px);
+    .release-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 16px;
+      border-radius: 30px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      backdrop-filter: blur(10px);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--silver-bright);
+      margin-bottom: 24px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+      animation: fadeIn .8s .1s both;
+    }
+
+    .release-badge::before {
+      content: '';
+      width: 6px;
+      height: 6px;
       border-radius: 50%;
-      padding: 2px;
-      background: linear-gradient(135deg, #66666664, var(--silver-bright), #5b5b5b64, var(--silver-bright), #666);
+      background: #fff;
+      box-shadow: 0 0 8px #fff;
+      animation: pulseDot 2s infinite;
+    }
+
+    @keyframes pulseDot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.8); }
+    }
+
+    .cover-circle {
+      width: clamp(140px, 36vw, 170px);
+      height: clamp(140px, 36vw, 170px);
+      border-radius: 50%;
+      padding: 3px;
+      background: linear-gradient(135deg, #666, var(--silver-bright), #444, var(--silver-bright), #777);
       background-size: 200% 200%;
-      animation: fadeIn .8s .1s both, chromeShift 5s ease-in-out infinite;
+      animation: fadeIn .8s .15s both, chromeShift 6s ease-in-out infinite;
       margin-bottom: 24px;
       box-shadow:
-        0 0 24px rgba(200, 200, 220, 0.1),
-        0 4px 20px rgba(0, 0, 0, 0.4);
+        0 0 35px rgba(200, 200, 220, 0.18),
+        0 12px 35px rgba(0, 0, 0, 0.6);
+      position: relative;
     }
 
     .cover-circle img {
@@ -171,14 +205,10 @@
       display: block;
     }
 
-
-    /* ============================================
-       ARTIST NAME — MERILIA (chrome gradient)
-       ============================================ */
     .artist-name {
-      font-size: clamp(36px, 10.5vw, 52px);
+      font-size: clamp(38px, 11vw, 56px);
       font-weight: 900;
-      letter-spacing: 0.1em;
+      letter-spacing: 0.12em;
       text-transform: uppercase;
       line-height: 1;
       background: linear-gradient(135deg,
@@ -192,105 +222,68 @@
       -webkit-text-fill-color: transparent;
       background-clip: text;
       animation: fadeIn .8s .2s both, chromeShift 8s ease-in-out infinite;
-      margin-bottom: 6px;
-      filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.08));
-      will-change: background-position;
-      transform: translateZ(0);
+      margin-bottom: 4px;
+      filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.12));
     }
 
     @keyframes chromeShift {
-
-      0%,
-      100% {
-        background-position: 0% 50%
-      }
-
-      50% {
-        background-position: 100% 50%
-      }
+      0%, 100% { background-position: 0% 50% }
+      50% { background-position: 100% 50% }
     }
 
-    /* ============================================
-       TRACK TITLE — "Envie"
-       ============================================ */
     .track-title {
-      font-size: clamp(17px, 4.8vw, 22px);
+      font-size: clamp(20px, 5.5vw, 26px);
       font-weight: 300;
       font-style: italic;
-      letter-spacing: 0.08em;
-      color: var(--silver);
-      opacity: .75;
-      margin-bottom: 32px;
-      animation: fadeIn .8s .35s both;
+      letter-spacing: 0.1em;
+      color: var(--silver-light);
+      opacity: .85;
+      margin-bottom: 28px;
+      animation: fadeIn .8s .3s both;
     }
 
     /* ============================================
-       DIVIDER — Metallic line
+       COUNTDOWN SECTION
        ============================================ */
-    .divider {
-      width: 40px;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, var(--silver), transparent);
-      opacity: .25;
-      margin-bottom: 28px;
+    .headline {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--t3);
+      margin-bottom: 16px;
       animation: fadeIn .8s .4s both;
     }
 
-    /* ============================================
-       HEADLINE — "Disponible dans"
-       ============================================ */
-    .headline {
-      font-size: clamp(11px, 3vw, 13px);
-      font-weight: 500;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--t3);
-      margin-bottom: 18px;
-      animation: fadeIn .8s .45s both;
-    }
-
-    /* ============================================
-       COUNTDOWN
-       ============================================ */
     .countdown {
       display: flex;
       align-items: flex-start;
       justify-content: center;
-      gap: 6px;
+      gap: 8px;
       margin-bottom: 32px;
-      animation: fadeIn .8s .55s both;
+      animation: fadeIn .8s .5s both;
     }
 
     .cd-unit {
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
     }
 
     .cd-box {
       position: relative;
-      width: clamp(60px, 16.5vw, 74px);
-      height: clamp(70px, 19.5vw, 86px);
-      background: rgba(255, 255, 255, 0.02);
-      border: 1px solid rgba(255, 255, 255, 0.05);
-      border-radius: 14px;
+      width: clamp(62px, 17vw, 76px);
+      height: clamp(72px, 20vw, 86px);
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 16px;
       display: flex;
       align-items: center;
       justify-content: center;
       overflow: hidden;
-    }
-
-    /* Subtle top highlight — chrome reflection */
-    .cd-box::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 50%;
-      background: linear-gradient(180deg, rgba(255, 255, 255, 0.03) 0%, transparent 100%);
-      pointer-events: none;
+      backdrop-filter: blur(10px);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
     }
 
     .cd-val {
@@ -299,7 +292,6 @@
       letter-spacing: -0.02em;
       font-variant-numeric: tabular-nums;
       color: var(--silver-bright);
-      transition: transform .3s var(--spring), opacity .3s;
     }
 
     .cd-val.tick {
@@ -307,81 +299,40 @@
     }
 
     @keyframes digitTick {
-      0% {
-        transform: scale(1.12);
-        opacity: .5
-      }
-
-      100% {
-        transform: scale(1);
-        opacity: 1
-      }
+      0% { transform: scale(1.12); opacity: .5 }
+      100% { transform: scale(1); opacity: 1 }
     }
 
     .cd-label {
       font-size: 10px;
-      font-weight: 500;
+      font-weight: 600;
       letter-spacing: 0.1em;
       text-transform: uppercase;
       color: var(--t3);
     }
 
     .cd-sep {
-      font-size: clamp(22px, 6.5vw, 32px);
+      font-size: clamp(22px, 6.5vw, 30px);
       font-weight: 300;
       color: var(--t3);
-      padding-top: clamp(16px, 4.5vw, 20px);
-      opacity: .3;
+      padding-top: clamp(18px, 5vw, 22px);
+      opacity: .35;
       animation: sepPulse 2s ease-in-out infinite;
     }
 
     @keyframes sepPulse {
-
-      0%,
-      100% {
-        opacity: .3
-      }
-
-      50% {
-        opacity: .12
-      }
+      0%, 100% { opacity: .35 }
+      50% { opacity: .15 }
     }
-
-    /* OUT NOW state */
-    .out-now {
-      font-size: clamp(46px, 13vw, 68px);
-      font-weight: 900;
-      letter-spacing: -0.03em;
-      background: linear-gradient(135deg, #888, var(--silver-bright), #fff, var(--silver-bright), #888);
-      background-size: 200% 200%;
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      animation: chromeShift 3s ease-in-out infinite, scaleIn .6s var(--spring) both;
-      margin-bottom: 32px;
-    }
-
-    @keyframes scaleIn {
-      from {
-        opacity: 0;
-        transform: scale(.8)
-      }
-
-      to {
-        opacity: 1;
-        transform: scale(1)
-      }
-    }
-
-    /* (subtext removed) */
 
     /* ============================================
-       CTA BUTTON — Chrome / Silver premium
+       CTA BUTTON — LIQUID CHROME PRE-SAVE
        ============================================ */
     .cta-wrap {
-      animation: fadeIn .8s .65s both;
+      animation: fadeIn .8s .6s both;
       width: 100%;
-      margin-top: 40px;
+      display: flex;
+      justify-content: center;
     }
 
     .cta-btn {
@@ -389,12 +340,13 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
+      gap: 10px;
       width: 100%;
-      max-width: 280px;
-      padding: 22px 30px;
+      max-width: 340px;
+      padding: 20px 28px;
       font-family: var(--font);
-      font-size: 14px;
-      font-weight: 700;
+      font-size: 13.5px;
+      font-weight: 800;
       letter-spacing: 0.12em;
       text-transform: uppercase;
       color: var(--bg);
@@ -405,36 +357,20 @@
       cursor: pointer;
       outline: none;
       overflow: hidden;
-      transition: all .4s var(--ease);
-      -webkit-user-select: none;
+      transition: all .35s var(--ease);
       user-select: none;
       touch-action: manipulation;
       box-shadow:
-        0 4px 24px rgba(0, 0, 0, 0.5),
-        inset 0 1px 0 rgba(255, 255, 255, 0.4);
+        0 8px 30px rgba(0, 0, 0, 0.6),
+        inset 0 1px 0 rgba(255, 255, 255, 0.6);
       animation: chromeBtn 6s ease-in-out infinite;
-      transform: translateZ(0);
-      will-change: transform;
     }
 
-    /* Liquid chrome effect — smoother transitions */
     @keyframes chromeBtn {
-      0% {
-        background-position: 0% 50%;
-      }
-
-      50% {
-        background-position: 100% 50%;
-      }
-
-      100% {
-        background-position: 0% 50%;
-      }
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
     }
 
-    /* (ctaPulse removed for performance) */
-
-    /* Bright shimmer sweep */
     .cta-btn::before {
       content: '';
       position: absolute;
@@ -442,88 +378,242 @@
       left: -100%;
       width: 50%;
       height: 100%;
-      background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.4) 50%, transparent 100%);
-      animation: shimmer 2.5s linear infinite;
+      background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.5) 50%, transparent 100%);
+      animation: shimmer 2.8s linear infinite;
     }
 
-    /* Continuous shimmer sweep — removed pauses for smoothness */
     @keyframes shimmer {
-      0% {
-        left: -120%;
-      }
-
-      100% {
-        left: 150%;
-      }
-    }
-
-    /* Outer silver glow — always slightly visible */
-    .cta-btn::after {
-      content: '';
-      position: absolute;
-      inset: -4px;
-      border-radius: 60px;
-      background: linear-gradient(135deg, var(--silver), #fff, var(--silver-bright));
-      z-index: -1;
-      opacity: 0.15;
-      filter: blur(20px);
-      transition: opacity .4s;
-      animation: glowBreath 4s ease-in-out infinite;
-      will-change: opacity, transform;
-    }
-
-    /* Ultra-smooth breathing glow using GPU-accelerated properties */
-    @keyframes glowBreath {
-
-      0%,
-      100% {
-        opacity: 0.08;
-        transform: scale(1.0);
-      }
-
-      50% {
-        opacity: 0.25;
-        transform: scale(1.08);
-      }
-    }
-
-    .cta-btn:hover::after {
-      opacity: .6;
-      animation: none
+      0% { left: -120%; }
+      100% { left: 150%; }
     }
 
     .cta-btn:hover {
       transform: translateY(-3px) scale(1.02);
       box-shadow:
-        0 0 40px rgba(220, 220, 235, 0.3),
-        0 8px 40px rgba(0, 0, 0, 0.5),
-        inset 0 1px 0 rgba(255, 255, 255, 0.5);
+        0 0 35px rgba(220, 220, 240, 0.35),
+        0 12px 35px rgba(0, 0, 0, 0.6),
+        inset 0 1px 0 rgba(255, 255, 255, 0.8);
     }
 
     .cta-btn:active {
-      transform: translateY(0) scale(.96);
-      transition-duration: .1s
+      transform: translateY(1px) scale(.98);
     }
 
     /* Ripple */
     .ripple {
       position: absolute;
       border-radius: 50%;
-      background: rgba(255, 255, 255, 0.4);
+      background: rgba(255, 255, 255, 0.5);
       transform: scale(0);
       animation: ripAnim .6s ease-out forwards;
       pointer-events: none;
     }
 
     @keyframes ripAnim {
-      to {
-        transform: scale(4);
-        opacity: 0
-      }
+      to { transform: scale(4); opacity: 0 }
     }
 
     /* ============================================
-       MODAL
+       DIVIDER — Metallic hairline
+       ============================================ */
+    .section-divider {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      margin: 44px 0 32px 0;
+      animation: fadeIn .8s .7s both;
+    }
+
+    .section-divider .line {
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
+    }
+
+    .section-divider .badge {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--t3);
+      white-space: nowrap;
+    }
+
+    /* ============================================
+       PREVIOUS SINGLE SECTION — "ENVIE" (STREAMING)
+       ============================================ */
+    .previous-release-card {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.025);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 24px;
+      padding: 24px;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+      animation: fadeIn .8s .75s both;
+      text-align: left;
+      transition: border-color 0.3s ease;
+    }
+
+    .previous-release-card:hover {
+      border-color: rgba(255, 255, 255, 0.15);
+    }
+
+    .prev-header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+
+    .prev-cover-thumb {
+      width: 68px;
+      height: 68px;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+      flex-shrink: 0;
+    }
+
+    .prev-cover-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .prev-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .prev-tag {
+      font-size: 9.5px;
+      font-weight: 800;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--silver);
+      opacity: 0.7;
+      margin-bottom: 4px;
+      display: block;
+    }
+
+    .prev-title {
+      font-size: 18px;
+      font-weight: 800;
+      color: #fff;
+      letter-spacing: 0.02em;
+      line-height: 1.2;
+    }
+
+    .prev-subtitle {
+      font-size: 12px;
+      color: var(--t2);
+      margin-top: 2px;
+    }
+
+    .prev-platforms-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+
+    /* Platform Pill Styles with Organic Shine Overlay */
+    .platform-pill {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 14px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      border-radius: 14px;
+      color: var(--t1);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 600;
+      overflow: hidden;
+      transition: all 0.25s var(--ease);
+    }
+
+    .platform-pill:hover {
+      background: rgba(255, 255, 255, 0.09);
+      border-color: rgba(255, 255, 255, 0.2);
+      transform: translateY(-2px);
+    }
+
+    .platform-pill-icon {
+      width: 22px;
+      height: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      z-index: 1;
+    }
+
+    .platform-pill-icon svg {
+      width: 100%;
+      height: 100%;
+      fill: currentColor;
+    }
+
+    .platform-pill[data-platform="spotify"] .platform-pill-icon { color: #1DB954; }
+    .platform-pill[data-platform="youtube"] .platform-pill-icon { color: #FF0000; }
+    .platform-pill[data-platform="deezer"] .platform-pill-icon { color: #EF5464; }
+    .platform-pill[data-platform="apple"] .platform-pill-icon { color: #fff; }
+    .platform-pill[data-platform="apple"] .platform-pill-icon svg { fill: none; stroke: currentColor; stroke-width: 2.2; }
+
+    .platform-pill-name {
+      z-index: 1;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* ============================================
+       FOOTER
+       ============================================ */
+    .footer {
+      margin-top: 48px;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+    }
+
+    .social-links {
+      display: flex;
+      gap: 32px;
+    }
+
+    .social-link {
+      color: var(--t3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s var(--ease);
+      opacity: 0.6;
+      text-decoration: none;
+    }
+
+    .social-link:hover {
+      opacity: 1;
+      transform: translateY(-3px);
+      color: var(--t1);
+    }
+
+    .social-icon {
+      width: 26px;
+      height: 26px;
+      fill: currentColor;
+    }
+
+    /* ============================================
+       MODAL — LEAD CAPTURE (IG / SMS / SPOTIFY)
        ============================================ */
     .modal-ov {
       position: fixed;
@@ -531,7 +621,6 @@
       z-index: 100;
       display: flex;
       align-items: center;
-      /* Center vertically for everyone */
       justify-content: center;
       background: rgba(0, 0, 0, 0);
       pointer-events: none;
@@ -539,26 +628,26 @@
     }
 
     .modal-ov.active {
-      background: rgba(0, 0, 0, 0.65);
+      background: rgba(0, 0, 0, 0.7);
       pointer-events: auto;
-      backdrop-filter: blur(6px);
-      -webkit-backdrop-filter: blur(6px);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
     }
 
     .modal-card {
-      width: 94%;
+      width: 92%;
       max-width: 420px;
       background: var(--bg2);
       border: 1px solid var(--card-border);
-      border-radius: 24px;
+      border-radius: 28px;
       padding: 32px 24px;
-      transform: translate(-50%, -40%) scale(0.9);
+      transform: translate(-50%, -40%) scale(0.92);
       opacity: 0;
       position: absolute;
       top: 50%;
       left: 50%;
       transition: all .4s var(--ease);
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.85);
       max-height: 90vh;
       overflow-y: auto;
     }
@@ -568,14 +657,8 @@
       opacity: 1;
     }
 
-    /* Significant shift up for mobile keyboard (15% extra) */
     .modal-card.keyboard-up {
       transform: translate(-50%, -65%) scale(1) !important;
-    }
-
-    /* Hidden handle as we are no longer a bottom sheet */
-    .modal-handle {
-      display: none;
     }
 
     .modal-icon {
@@ -593,143 +676,60 @@
       width: 22px;
       height: 22px;
       fill: none;
-      stroke: var(--silver);
+      stroke: var(--silver-bright);
       stroke-width: 2;
       stroke-linecap: round;
       stroke-linejoin: round;
     }
 
+    .modal-title-text {
+      font-size: 20px;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 6px;
+    }
+
     .modal-text {
-      font-size: clamp(11px, 3.6vw, 14px);
-      line-height: 1.6;
+      font-size: 13.5px;
+      line-height: 1.5;
       color: var(--t2);
       margin-bottom: 24px;
       text-align: center;
     }
 
-    .modal-text span {
-      display: block;
-      white-space: nowrap;
-    }
-
-    .modal-text strong {
-      color: var(--t1);
-      font-weight: 600;
-    }
-
-    .modal-actions {
+    .option-toggle {
       display: flex;
-      flex-direction: column;
-      gap: 10px;
-      padding: 0 5%;
+      background: rgba(255, 255, 255, 0.04);
+      padding: 4px;
+      border-radius: 14px;
+      margin-bottom: 20px;
+      border: 1px solid var(--card-border);
     }
 
-    /* Primary button — (unused now that we have the slider) */
-    .btn-p {
-      display: none;
-    }
-
-    /* ============================================
-       SLIDER "SLIDE TO UNLOCK" — Premium Version
-       ============================================ */
-    .slide-track {
-      position: relative;
-      width: 100%;
-      height: 60px;
-      background: rgba(192, 192, 204, 0.25);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      border-radius: 40px;
-      padding: 5px;
-      overflow: hidden;
-      display: flex;
-      align-items: center;
-      margin-bottom: 12px;
-      box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.5);
-      user-select: none;
-      transform: translateZ(0);
-    }
-
-    .slide-text {
-      position: absolute;
-      width: 100%;
-      text-align: center;
-      padding-left: 32px;
-      /* Shifted back slightly to the left */
-      font-size: 13px;
-      font-weight: 600;
-      letter-spacing: 0.05em;
-      color: var(--t3);
+    .option-btn {
+      flex: 1;
+      padding: 10px;
+      font-size: 11px;
+      font-weight: 700;
       text-transform: uppercase;
-      pointer-events: none;
-      z-index: 1;
-      background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.8) 50%, rgba(255, 255, 255, 0) 100%);
-      background-size: 200% 100%;
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      animation: slideShimmer 3s infinite linear;
+      letter-spacing: 0.08em;
+      color: var(--t3);
+      cursor: pointer;
+      border-radius: 10px;
+      transition: all 0.3s var(--ease);
+      border: none;
+      background: transparent;
+      font-family: var(--font);
     }
 
-    @keyframes slideShimmer {
-      0% {
-        background-position: 200% 0%;
-      }
-
-      100% {
-        background-position: -200% 0%;
-      }
+    .option-btn.active {
+      background: rgba(255, 255, 255, 0.12);
+      color: var(--silver-bright);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
     }
 
-    .slide-handle {
-      position: relative;
-      z-index: 2;
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, var(--silver-bright), var(--silver), #888);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: grab;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.5);
-      transition: transform 0.1s linear;
-      /* for subtle touch follow */
-      touch-action: pan-y;
-    }
-
-    .slide-handle:active {
-      cursor: grabbing;
-    }
-
-    .slide-handle svg {
-      width: 20px;
-      height: 20px;
-      fill: none;
-      stroke: var(--bg);
-      stroke-width: 3;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-      transform: translateX(1px);
-    }
-
-    .slide-complete .slide-handle {
-      background: #fff;
-    }
-
-    .slide-complete .slide-text {
-      display: none;
-    }
-
-    /* (Secondary button removed) */
-    .btn-s {
-      display: none;
-    }
-
-    /* ============================================
-       INPUT FIELD — Premium Silver
-       ============================================ */
     .input-group {
-      margin-bottom: 24px;
+      margin-bottom: 20px;
       text-align: left;
     }
 
@@ -740,6 +740,7 @@
       color: var(--t3);
       margin-bottom: 8px;
       display: block;
+      font-weight: 600;
     }
 
     .handle-input-wrap {
@@ -749,27 +750,24 @@
 
     .handle-input {
       width: 100%;
-      background: rgba(255, 255, 255, 0.03);
+      background: rgba(255, 255, 255, 0.04);
       border: 1px solid var(--card-border);
-      border-radius: 12px;
+      border-radius: 14px;
       padding: 16px 16px 16px 36px;
       color: #fff;
       font-family: var(--font);
-      font-size: 16px;
+      font-size: 15px;
       outline: none;
       transition: all 0.3s var(--ease);
-      text-transform: lowercase;
-      /* Visual lowercase */
     }
 
     .handle-input::placeholder {
-      color: rgba(255, 255, 255, 0.18);
-      /* 2x plus foncé */
+      color: rgba(255, 255, 255, 0.25);
     }
 
     .handle-input:focus {
       border-color: var(--silver-bright);
-      background: rgba(255, 255, 255, 0.06);
+      background: rgba(255, 255, 255, 0.07);
       box-shadow: 0 0 15px var(--silver-glow);
     }
 
@@ -783,15 +781,21 @@
       pointer-events: none;
     }
 
+    .handle-input.error-input {
+      border-color: #ff4d4d !important;
+      box-shadow: 0 0 15px rgba(255, 77, 77, 0.4) !important;
+      background: rgba(255, 77, 77, 0.05);
+    }
+
     .success-state {
       display: none;
       text-align: center;
-      padding: 20px 0;
+      padding: 16px 0;
     }
 
     .success-state h3 {
-      font-size: 24px;
-      margin-bottom: 12px;
+      font-size: 22px;
+      margin-bottom: 10px;
       color: var(--silver-bright);
     }
 
@@ -802,83 +806,37 @@
     }
 
     .success-icon {
-      width: 60px;
-      height: 60px;
+      width: 58px;
+      height: 58px;
       background: var(--silver-bright);
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      margin: 0 auto 20px;
-      animation: scaleIn .6s var(--spring) both;
+      margin: 0 auto 16px;
+      animation: scaleIn .5s var(--spring) both;
     }
 
     .success-icon svg {
-      width: 32px;
-      height: 32px;
+      width: 30px;
+      height: 30px;
       fill: none;
       stroke: var(--bg);
       stroke-width: 3;
     }
 
-    /* Spinner — perfectly centered */
-    .spinner {
-      display: none;
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      margin-left: -12px;
-      margin-top: -12px;
-      width: 24px;
-      height: 24px;
-      border: 3px solid rgba(255, 255, 255, 0.1);
-      border-top-color: var(--silver-bright);
-      border-radius: 50%;
-      animation: spin 0.8s linear infinite;
-      z-index: 2;
-    }
-
-    @keyframes spin {
-      to {
-        transform: rotate(360deg);
-      }
-    }
-
-    .slide-loading .spinner {
-      display: block;
-    }
-
-    .slide-loading .slide-text {
-      display: none;
-    }
-
-    /* (Redundant desktop media query removed) */
-
-    /* Error state for input */
-    .handle-input.error-input {
-      border-color: #ff4d4d !important;
-      box-shadow: 0 0 15px rgba(255, 77, 77, 0.4) !important;
-      background: rgba(255, 77, 77, 0.05);
-    }
-
     .spotify-prompt {
-      margin-top: 24px;
-      padding-top: 24px;
+      margin-top: 20px;
+      padding-top: 20px;
       border-top: 1px solid var(--card-border);
       display: none;
-      /* Shown after success */
     }
 
     .btn-spotify {
       background: linear-gradient(135deg, #1db954, #1ed760, #1db954) !important;
       color: #000 !important;
       box-shadow: 0 4px 20px rgba(29, 185, 84, 0.3) !important;
-      margin-top: 12px;
-      animation: none !important;
-    }
-
-    .btn-spotify::before {
-      animation-duration: 3s !important;
+      margin-top: 10px;
     }
 
     .btn-later {
@@ -888,69 +846,12 @@
       box-shadow: none !important;
       margin-top: 8px;
       font-size: 11px !important;
-      padding: 14px 24px !important;
-      animation: none !important;
-    }
-
-    .btn-later::after,
-    .btn-later::before {
-      display: none !important;
+      padding: 12px 20px !important;
     }
 
     .btn-later:hover {
       border-color: var(--t2) !important;
       color: var(--t2) !important;
-    }
-
-    /* ============================================
-       SMS OPTION & TOGGLE
-       ============================================ */
-    .option-toggle {
-      display: flex;
-      background: rgba(255, 255, 255, 0.04);
-      padding: 4px;
-      border-radius: 12px;
-      margin-bottom: 24px;
-      border: 1px solid var(--card-border);
-    }
-
-    .option-btn {
-      flex: 1;
-      padding: 10px;
-      font-size: 11px;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      color: var(--t3);
-      cursor: pointer;
-      border-radius: 8px;
-      transition: all 0.3s var(--ease);
-      border: none;
-      background: transparent;
-      font-family: var(--font);
-    }
-
-    .option-btn.active {
-      background: var(--silver-dim);
-      color: var(--silver-bright);
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-    }
-
-    #phone-group {
-      display: none;
-    }
-
-    /* ============================================
-       ACCESSIBILITY — Reduced motion
-       ============================================ */
-    @media (prefers-reduced-motion: reduce) {
-
-      *,
-      *::before,
-      *::after {
-        animation-duration: .01ms !important;
-        transition-duration: .01ms !important;
-      }
     }
 
     /* ============================================
@@ -963,12 +864,12 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      background: rgba(4, 4, 6, 0.85);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
+      background: rgba(4, 4, 6, 0.88);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
       opacity: 0;
       pointer-events: none;
-      transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      transition: opacity 0.4s var(--ease);
       padding: 20px;
     }
 
@@ -982,11 +883,11 @@
       max-width: 400px;
       background: rgba(14, 14, 18, 0.95);
       border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 24px;
-      padding: 32px 24px;
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), 0 0 30px rgba(255, 255, 255, 0.03);
+      border-radius: 28px;
+      padding: 36px 24px 28px 24px;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8);
       transform: translateY(30px) scale(0.95);
-      transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.4s var(--ease);
+      transition: transform 0.4s var(--spring), opacity 0.4s var(--ease);
       opacity: 0;
       display: flex;
       flex-direction: column;
@@ -1000,10 +901,10 @@
 
     .tt-modal-close {
       position: absolute;
-      top: 20px;
-      right: 20px;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.08);
+      top: 16px;
+      right: 16px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.1);
       width: 32px;
       height: 32px;
       border-radius: 50%;
@@ -1018,7 +919,6 @@
     .tt-modal-close:hover {
       background: rgba(255, 255, 255, 0.15);
       color: #fff;
-      transform: scale(1.05);
     }
 
     .tt-modal-close svg {
@@ -1028,7 +928,7 @@
     }
 
     .tt-modal-title {
-      font-size: clamp(20px, 6vw, 24px);
+      font-size: clamp(20px, 5.5vw, 24px);
       font-weight: 800;
       text-align: center;
       margin-bottom: 8px;
@@ -1036,7 +936,7 @@
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
-      line-height: 1.3;
+      line-height: 1.25;
     }
 
     .tt-modal-subtitle {
@@ -1044,28 +944,19 @@
       color: var(--t2);
       text-align: center;
       line-height: 1.5;
-      margin-bottom: 24px;
-      padding: 0 10px;
+      margin-bottom: 20px;
     }
 
     .tt-modal-section {
-      background: rgba(255, 255, 255, 0.02);
-      border: 1px solid rgba(255, 255, 255, 0.05);
-      border-radius: 16px;
-      padding: 16px;
-      margin-bottom: 16px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 20px;
+      padding: 20px;
+      margin-bottom: 12px;
       font-size: 13px;
-      line-height: 1.6;
+      line-height: 1.5;
       color: var(--t2);
-      text-align: left;
-    }
-
-    .tt-modal-section.spotify {
-      border-left: 3px solid #1DB954;
-    }
-
-    .tt-modal-section.others {
-      border-left: 3px solid var(--silver);
+      text-align: center;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -1074,76 +965,55 @@
     .tt-track-display {
       display: block;
       font-size: 18px;
-      font-weight: 800;
+      font-weight: 900;
       color: #fff;
-      margin: 14px 0 12px 0;
+      margin: 12px 0 16px 0;
       letter-spacing: 0.05em;
-      text-align: center;
     }
 
-    /* Copy Button Styling */
     .tt-copy-btn {
       display: inline-flex;
       align-items: center;
       justify-content: center;
       gap: 8px;
       width: 100%;
-      max-width: 240px;
-      padding: 14px 20px;
+      max-width: 260px;
+      padding: 15px 22px;
       border-radius: 50px;
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      background: rgba(255, 255, 255, 0.05);
-      color: var(--silver-bright);
+      border: none;
+      background: linear-gradient(135deg, #1ed760, #1DB954);
+      color: #000;
       font-family: var(--font);
-      font-size: 12px;
-      font-weight: 700;
+      font-size: 13px;
+      font-weight: 800;
       letter-spacing: 0.05em;
       text-transform: uppercase;
       cursor: pointer;
-      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      transition: all 0.3s var(--ease);
+      box-shadow: 0 6px 20px rgba(29, 185, 84, 0.35);
     }
 
     .tt-copy-btn:hover {
-      background: rgba(255, 255, 255, 0.1);
-      border-color: rgba(255, 255, 255, 0.3);
       transform: translateY(-2px);
-    }
-
-    .tt-copy-btn:active {
-      transform: translateY(0);
+      box-shadow: 0 10px 25px rgba(29, 185, 84, 0.5);
     }
 
     .tt-copy-btn.copied {
-      background: #1cb954 !important;
-      border-color: #1cb954 !important;
-      color: #000 !important;
-      box-shadow: 0 0 20px rgba(28, 185, 84, 0.4);
+      background: #fff !important;
+      color: #1DB954 !important;
     }
 
     .tt-copy-btn svg {
-      width: 15px;
-      height: 15px;
+      width: 16px;
+      height: 16px;
       fill: currentColor;
     }
 
-    .tt-modal-footer-btn {
-      background: transparent;
-      border: none;
-      color: var(--t3);
-      font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      cursor: pointer;
-      margin-top: 8px;
-      text-align: center;
-      transition: color 0.2s ease;
-      font-family: var(--font);
-      font-weight: 600;
-    }
-
-    .tt-modal-footer-btn:hover {
-      color: var(--t1);
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: .01ms !important;
+        transition-duration: .01ms !important;
+      }
     }
   </style>
 </head>
@@ -1151,25 +1021,29 @@
 <body>
 
   <!-- Background layers -->
-  <div class="bg-cover" aria-hidden="true"></div>
+  <div class="bg-cover" id="bg-cover" aria-hidden="true"></div>
   <div class="bg-vignette" aria-hidden="true"></div>
   <div class="bg-noise" aria-hidden="true"></div>
 
   <!-- Main content -->
   <main class="container" role="main">
 
+    <!-- Badge -->
+    <div class="release-badge" id="release-badge">
+      <span>NOUVEAU SINGLE - PRE-SAVE</span>
+    </div>
+
     <!-- Cover art in silver circle -->
     <div class="cover-circle">
-      <img src="cover.jpg" alt="Merilia — Envie" width="110" height="110">
+      <img src="cover_detail.jpg" alt="Merilia — Détail" id="hero-cover-img" width="170" height="170">
     </div>
 
     <!-- Artist branding -->
-    <h1 class="artist-name">Merilia</h1>
-    <p class="track-title">Envie</p>
-    <div class="divider" aria-hidden="true"></div>
+    <h1 class="artist-name" id="artist-name">Merilia</h1>
+    <p class="track-title" id="track-title">Détail</p>
 
     <!-- Countdown -->
-    <p class="headline">Disponible dans</p>
+    <p class="headline">DISPONIBLE DANS</p>
     <div class="countdown" id="countdown" aria-live="polite">
       <div class="cd-unit">
         <div class="cd-box"><span class="cd-val" id="cd-d">--</span></div>
@@ -1192,11 +1066,88 @@
       </div>
     </div>
 
-
-    <!-- CTA -->
+    <!-- CTA Pre-Save -->
     <div class="cta-wrap">
-      <button class="cta-btn" id="cta-btn" type="button">Recevoir le rappel</button>
+      <button class="cta-btn" id="cta-btn" type="button">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
+        </svg>
+        <span>PRÉ-SAUVEGARDER "DÉTAIL"</span>
+      </button>
     </div>
+
+    <!-- Separator -->
+    <div class="section-divider">
+      <div class="line"></div>
+      <span class="badge">EN ATTENDANT "DÉTAIL"</span>
+      <div class="line"></div>
+    </div>
+
+    <!-- PREVIOUS SINGLE STREAMING SECTION ("ENVIE") -->
+    <section class="previous-release-card" aria-label="Écouter le titre précédent Envie">
+      <div class="prev-header">
+        <div class="prev-cover-thumb">
+          <img src="cover_envie.jpg" alt="Merilia — Envie" id="prev-cover-img">
+        </div>
+        <div class="prev-info">
+          <span class="prev-tag" id="prev-badge">DERNIER SINGLE DISPONIBLE</span>
+          <h2 class="prev-title" id="prev-title">Envie</h2>
+          <p class="prev-subtitle" id="prev-artist">Merilia</p>
+        </div>
+      </div>
+
+      <div class="prev-platforms-grid" id="prev-platforms-grid">
+        <!-- Spotify -->
+        <a href="https://spotify.openinapp.co/31xu3" target="_blank" class="platform-pill" data-platform="spotify" id="prev-link-spotify">
+          <div class="platform-pill-icon">
+            <svg viewBox="0 0 24 24"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.503 17.306c-.215.353-.674.464-1.027.249-2.863-1.748-6.467-2.144-10.712-1.173-.404.092-.81-.157-.903-.561-.092-.403.157-.809.561-.902 4.646-1.063 8.625-.615 11.832 1.34.353.215.464.674.249 1.027zm1.468-3.259c-.27.44-.847.579-1.287.308-3.277-2.014-8.273-2.597-12.149-1.42-.497.151-1.024-.131-1.174-.627-.151-.497.131-1.024.627-1.174 4.429-1.344 9.94-.693 13.676 1.605.44.271.579.848.308 1.288zm.139-3.391c-3.931-2.333-10.428-2.55-14.218-1.4c-.603.183-1.246-.168-1.429-.771-.183-.603.168-1.246.771-1.429 4.343-1.32 11.523-1.054 16.002 1.604.542.321.721 1.024.399 1.565-.321.543-1.024.722-1.565.401-.001 0-.001 0-.001 0z"/></svg>
+          </div>
+          <span class="platform-pill-name">Spotify</span>
+        </a>
+
+        <!-- YouTube -->
+        <a href="https://yt.openinapp.co/c5d74" target="_blank" class="platform-pill" data-platform="youtube" id="prev-link-youtube">
+          <div class="platform-pill-icon">
+            <svg viewBox="0 0 24 24"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/></svg>
+          </div>
+          <span class="platform-pill-name">YouTube</span>
+        </a>
+
+        <!-- Deezer -->
+        <a href="https://openinapp.link/deezermeriliaenvie" target="_blank" class="platform-pill" data-platform="deezer" id="prev-link-deezer">
+          <div class="platform-pill-icon">
+            <svg viewBox="0 0 24 24"><path d="M19.125 15.656h4.875v3.469h-4.875v-3.469zm-6.375 0h4.875v3.469h-4.875v-3.469zm-6.375 0h4.875v3.469h-4.875v-3.469zm-6.375 0h4.875v3.469h-4.875v-3.469zm19.125-5.25h4.875v3.469h-4.875v-3.469zm-6.375 0h4.875v3.469h-4.875v-3.469zm-6.375 0h4.875v3.469h-4.875v-3.469zm-6.375 0h4.875v3.469h-4.875v-3.469zm19.125-5.25h4.875v3.469h-4.875v-3.469zm-6.375 0h4.875v3.469h-4.875v-3.469zm-6.375 10.5h4.875v3.469h-4.875v-3.469zm0-15.75h4.875v3.469h-4.875v-3.469zm-6.375 10.5h4.875v3.469h-4.875v-3.469z"/></svg>
+          </div>
+          <span class="platform-pill-name">Deezer</span>
+        </a>
+
+        <!-- Apple Music -->
+        <a href="https://applemusic.openinapp.co/od4mg" target="_blank" class="platform-pill" data-platform="apple" id="prev-link-apple">
+          <div class="platform-pill-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle>
+            </svg>
+          </div>
+          <span class="platform-pill-name">Apple Music</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="social-links">
+        <a href="https://instagram.com/merilia_dnb" class="social-link" target="_blank" aria-label="Instagram">
+          <svg class="social-icon" viewBox="0 0 24 24">
+            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z" />
+          </svg>
+        </a>
+        <a href="https://tiktok.com/@merilia_dnb" class="social-link" target="_blank" aria-label="TikTok">
+          <svg class="social-icon" viewBox="0 0 24 24">
+            <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.9-.32-1.98-.23-2.81.36-.54.38-.89.98-1.03 1.64-.14.65-.01 1.34.33 1.91.43.72 1.21 1.2 2.04 1.24.89.07 1.83-.23 2.45-.88.6-.61.85-1.48.83-2.33-.03-4.75-.01-9.51-.02-14.26z" />
+          </svg>
+        </a>
+      </div>
+    </footer>
   </main>
 
   <!-- ============================================
@@ -1206,23 +1157,21 @@
     <div class="tt-modal-card">
       <button class="tt-modal-close" id="tt-modal-close" aria-label="Fermer">
         <svg viewBox="0 0 24 24">
-          <path
-            d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" />
+          <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" />
         </svg>
       </button>
 
-      <h2 class="tt-modal-title">Prêt(e) à écouter <span id="tt-track-name-title">'Envie'</span> ? 🎧</h2>
-      <p class="tt-modal-subtitle">Oui, c'est un peu la flemme. Mais c'est la faute de TikTok, pas la mienne — il bloque
-        l'ouverture des applis de musique. Profites-en quand même pour quitter cette appli du diable et découvrir un
-        super morceau. 😈</p>
+      <h2 class="tt-modal-title">Prêt(e) pour <span id="tt-track-name-title">'Détail'</span> ? ✨</h2>
+      <p class="tt-modal-subtitle">
+        TikTok bloque l'ouverture directe des applications de musique. Copie le titre ci-dessous pour le coller dans ton appli de streaming préférée :
+      </p>
 
-      <div class="tt-modal-section others">
-        <span>🎵 Ouvre ton appli préférée et colle le titre. Je te l'ai préparé ici :</span>
-        <strong class="tt-track-display" id="tt-track-display">Mérilia - Envie</strong>
+      <div class="tt-modal-section">
+        <span>🎵 Recherche le titre directement :</span>
+        <strong class="tt-track-display" id="tt-track-display">MERILIA - Détail</strong>
         <button class="tt-copy-btn" id="tt-copy-btn" type="button">
           <svg viewBox="0 0 24 24">
-            <path
-              d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z" />
+            <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z" />
           </svg>
           <span id="tt-copy-text">Copier le titre</span>
         </button>
@@ -1230,21 +1179,23 @@
     </div>
   </div>
 
-  <!-- Modal -->
+  <!-- ============================================
+       MODAL — PRE-SAVE LEAD CAPTURE
+       ============================================ -->
   <div class="modal-ov" id="modal" role="dialog" aria-modal="true" aria-hidden="true">
     <div class="modal-card">
-      <div class="modal-handle" aria-hidden="true"></div>
-      <div class="modal-icon" aria-hidden="true" id="modal-main-icon">
+      <div class="modal-icon" id="modal-main-icon">
         <svg viewBox="0 0 24 24">
           <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
           <circle cx="12" cy="12" r="5" />
-          <circle cx="17.5" cy="6.5" r="1.2" fill="var(--silver)" stroke="none" />
+          <circle cx="17.5" cy="6.5" r="1.2" fill="var(--silver-bright)" stroke="none" />
         </svg>
       </div>
+
       <div id="modal-content">
+        <h3 class="modal-title-text" style="text-align: center;">Rejoindre la liste</h3>
         <p class="modal-text" id="modal-desc">
-          <span>Laisse ton Instagram pour rejoindre la liste</span>
-          <span>Je t'enverrai le lien par DM, vendredi à 23h59.</span>
+          Laisse ton Instagram ou numéro pour recevoir le lien de <strong>Détail</strong> dès la sortie.
         </p>
 
         <div class="option-toggle">
@@ -1256,24 +1207,21 @@
           <label class="input-label">Ton Instagram</label>
           <div class="handle-input-wrap">
             <span class="at-prefix">@</span>
-            <input type="text" id="handle-input" class="handle-input" placeholder="super_pseudo" autocomplete="off"
+            <input type="text" id="handle-input" class="handle-input" placeholder="ton_pseudo" autocomplete="off"
               autocapitalize="none" autocorrect="off" spellcheck="false">
           </div>
         </div>
 
-        <div class="input-group" id="phone-group">
+        <div class="input-group" id="phone-group" style="display: none;">
           <label class="input-label">Ton Numéro (FR)</label>
           <div class="handle-input-wrap">
-            <input type="tel" id="phone-input" class="handle-input" placeholder="06 12 34 56 78"
-              style="padding-left: 16px;">
+            <input type="tel" id="phone-input" class="handle-input" placeholder="06 12 34 56 78" style="padding-left: 16px;">
           </div>
         </div>
 
-        <div class="modal-actions">
-          <button class="cta-btn" id="modal-submit-btn" type="button" style="max-width: 100%; width: 100%;">Confirmer
-            l'inscription</button>
-          <div id="slide-track" style="display:none;"></div> <!-- Legacy compatibility -->
-        </div>
+        <button class="cta-btn" id="modal-submit-btn" type="button" style="max-width: 100%; width: 100%;">
+          Confirmer la pre-save
+        </button>
       </div>
 
       <div id="modal-success" class="success-state">
@@ -1282,403 +1230,370 @@
             <path d="M20 6L9 17l-5-5" />
           </svg>
         </div>
-        <h3>T'es inscrit !</h3>
-        <p id="success-message">Prépare-toi, je t'envoie ça <br><strong>vendredi à 23h59</strong>. 🔥</p>
+        <h3>T'es bien inscrit(e) !</h3>
+        <p id="success-message">Tu recevras le lien direct vers <strong>Détail</strong> en avant-première dès sa sortie. 🔥</p>
 
         <div id="spotify-prompt" class="spotify-prompt">
-          <p style="font-size: 13px; color: var(--t2); margin-bottom: 16px;">Veux-tu aussi pré-sauvegarder sur Spotify ?
-          </p>
+          <p style="font-size: 13px; color: var(--t2); margin-bottom: 14px;">Veux-tu aussi ajouter <strong>Détail</strong> directement sur ton Spotify ?</p>
           <div style="display: flex; flex-direction: column; align-items: center; gap: 8px; width: 100%;">
-            <button class="cta-btn btn-spotify" id="btn-spotify">Pré-save Spotify</button>
-            <button class="cta-btn btn-later" onclick="closeModal()">Plus tard</button>
+            <button class="cta-btn btn-spotify" id="btn-spotify-presave" style="max-width: 100%; width: 100%;">Pre-save sur Spotify</button>
+            <button class="cta-btn btn-later" onclick="closeModal()">Fermer</button>
           </div>
         </div>
+
+        <button class="cta-btn btn-later" id="btn-success-close" onclick="closeModal()" style="margin-top: 16px; display: none; width: 100%; max-width: 100%;">Fermer</button>
       </div>
     </div>
   </div>
 
+  <script src="config.js"></script>
   <script>
-    /* ⚙️ CONFIG — Easy to change */
-    const RELEASE_DATE = new Date('2026-05-01T23:59:00');
-    const IG_USER = 'merilia_dnb';
+    document.addEventListener('DOMContentLoaded', () => {
+      const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+      const isTikTokApp = /TikTok|ByteLocale/i.test(userAgent) || window.location.search.includes('tiktok');
 
-    /* === AUTO-REDIRECT IF RELEASED === */
-    if (Date.now() >= RELEASE_DATE.getTime()) {
-      window.location.href = 'release.html';
-    }
-
-    /* === COUNTDOWN === */
-    const els = {
-      d: document.getElementById('cd-d'),
-      h: document.getElementById('cd-h'),
-      m: document.getElementById('cd-m'),
-      s: document.getElementById('cd-s')
-    };
-    const prev = { d: '', h: '', m: '', s: '' };
-    let ended = false;
-
-    function tick() {
-      if (ended) return;
-      const diff = RELEASE_DATE.getTime() - Date.now();
-
-      if (diff <= 0) {
-        ended = true;
-        document.getElementById('countdown').innerHTML = '<span class="out-now">OUT NOW</span>';
-        document.querySelector('.headline').textContent = '';
-
-        // Wait a moment so user sees the "OUT NOW" then redirect
-        setTimeout(() => {
-          window.location.href = 'release.html';
-        }, 1500);
-        return;
-      }
-
-      const vals = {
-        d: String(Math.floor(diff / 864e5)).padStart(2, '0'),
-        h: String(Math.floor((diff % 864e5) / 36e5)).padStart(2, '0'),
-        m: String(Math.floor((diff % 36e5) / 6e4)).padStart(2, '0'),
-        s: String(Math.floor((diff % 6e4) / 1e3)).padStart(2, '0')
+      /* === 1. CONFIGURATION CHARGEMENT DYNAMIQUE === */
+      const current = CONFIG.currentRelease || {
+        title: CONFIG.title || 'Détail',
+        cover: CONFIG.cover || 'cover_detail.jpg',
+        releaseDate: '2026-08-15T00:00:00',
+        badge: 'NOUVEAU SINGLE - PRE-SAVE',
+        spotifyPreSaveUrl: CONFIG.links?.spotify || 'https://spotify.openinapp.co/31xu3'
       };
 
-      for (const k in vals) {
-        if (vals[k] !== prev[k]) {
-          els[k].textContent = vals[k];
-          els[k].classList.remove('tick');
-          void els[k].offsetWidth; /* reflow to restart animation */
-          els[k].classList.add('tick');
-          prev[k] = vals[k];
+      const prev = CONFIG.previousRelease || {
+        title: 'Envie',
+        cover: 'cover_envie.jpg',
+        badge: 'DERNIER SINGLE DISPONIBLE',
+        links: CONFIG.links
+      };
+
+      // Page Title & Hero Elements
+      document.title = `${CONFIG.artist} - ${current.title} | Pre-Save Single`;
+      document.getElementById('artist-name').textContent = CONFIG.artist;
+      document.getElementById('track-title').textContent = current.title;
+      document.getElementById('hero-cover-img').src = current.cover;
+      document.getElementById('bg-cover').style.backgroundImage = `url('${current.cover}')`;
+
+      if (current.badge) {
+        document.getElementById('release-badge').querySelector('span').textContent = current.badge;
+      }
+
+      // Previous Release Elements ("Envie")
+      if (prev) {
+        document.getElementById('prev-title').textContent = prev.title;
+        document.getElementById('prev-artist').textContent = CONFIG.artist;
+        if (prev.cover) document.getElementById('prev-cover-img').src = prev.cover;
+        if (prev.badge) document.getElementById('prev-badge').textContent = prev.badge;
+
+        if (prev.links) {
+          if (prev.links.spotify) document.getElementById('prev-link-spotify').href = prev.links.spotify;
+          if (prev.links.youtube) document.getElementById('prev-link-youtube').href = prev.links.youtube;
+          if (prev.links.deezer) document.getElementById('prev-link-deezer').href = prev.links.deezer;
+          if (prev.links.apple) document.getElementById('prev-link-apple').href = prev.links.apple;
         }
       }
-    }
 
-    tick();
-    setInterval(tick, 1000);
+      /* === 2. COMPTE À REBOURS === */
+      const RELEASE_DATE = new Date(current.releaseDate || '2026-08-15T00:00:00');
+      const els = {
+        d: document.getElementById('cd-d'),
+        h: document.getElementById('cd-h'),
+        m: document.getElementById('cd-m'),
+        s: document.getElementById('cd-s')
+      };
+      const prevVals = { d: '', h: '', m: '', s: '' };
+      let ended = false;
 
-    /* === CTA + MODAL === */
-    const modal = document.getElementById('modal');
-    const ctaBtn = document.getElementById('cta-btn');
-    let isBackdropClick = false;
+      function tick() {
+        if (ended) return;
+        const diff = RELEASE_DATE.getTime() - Date.now();
 
-    ctaBtn.addEventListener('click', function (e) {
-      /* Ripple micro-interaction */
-      const r = document.createElement('span');
-      r.classList.add('ripple');
-      const rect = this.getBoundingClientRect();
-      const sz = Math.max(rect.width, rect.height);
-      r.style.width = r.style.height = sz + 'px';
-      r.style.left = (e.clientX - rect.left - sz / 2) + 'px';
-      r.style.top = (e.clientY - rect.top - sz / 2) + 'px';
-      this.appendChild(r);
-      r.addEventListener('animationend', () => r.remove());
+        if (diff <= 0) {
+          ended = true;
+          window.location.href = 'index.html';
+          return;
+        }
 
-      /* Open modal */
-      setTimeout(() => {
-        modal.classList.add('active');
-        modal.setAttribute('aria-hidden', 'false');
-      }, 120);
-    });
+        const vals = {
+          d: String(Math.floor(diff / 864e5)).padStart(2, '0'),
+          h: String(Math.floor((diff % 864e5) / 36e5)).padStart(2, '0'),
+          m: String(Math.floor((diff % 36e5) / 6e4)).padStart(2, '0'),
+          s: String(Math.floor((diff % 6e4) / 1e3)).padStart(2, '0')
+        };
 
-    // Precise backdrop click detection to avoid closing during slides
-    modal.addEventListener('mousedown', function (e) {
-      if (e.target === modal) isBackdropClick = true;
-    });
-
-    modal.addEventListener('mouseup', function (e) {
-      if (e.target === modal && isBackdropClick) {
-        closeModal();
+        for (const k in vals) {
+          if (vals[k] !== prevVals[k]) {
+            els[k].textContent = vals[k];
+            els[k].classList.remove('tick');
+            void els[k].offsetWidth;
+            els[k].classList.add('tick');
+            prevVals[k] = vals[k];
+          }
+        }
       }
-      isBackdropClick = false;
-    });
 
-    document.addEventListener('keydown', function (e) {
-      if (e.key === 'Escape' && modal.classList.contains('active')) closeModal();
-    });
+      tick();
+      setInterval(tick, 1000);
 
-    function closeModal() {
-      modal.classList.remove('active');
-      modal.setAttribute('aria-hidden', 'true');
-      isBackdropClick = false;
-    }
-
-    /* === BUTTON LOGIC === */
-    const modalSubmitBtn = document.getElementById('modal-submit-btn');
-
-    let btnSwipeStartX = 0;
-    let btnSwipeTriggered = false;
-
-    modalSubmitBtn.addEventListener('touchstart', (e) => {
-      btnSwipeStartX = e.touches[0].clientX;
-      btnSwipeTriggered = false;
-    }, { passive: true });
-
-    modalSubmitBtn.addEventListener('touchmove', (e) => {
-      if (btnSwipeTriggered) return;
-      const currentX = e.touches[0].clientX;
-      if (currentX - btnSwipeStartX > 70) {
-        btnSwipeTriggered = true;
-        autoSlideAndSubmit();
+      /* === 3. CALCUL SMART DE L'ESPACE DISPONIBLE POUR "ÉCOUTER" === */
+      function updateActionVisibility() {
+        document.querySelectorAll('.platform-pill').forEach(pill => {
+          if (pill.clientWidth < 135) {
+            pill.classList.add('hide-action');
+          } else {
+            pill.classList.remove('hide-action');
+          }
+        });
       }
-    }, { passive: true });
 
-    modalSubmitBtn.addEventListener('click', () => {
-      if (btnSwipeTriggered) return;
-      autoSlideAndSubmit();
-    });
+      window.addEventListener('resize', updateActionVisibility);
+      setTimeout(updateActionVisibility, 100);
 
-    function initSlider() { } // Legacy compatibility
+      /* === 4. MODALE PRE-SAVE === */
+      const modal = document.getElementById('modal');
+      const ctaBtn = document.getElementById('cta-btn');
+      let isBackdropClick = false;
 
-    /* === MODE SELECTION (IG vs SMS) === */
-    let currentMode = 'ig';
-    const btnIg = document.getElementById('btn-mode-ig');
-    const btnSms = document.getElementById('btn-mode-sms');
-    const igGroup = document.getElementById('ig-group');
-    const phoneGroup = document.getElementById('phone-group');
-    const modalDesc = document.getElementById('modal-desc');
-    const phoneInput = document.getElementById('phone-input');
-    const modalIconContainer = document.getElementById('modal-main-icon');
+      ctaBtn.addEventListener('click', function (e) {
+        const r = document.createElement('span');
+        r.classList.add('ripple');
+        const rect = this.getBoundingClientRect();
+        const sz = Math.max(rect.width, rect.height);
+        r.style.width = r.style.height = sz + 'px';
+        r.style.left = (e.clientX - rect.left - sz / 2) + 'px';
+        r.style.top = (e.clientY - rect.top - sz / 2) + 'px';
+        this.appendChild(r);
+        r.addEventListener('animationend', () => r.remove());
 
-    const ICONS = {
-      ig: `<svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.2" fill="var(--silver)" stroke="none"/></svg>`,
-      sms: `<svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>`
-    };
+        setTimeout(() => {
+          modal.classList.add('active');
+          modal.setAttribute('aria-hidden', 'false');
+        }, 120);
+      });
 
-    function setMode(mode) {
-      currentMode = mode;
-      modalIconContainer.innerHTML = ICONS[mode];
+      modal.addEventListener('mousedown', function (e) {
+        if (e.target === modal) isBackdropClick = true;
+      });
 
-      if (mode === 'ig') {
+      modal.addEventListener('mouseup', function (e) {
+        if (e.target === modal && isBackdropClick) closeModal();
+        isBackdropClick = false;
+      });
+
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && modal.classList.contains('active')) closeModal();
+      });
+
+      window.closeModal = function () {
+        modal.classList.remove('active');
+        modal.setAttribute('aria-hidden', 'true');
+        isBackdropClick = false;
+      };
+
+      /* === 5. BASCULE IG / SMS & SOUMISSION === */
+      let currentMode = 'ig';
+      const btnIg = document.getElementById('btn-mode-ig');
+      const btnSms = document.getElementById('btn-mode-sms');
+      const igGroup = document.getElementById('ig-group');
+      const phoneGroup = document.getElementById('phone-group');
+      const modalDesc = document.getElementById('modal-desc');
+      const modalIconContainer = document.getElementById('modal-main-icon');
+      const handleInput = document.getElementById('handle-input');
+      const phoneInput = document.getElementById('phone-input');
+      const modalSubmitBtn = document.getElementById('modal-submit-btn');
+
+      const ICONS = {
+        ig: `<svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.2" fill="var(--silver-bright)" stroke="none"/></svg>`,
+        sms: `<svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>`
+      };
+
+      btnIg.addEventListener('click', () => {
+        currentMode = 'ig';
         btnIg.classList.add('active');
         btnSms.classList.remove('active');
         igGroup.style.display = 'block';
         phoneGroup.style.display = 'none';
-        modalDesc.innerHTML = '<span>Laisse ton Instagram pour rejoindre la liste</span><span>Je t\'enverrai le lien par DM, vendredi à 23h59.</span>';
-      } else {
+        modalIconContainer.innerHTML = ICONS.ig;
+        modalDesc.innerHTML = `Laisse ton Instagram pour recevoir le lien de <strong>${current.title}</strong> dès la sortie.`;
+      });
+
+      btnSms.addEventListener('click', () => {
+        currentMode = 'sms';
         btnIg.classList.remove('active');
         btnSms.classList.add('active');
         igGroup.style.display = 'none';
         phoneGroup.style.display = 'block';
-        modalDesc.innerHTML = '<span>Laisse ton numéro pour rejoindre la liste</span><span>Je t\'enverrai le rappel par SMS, vendredi à 23h59.</span>';
+        modalIconContainer.innerHTML = ICONS.sms;
+        modalDesc.innerHTML = `Laisse ton numéro pour recevoir le rappel de <strong>${current.title}</strong> par SMS dès la sortie.`;
+      });
+
+      [handleInput, phoneInput].forEach(inp => {
+        inp.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter') {
+            e.preventDefault();
+            inp.blur();
+            submitPreSave();
+          }
+        });
+
+        inp.addEventListener('focus', () => {
+          if (window.innerWidth < 640) {
+            document.querySelector('.modal-card').classList.add('keyboard-up');
+          }
+        });
+
+        inp.addEventListener('blur', () => {
+          document.querySelector('.modal-card').classList.remove('keyboard-up');
+        });
+
+        inp.addEventListener('input', () => {
+          inp.classList.remove('error-input');
+        });
+      });
+
+      modalSubmitBtn.addEventListener('click', submitPreSave);
+
+      function submitPreSave() {
+        let value = '';
+        let inputEl = currentMode === 'ig' ? handleInput : phoneInput;
+
+        if (currentMode === 'ig') {
+          value = inputEl.value.trim().toLowerCase().replace(/^@/, '');
+        } else {
+          value = inputEl.value.trim().replace(/\s/g, '').replace(/-/g, '').replace(/\./g, '');
+          const phoneRegex = /^(?:(?:\+|00)33|0)[67]\d{8}$/;
+          if (!phoneRegex.test(value)) value = '';
+        }
+
+        if (!value) {
+          inputEl.classList.add('error-input');
+          inputEl.focus();
+          modalSubmitBtn.style.animation = 'shake 0.4s ease';
+          setTimeout(() => modalSubmitBtn.style.animation = '', 400);
+          return;
+        }
+
+        modalSubmitBtn.textContent = 'Envoi en cours...';
+        modalSubmitBtn.style.opacity = '0.7';
+        modalSubmitBtn.style.pointerEvents = 'none';
+
+        const SHEET_API_URL = 'https://script.google.com/macros/s/AKfycbwBokoSbC7lTjIfHVcCSkj8a-6gesAELVCFIJxPoM881iSqv0PZpTmtoloeOspKTZYo/exec';
+
+        const payload = {
+          handle: currentMode === 'ig' ? value : '',
+          phone: currentMode === 'sms' ? value : '',
+          method: currentMode,
+          track: current.title,
+          date: new Date().toLocaleString()
+        };
+
+        if (SHEET_API_URL) {
+          fetch(SHEET_API_URL, {
+            method: 'POST',
+            mode: 'no-cors',
+            body: JSON.stringify(payload)
+          }).catch(e => console.error(e));
+        }
+
+        setTimeout(() => {
+          document.getElementById('modal-main-icon').style.display = 'none';
+          document.getElementById('modal-content').style.display = 'none';
+          document.getElementById('modal-success').style.display = 'block';
+
+          // Option de pre-save Spotify après inscription : désactivée sur TikTok ou si showSpotifyPreSave dans config.js vaut false
+          const showSpotifyConfig = current.showSpotifyPreSave ?? CONFIG.showSpotifyPreSave ?? false;
+          const shouldOfferSpotify = Boolean(showSpotifyConfig) && !isTikTokApp;
+
+          if (shouldOfferSpotify) {
+            setTimeout(() => {
+              const prompt = document.getElementById('spotify-prompt');
+              prompt.style.display = 'block';
+              prompt.style.animation = 'fadeIn .5s var(--ease) both';
+
+              document.getElementById('btn-spotify-presave').addEventListener('click', () => {
+                const url = current.spotifyPreSaveUrl || current.preSaveUrl || 'https://spotify.openinapp.co/31xu3';
+                window.open(url, '_blank');
+                closeModal();
+              });
+            }, 400);
+          } else {
+            document.getElementById('spotify-prompt').style.display = 'none';
+            const closeBtn = document.getElementById('btn-success-close');
+            if (closeBtn) closeBtn.style.display = 'block';
+          }
+        }, 600);
       }
-      setTimeout(initSlider, 50);
-    }
 
-    btnIg.addEventListener('click', () => setMode('ig'));
-    btnSms.addEventListener('click', () => setMode('sms'));
+      /* === 6. LOGIQUE TIKTOK IN-APP BROWSER === */
+      // La popup TikTok n'apparaît QUE si le morceau est dispo (ex: date de sortie atteinte)
+      const isReleased = ended || (RELEASE_DATE && Date.now() >= RELEASE_DATE.getTime());
 
-    // Enter Key Support & Keyboard focus fix
-    const handleInput = document.getElementById('handle-input');
+      if (isTikTokApp && isReleased) {
+        const ttModal = document.getElementById('tt-modal');
+        const ttModalClose = document.getElementById('tt-modal-close');
+        const ttCopyBtn = document.getElementById('tt-copy-btn');
+        const ttCopyText = document.getElementById('tt-copy-text');
+        const fullTrackTitle = `${CONFIG.artist} - ${current.title}`;
 
-    [handleInput, phoneInput].forEach(inp => {
-      inp.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter') {
-          e.preventDefault();
-          inp.blur();
-          autoSlideAndSubmit();
+        document.getElementById('tt-track-name-title').textContent = `'${current.title}'`;
+        document.getElementById('tt-track-display').textContent = fullTrackTitle;
+
+        setTimeout(() => {
+          ttModal.classList.add('active');
+          ttModal.setAttribute('aria-hidden', 'false');
+        }, 800);
+
+        const closeTikTokModal = () => {
+          ttModal.classList.remove('active');
+          ttModal.setAttribute('aria-hidden', 'true');
+        };
+
+        ttModalClose.addEventListener('click', closeTikTokModal);
+        ttModal.addEventListener('click', (e) => {
+          if (e.target === ttModal) closeTikTokModal();
+        });
+
+        ttCopyBtn.addEventListener('click', () => {
+          navigator.clipboard.writeText(fullTrackTitle).then(() => {
+            triggerCopyFeedback();
+          }).catch(() => {
+            const textArea = document.createElement("textarea");
+            textArea.value = fullTrackTitle;
+            textArea.style.position = "fixed";
+            textArea.style.opacity = "0";
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            try {
+              document.execCommand('copy');
+              triggerCopyFeedback();
+            } catch (err) { }
+            document.body.removeChild(textArea);
+          });
+        });
+
+        function triggerCopyFeedback() {
+          ttCopyBtn.classList.add('copied');
+          ttCopyText.textContent = "Copié ! ✅";
+          if (window.navigator.vibrate) window.navigator.vibrate([40, 40]);
+          setTimeout(() => {
+            ttCopyBtn.classList.remove('copied');
+            ttCopyText.textContent = "Copier le titre";
+          }, 3000);
         }
-      });
-
-      inp.addEventListener('focus', () => {
-        if (window.innerWidth < 640) {
-          document.querySelector('.modal-card').classList.add('keyboard-up');
-        }
-      });
-
-      inp.addEventListener('blur', () => {
-        document.querySelector('.modal-card').classList.remove('keyboard-up');
-      });
-
-      inp.addEventListener('input', () => {
-        inp.classList.remove('error-input');
-      });
+      }
     });
 
-    /* === LINK HELPERS === */
-    function openSpotify() {
-      const isAndroid = /Android/i.test(navigator.userAgent);
-      const androidUrl = 'https://spotify.openinapp.co/31xu3';
-      const officialUrl = 'https://open.spotify.com/intl-fr/track/0mNGJ5sdhPVdp7AQiwWz2y?si=5e42aaeda5124f12';
-
-      window.open(isAndroid ? androidUrl : officialUrl, '_blank');
-    }
-
-    function autoSlideAndSubmit() {
-      if (ended) return;
-
-      const val = currentMode === 'ig' ? handleInput.value.trim() : phoneInput.value.trim();
-      if (!val) {
-        const inputEl = currentMode === 'ig' ? handleInput : phoneInput;
-        inputEl.classList.add('error-input');
-        modalSubmitBtn.style.animation = 'shake 0.4s ease';
-        setTimeout(() => modalSubmitBtn.style.animation = '', 400);
-        return;
-      }
-
-      // Visual feedback
-      modalSubmitBtn.textContent = 'Envoi en cours...';
-      modalSubmitBtn.style.opacity = '0.7';
-      modalSubmitBtn.style.pointerEvents = 'none';
-
-      setTimeout(triggerRedirect, 400);
-    }
-
-    async function triggerRedirect() {
-      let value = '';
-      let inputEl = null;
-
-      if (currentMode === 'ig') {
-        inputEl = document.getElementById('handle-input');
-        value = inputEl.value.trim().toLowerCase().replace(/^@/, '');
-      } else {
-        inputEl = document.getElementById('phone-input');
-        value = inputEl.value.trim().replace(/\s/g, '').replace(/-/g, '').replace(/\./g, '');
-
-        // French Phone Validation (06/07 or +336/+337)
-        const phoneRegex = /^(?:(?:\+|00)33|0)[67]\d{8}$/;
-        if (!phoneRegex.test(value)) {
-          value = '';
-        }
-      }
-
-      if (!value) {
-        inputEl.classList.add('error-input');
-        inputEl.focus();
-
-        // Shake the input field
-        inputEl.style.animation = 'shake 0.4s ease';
-        setTimeout(() => inputEl.style.animation = '', 400);
-
-        // Reset button
-        modalSubmitBtn.textContent = 'Confirmer l\'inscription';
-        modalSubmitBtn.style.opacity = '1';
-        modalSubmitBtn.style.pointerEvents = 'auto';
-        return;
-      }
-
-      // Display "processing" state
-      modalSubmitBtn.textContent = 'Chargement...';
-
-      const SHEET_API_URL = 'https://script.google.com/macros/s/AKfycbwBokoSbC7lTjIfHVcCSkj8a-6gesAELVCFIJxPoM881iSqv0PZpTmtoloeOspKTZYo/exec';
-
-      const payload = {
-        handle: currentMode === 'ig' ? value : '',
-        phone: currentMode === 'sms' ? value : '',
-        method: currentMode,
-        date: new Date().toLocaleString()
-      };
-
-      if (SHEET_API_URL) {
-        fetch(SHEET_API_URL, {
-          method: 'POST',
-          mode: 'no-cors',
-          body: JSON.stringify(payload)
-        }).catch(e => console.error(e));
-      }
-
-      // Snappy transition to success state
-      setTimeout(() => {
-        document.querySelector('.modal-icon').style.display = 'none';
-        document.getElementById('modal-content').style.display = 'none';
-        document.getElementById('modal-success').style.display = 'block';
-
-        // Show Spotify prompt after a short delay
-        setTimeout(() => {
-          const prompt = document.getElementById('spotify-prompt');
-          prompt.style.display = 'block';
-          prompt.style.animation = 'fadeIn .6s var(--ease) both';
-
-          document.getElementById('btn-spotify').addEventListener('click', () => {
-            openSpotify();
-            closeModal();
-          });
-        }, 1200);
-      }, 800);
-    }
-
-    // Keyframes for error shake
-    const style = document.createElement('style');
-    style.textContent = `
+    const errStyle = document.createElement('style');
+    errStyle.textContent = `
       @keyframes shake {
         0%, 100% { transform: translateX(0); }
         25% { transform: translateX(-8px); }
         75% { transform: translateX(8px); }
       }
     `;
-    document.head.appendChild(style);
-
-    // --- LOGIQUE COMPAGNON TIKTOK (DÉTECTION IN-APP) ---
-    const userAgent = navigator.userAgent || navigator.vendor || window.opera;
-    const isTikTokApp = /TikTok|ByteLocale/i.test(userAgent) || window.location.search.includes('tiktok');
-
-    if (isTikTokApp) {
-      const ttModal = document.getElementById('tt-modal');
-      const ttModalClose = document.getElementById('tt-modal-close');
-      const ttCopyBtn = document.getElementById('tt-copy-btn');
-      const ttCopyText = document.getElementById('tt-copy-text');
-
-      // Extraire dynamiquement l'artiste et le titre depuis la page
-      const artist = document.querySelector('.artist-name')?.textContent.trim() || 'Merilia';
-      const title = document.querySelector('.track-title')?.textContent.trim() || 'Envie';
-      const fullTrackTitle = `${artist} - ${title}`;
-
-      document.getElementById('tt-track-name-title').textContent = `'${title}'`;
-      document.getElementById('tt-track-display').textContent = fullTrackTitle;
-
-      // Entrée en scène après un court délai
-      setTimeout(() => {
-        ttModal.classList.add('active');
-        ttModal.setAttribute('aria-hidden', 'false');
-      }, 800);
-
-      // Fermeture
-      const closeTikTokModal = () => {
-        ttModal.classList.remove('active');
-        ttModal.setAttribute('aria-hidden', 'true');
-      };
-
-      ttModalClose.addEventListener('click', closeTikTokModal);
-      ttModal.addEventListener('click', (e) => {
-        if (e.target === ttModal) {
-          closeTikTokModal();
-        }
-      });
-
-      // Copie intelligente avec retour utilisateur
-      ttCopyBtn.addEventListener('click', () => {
-        navigator.clipboard.writeText(fullTrackTitle).then(() => {
-          triggerCopyFeedback();
-        }).catch(err => {
-          console.warn('Navigator clipboard blocked, trying fallback copy...', err);
-          const textArea = document.createElement("textarea");
-          textArea.value = fullTrackTitle;
-          textArea.style.position = "fixed";
-          textArea.style.opacity = "0";
-          document.body.appendChild(textArea);
-          textArea.focus();
-          textArea.select();
-          try {
-            document.execCommand('copy');
-            triggerCopyFeedback();
-          } catch (fallbackErr) {
-            console.error('Fallback copy failed: ', fallbackErr);
-          }
-          document.body.removeChild(textArea);
-        });
-      });
-
-      function triggerCopyFeedback() {
-        ttCopyBtn.classList.add('copied');
-        ttCopyText.textContent = "Copié ! ✅";
-
-        if (window.navigator.vibrate) {
-          window.navigator.vibrate([40, 40]);
-        }
-
-        setTimeout(() => {
-          ttCopyBtn.classList.remove('copied');
-          ttCopyText.textContent = "Copier le titre";
-        }, 3000);
-      }
-    }
+    document.head.appendChild(errStyle);
   </script>
 </body>
 

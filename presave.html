@@ -1535,9 +1535,13 @@
         if (currentMode === 'ig') {
           value = inputEl.value.trim().toLowerCase().replace(/^@/, '');
         } else {
-          value = inputEl.value.trim().replace(/\s/g, '').replace(/-/g, '').replace(/\./g, '');
+          const rawPhone = inputEl.value.trim().replace(/\s/g, '').replace(/-/g, '').replace(/\./g, '');
           const phoneRegex = /^(?:(?:\+|00)33|0)[67]\d{8}$/;
-          if (!phoneRegex.test(value)) value = '';
+          if (!phoneRegex.test(rawPhone)) {
+            value = '';
+          } else {
+            value = rawPhone;
+          }
         }
 
         if (!value) {
@@ -1554,13 +1558,15 @@
 
         const SHEET_API_URL = 'https://script.google.com/macros/s/AKfycbwBokoSbC7lTjIfHVcCSkj8a-6gesAELVCFIJxPoM881iSqv0PZpTmtoloeOspKTZYo/exec';
 
+        // Un seul champ "contact" — plus de logique conditionnelle dans Apps Script
         const payload = {
-          handle: currentMode === 'ig' ? value : '',
-          phone: currentMode === 'sms' ? value : '',
+          contact: value,
           method: currentMode,
           track: current.title,
           date: new Date().toLocaleString()
         };
+
+        console.log('[PreSave] Envoi payload:', JSON.stringify(payload));
 
         if (SHEET_API_URL) {
           fetch(SHEET_API_URL, {

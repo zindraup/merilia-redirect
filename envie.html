@@ -1,0 +1,924 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="description" content="Merilia — Envie. Disponible maintenant sur toutes les plateformes de streaming.">
+  <meta name="theme-color" content="#060608">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <title>MERILIA - Envie | Écouter maintenant</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+    rel="stylesheet">
+  <style>
+    /* ============================================
+       🎨 DESIGN TOKENS — Silver / Chrome palette
+       ============================================ */
+    :root {
+      --bg: #060608;
+      --bg2: #0e0e12;
+      --card-border: rgba(255, 255, 255, 0.08);
+
+      /* Silver text hierarchy */
+      --t1: #ffffff;
+      --t2: rgba(240, 240, 248, 0.75);
+      --t3: rgba(220, 220, 230, 0.45);
+
+      /* Chrome / Silver accent */
+      --silver: #d0d0dc;
+      --silver-light: #e2e2ee;
+      --silver-bright: #eeeef4;
+      --silver-dim: rgba(192, 192, 204, 0.1);
+      --silver-glow: rgba(192, 192, 204, 0.25);
+
+      --font: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      --ease: cubic-bezier(0.16, 1, 0.3, 1);
+      --spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    /* ============================================
+       RESET & BASE STYLES
+       ============================================ */
+    *,
+    *::before,
+    *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      min-height: 100%;
+      overflow-x: hidden;
+      overflow-y: auto;
+      background: var(--bg);
+    }
+
+    body {
+      font-family: var(--font);
+      color: var(--t1);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      -webkit-font-smoothing: antialiased;
+      -webkit-tap-highlight-color: transparent;
+      padding-bottom: 40px;
+    }
+
+    /* ============================================
+       BACKGROUND LAYERS
+       ============================================ */
+    .bg-cover {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      background: url('cover_envie.jpg') center center / cover no-repeat;
+      filter: blur(15px) saturate(1.2) brightness(0.8);
+      transform: scale(1.1);
+      opacity: 1;
+      pointer-events: none;
+    }
+
+    .bg-vignette {
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      background:
+        radial-gradient(ellipse at center, rgba(6, 6, 8, 0.2) 0%, rgba(6, 6, 8, 0.85) 80%),
+        linear-gradient(180deg, rgba(6, 6, 8, 0.1) 0%, rgba(6, 6, 8, 0.9) 100%);
+    }
+
+    .bg-noise {
+      position: fixed;
+      inset: 0;
+      z-index: 2;
+      opacity: 0.04;
+      pointer-events: none;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+
+    /* ============================================
+       LAYOUT
+       ============================================ */
+    .container {
+      position: relative;
+      z-index: 3;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 40px 24px;
+      width: 100%;
+      max-width: 480px;
+      animation: fadeUp 1s var(--ease) both;
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* ============================================
+       HEADER — Cover Art & Artist Info
+       ============================================ */
+    .cover-circle {
+      width: clamp(140px, 36vw, 160px);
+      height: clamp(140px, 36vw, 160px);
+      border-radius: 50%;
+      padding: 3px;
+      background: linear-gradient(135deg, #666, var(--silver-bright), #555, var(--silver-bright), #666);
+      background-size: 200% 200%;
+      animation: chromeShift 6s ease-in-out infinite;
+      margin-bottom: 24px;
+      box-shadow: 0 0 40px rgba(200, 200, 220, 0.18), 0 10px 30px rgba(0, 0, 0, 0.5);
+    }
+
+    .cover-circle img {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .artist-name {
+      font-size: clamp(38px, 11vw, 56px);
+      font-weight: 900;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      line-height: 1;
+      background: linear-gradient(135deg, #888, var(--silver-bright), #fff, var(--silver-bright), #888);
+      background-size: 200% 200%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: chromeShift 10s ease-in-out infinite;
+      margin-bottom: 8px;
+      filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.1));
+    }
+
+    @keyframes chromeShift {
+      0%, 100% { background-position: 0% 50% }
+      50% { background-position: 100% 50% }
+    }
+
+    .track-title {
+      font-size: clamp(20px, 5.5vw, 26px);
+      font-weight: 300;
+      font-style: italic;
+      letter-spacing: 0.1em;
+      color: var(--silver);
+      opacity: .85;
+      margin-bottom: 32px;
+    }
+
+    .headline {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--t3);
+      margin-bottom: 24px;
+    }
+
+    /* ============================================
+       PLATFORM LIST (ENVIE)
+       ============================================ */
+    .platform-list {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin-top: 10px;
+    }
+
+    .platform-item {
+      position: relative;
+      width: 100%;
+      height: 72px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      user-select: none;
+      touch-action: pan-y;
+      transition: border-color 0.3s, background 0.3s, transform 0.3s var(--ease);
+    }
+
+    .platform-item:hover {
+      background: rgba(255, 255, 255, 0.06);
+      border-color: rgba(255, 255, 255, 0.18);
+    }
+
+    .platform-item:hover .platform-icon {
+      transform: scale(1.1);
+    }
+
+    .platform-name {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--t1);
+      letter-spacing: 0.02em;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .platform-icon-box {
+      width: 50px;
+      height: 50px;
+      margin-left: 10px;
+      margin-right: 20px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s;
+      z-index: 1;
+      flex-shrink: 0;
+    }
+
+    .platform-item:hover .platform-icon-box {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .platform-icon {
+      width: 28px;
+      height: 28px;
+      fill: var(--silver-bright);
+      transition: transform 0.3s var(--spring);
+    }
+
+    .platform-item-action {
+      position: absolute;
+      right: 28px;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.15em;
+      color: var(--t3);
+      opacity: 0.6;
+      transition: all 0.3s;
+      z-index: 1;
+      pointer-events: none;
+      white-space: nowrap;
+    }
+
+    .platform-item:hover .platform-item-action {
+      color: var(--t1);
+      opacity: 1;
+      transform: translateX(5px);
+    }
+
+    .platform-item.success {
+      border-color: #fff;
+      background: rgba(255, 255, 255, 0.12);
+    }
+
+    .platform-item.hide-action .platform-item-action {
+      display: none !important;
+    }
+
+    /* Specific Platform Colors */
+    .platform-item[data-platform="spotify"] .platform-icon { fill: #1DB954; }
+    .platform-item[data-platform="apple"] .platform-icon { fill: none; stroke: #fff; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+    .platform-item[data-platform="youtube"] .platform-icon { fill: #FF0000; }
+    .platform-item[data-platform="deezer"] .platform-icon { fill: #EF5464; }
+    .platform-item[data-platform="tidal"] .platform-icon { fill: #ffffff; }
+    .platform-item[data-platform="qobuz"] .platform-icon { fill: #ffffff; }
+    .platform-item[data-platform="amazon"] .platform-icon { fill: transparent; }
+
+    /* ============================================
+       DIVIDER — Metallic hairline
+       ============================================ */
+    .section-divider {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      margin: 48px 0 32px 0;
+    }
+
+    .section-divider .line {
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
+    }
+
+    .section-divider .badge {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--t3);
+      white-space: nowrap;
+    }
+
+    /* ============================================
+       CROSS-PROMO SECTION — "DÉTAIL" (NEXT SINGLE)
+       ============================================ */
+    .promo-card {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.025);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 24px;
+      padding: 24px;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+      text-align: left;
+      transition: border-color 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .promo-card:hover {
+      border-color: rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .promo-header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .promo-cover-thumb {
+      width: 64px;
+      height: 64px;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+      flex-shrink: 0;
+    }
+
+    .promo-cover-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .promo-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .promo-tag {
+      font-size: 9.5px;
+      font-weight: 800;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--silver);
+      opacity: 0.7;
+      margin-bottom: 4px;
+      display: block;
+    }
+
+    .promo-title {
+      font-size: 18px;
+      font-weight: 800;
+      color: #fff;
+      letter-spacing: 0.02em;
+      line-height: 1.2;
+    }
+
+    .promo-subtitle {
+      font-size: 12px;
+      color: var(--t2);
+      margin-top: 2px;
+    }
+
+    .promo-btn {
+      padding: 10px 18px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 50px;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      color: #fff;
+      white-space: nowrap;
+      transition: all 0.3s ease;
+    }
+
+    .promo-card:hover .promo-btn {
+      background: #fff;
+      color: #000;
+      transform: scale(1.05);
+    }
+
+    /* ============================================
+       FOOTER
+       ============================================ */
+    .footer {
+      margin-top: 48px;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+    }
+
+    .social-links {
+      display: flex;
+      gap: 32px;
+    }
+
+    .social-link {
+      color: var(--t3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s var(--ease);
+      opacity: 0.6;
+      text-decoration: none;
+    }
+
+    .social-link:hover {
+      opacity: 1;
+      transform: translateY(-3px);
+      color: var(--t1);
+    }
+
+    .social-icon {
+      width: 26px;
+      height: 26px;
+      fill: currentColor;
+    }
+
+    /* ============================================
+       📱 TIKTOK IN-APP BROWSER ASSISTANT MODAL
+       ============================================ */
+    .tt-modal-ov {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(4, 4, 6, 0.88);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s var(--ease);
+      padding: 20px;
+    }
+
+    .tt-modal-ov.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .tt-modal-card {
+      width: 100%;
+      max-width: 400px;
+      background: rgba(14, 14, 18, 0.95);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 28px;
+      padding: 36px 24px 28px 24px;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8);
+      transform: translateY(30px) scale(0.95);
+      transition: transform 0.4s var(--spring), opacity 0.4s var(--ease);
+      opacity: 0;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    .tt-modal-ov.active .tt-modal-card {
+      transform: translateY(0) scale(1);
+      opacity: 1;
+    }
+
+    .tt-modal-title {
+      font-size: clamp(20px, 5.5vw, 24px);
+      font-weight: 800;
+      text-align: center;
+      margin-bottom: 8px;
+      background: linear-gradient(135deg, #fff, var(--silver-bright));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1.25;
+    }
+
+    .tt-modal-subtitle {
+      font-size: 13.5px;
+      color: var(--t2);
+      text-align: center;
+      line-height: 1.5;
+      margin-bottom: 20px;
+    }
+
+    .tt-track-display {
+      display: block;
+      font-size: 18px;
+      font-weight: 900;
+      color: #fff;
+      margin: 12px 0 16px 0;
+      letter-spacing: 0.05em;
+    }
+
+    .tt-copy-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      max-width: 260px;
+      padding: 15px 22px;
+      border-radius: 50px;
+      border: none;
+      background: linear-gradient(135deg, #1ed760, #1DB954);
+      color: #000;
+      font-family: var(--font);
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.3s var(--ease);
+      box-shadow: 0 6px 20px rgba(29, 185, 84, 0.35);
+    }
+
+    .tt-copy-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px rgba(29, 185, 84, 0.5);
+    }
+
+    .tt-copy-btn.copied {
+      background: #fff !important;
+      color: #1DB954 !important;
+    }
+
+    .tt-copy-btn svg {
+      width: 16px;
+      height: 16px;
+      fill: currentColor;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="bg-cover" id="bg-cover"></div>
+  <div class="bg-vignette"></div>
+  <div class="bg-noise"></div>
+
+  <main class="container">
+    <div class="cover-circle">
+      <img src="cover_envie.jpg" alt="Merilia - Envie" id="cover-img">
+    </div>
+
+    <h1 class="artist-name" id="artist-name">Merilia</h1>
+    <p class="track-title" id="track-title">Envie</p>
+
+    <p class="headline">ÉCOUTER MAINTENANT</p>
+
+    <div class="platform-list">
+      <!-- Spotify -->
+      <div class="platform-item" data-platform="spotify" id="btn-spotify" style="display:none;">
+        <div class="platform-icon-box">
+          <div class="platform-icon">
+            <svg viewBox="0 0 24 24"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.503 17.306c-.215.353-.674.464-1.027.249-2.863-1.748-6.467-2.144-10.712-1.173-.404.092-.81-.157-.903-.561-.092-.403.157-.809.561-.902 4.646-1.063 8.625-.615 11.832 1.34.353.215.464.674.249 1.027zm1.468-3.259c-.27.44-.847.579-1.287.308-3.277-2.014-8.273-2.597-12.149-1.42-.497.151-1.024-.131-1.174-.627-.151-.497.131-1.024.627-1.174 4.429-1.344 9.94-.693 13.676 1.605.44.271.579.848.308 1.288zm.139-3.391c-3.931-2.333-10.428-2.55-14.218-1.4c-.603.183-1.246-.168-1.429-.771-.183-.603.168-1.246.771-1.429 4.343-1.32 11.523-1.054 16.002 1.604.542.321.721 1.024.399 1.565-.321.543-1.024.722-1.565.401-.001 0-.001 0-.001 0z"/></svg>
+          </div>
+        </div>
+        <div class="platform-name">Spotify</div>
+        <span class="platform-item-action">ÉCOUTER</span>
+      </div>
+
+      <!-- YouTube -->
+      <div class="platform-item" data-platform="youtube" id="btn-youtube" style="display:none;">
+        <div class="platform-icon-box">
+          <div class="platform-icon">
+            <svg viewBox="0 0 24 24"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/></svg>
+          </div>
+        </div>
+        <div class="platform-name">YouTube</div>
+        <span class="platform-item-action">ÉCOUTER</span>
+      </div>
+
+      <!-- Deezer -->
+      <div class="platform-item" data-platform="deezer" id="btn-deezer" style="display:none;">
+        <div class="platform-icon-box">
+          <div class="platform-icon">
+            <svg viewBox="0 0 24 24"><path d="M19.125 15.656h4.875v3.469h-4.875v-3.469zm-6.375 0h4.875v3.469h-4.875v-3.469zm-6.375 0h4.875v3.469h-4.875v-3.469zm-6.375 0h4.875v3.469h-4.875v-3.469zm19.125-5.25h4.875v3.469h-4.875v-3.469zm-6.375 0h4.875v3.469h-4.875v-3.469zm-6.375 0h4.875v3.469h-4.875v-3.469zm-6.375 0h4.875v3.469h-4.875v-3.469zm19.125-5.25h4.875v3.469h-4.875v-3.469zm-6.375 0h4.875v3.469h-4.875v-3.469zm-6.375 10.5h4.875v3.469h-4.875v-3.469zm0-15.75h4.875v3.469h-4.875v-3.469zm-6.375 10.5h4.875v3.469h-4.875v-3.469z"/></svg>
+          </div>
+        </div>
+        <div class="platform-name">Deezer</div>
+        <span class="platform-item-action">ÉCOUTER</span>
+      </div>
+
+      <!-- Amazon Music -->
+      <div class="platform-item" data-platform="amazon" id="btn-amazon" style="display:none;">
+        <div class="platform-icon-box">
+          <div class="platform-icon" style="padding: 2px;">
+            <img src="https://img.icons8.com/?size=512&id=lxwUaALAeQmr&format=png" alt="Amazon Music" style="width:100%; height:100%; object-fit:contain;">
+          </div>
+        </div>
+        <div class="platform-name">Amazon Music</div>
+        <span class="platform-item-action">ÉCOUTER</span>
+      </div>
+
+      <!-- Apple Music -->
+      <div class="platform-item" data-platform="apple" id="btn-apple" style="display:none;">
+        <div class="platform-icon-box">
+          <div class="platform-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M9 18V5l12-2v13"></path>
+              <circle cx="6" cy="18" r="3"></circle>
+              <circle cx="18" cy="16" r="3"></circle>
+            </svg>
+          </div>
+        </div>
+        <div class="platform-name">Apple Music</div>
+        <span class="platform-item-action">ÉCOUTER</span>
+      </div>
+
+      <!-- Tidal -->
+      <div class="platform-item" data-platform="tidal" id="btn-tidal" style="display:none;">
+        <div class="platform-icon-box">
+          <div class="platform-icon">
+            <svg viewBox="0 0 24 24"><path d="M12.012 3.992L8.008 7.996 4.004 3.992 0 7.996 4.004 12l4.004-4.004L12.012 12l-4.004 4.004 4.004 4.004 4.004-4.004L12.012 12l4.004-4.004-4.004-4.004zM16.042 7.996l3.979-3.979L24 7.996l-3.979 3.979z"/></svg>
+          </div>
+        </div>
+        <div class="platform-name">Tidal</div>
+        <span class="platform-item-action">ÉCOUTER</span>
+      </div>
+
+      <!-- Qobuz -->
+      <div class="platform-item" data-platform="qobuz" id="btn-qobuz" style="display:none;">
+        <div class="platform-icon-box">
+          <div class="platform-icon">
+            <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 14c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4zm0-6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/></svg>
+          </div>
+        </div>
+        <div class="platform-name">Qobuz</div>
+        <span class="platform-item-action">ÉCOUTER</span>
+      </div>
+    </div>
+
+    <!-- Separator -->
+    <div class="section-divider">
+      <div class="line"></div>
+      <span class="badge">PROCHAIN SINGLE</span>
+      <div class="line"></div>
+    </div>
+
+    <!-- PROMO SECTION FOR NEXT SINGLE ("DÉTAIL") -->
+    <a href="index.html" class="promo-card" aria-label="Découvrir le prochain single Détail">
+      <div class="promo-header">
+        <div class="promo-cover-thumb">
+          <img src="cover_detail.jpg" alt="Merilia — Détail" id="promo-cover-img">
+        </div>
+        <div class="promo-info">
+          <span class="promo-tag" id="promo-badge">PROCHAIN SINGLE</span>
+          <h2 class="promo-title" id="promo-title">Détail</h2>
+          <p class="promo-subtitle" id="promo-artist">Merilia</p>
+        </div>
+      </div>
+      <div class="promo-btn">PRÉ-SAVER</div>
+    </a>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="social-links">
+        <a href="https://instagram.com/merilia_dnb" class="social-link" target="_blank" aria-label="Instagram" id="social-ig">
+          <svg class="social-icon" viewBox="0 0 24 24">
+            <path
+              d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z" />
+          </svg>
+        </a>
+        <a href="https://tiktok.com/@merilia_dnb" class="social-link" target="_blank" aria-label="TikTok" id="social-tt">
+          <svg class="social-icon" viewBox="0 0 24 24">
+            <path
+              d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.9-.32-1.98-.23-2.81.36-.54.38-.89.98-1.03 1.64-.14.65-.01 1.34.33 1.91.43.72 1.21 1.2 2.04 1.24.89.07 1.83-.23 2.45-.88.6-.61.85-1.48.83-2.33-.03-4.75-.01-9.51-.02-14.26z" />
+          </svg>
+        </a>
+      </div>
+    </footer>
+  </main>
+
+  <!-- ============================================
+       📱 TIKTOK IN-APP BROWSER ASSISTANT MODAL
+       ============================================ -->
+  <div class="tt-modal-ov" id="tt-modal" role="dialog" aria-hidden="true">
+    <div class="tt-modal-card">
+      <h2 class="tt-modal-title">Prêt à écouter <span id="tt-track-name-title">'Envie'</span> ? ✨</h2>
+      <p class="tt-modal-subtitle">
+        TikTok bloque l'ouverture des applis de musique. C'est l'occasion de sortir de l'application et de découvrir ce morceau. 🫂
+      </p>
+
+      <div class="tt-modal-instruction">
+        T'as juste à coller le titre dans ton appli de musique préférée (Spotify, Youtube...) :
+      </div>
+
+      <div class="tt-track-container">
+        <strong class="tt-track-display" id="tt-track-display">MERILIA - Envie</strong>
+        <button class="tt-copy-btn" id="tt-copy-btn" type="button">
+          <svg viewBox="0 0 24 24">
+            <path
+              d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z" />
+          </svg>
+          <span id="tt-copy-text">Copier le titre</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script src="config.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Priorité à CONFIG.previousRelease (ou fallback sur CONFIG si la chanson principale est Envie)
+      const release = (CONFIG.previousRelease && CONFIG.previousRelease.title === 'Envie') 
+        ? CONFIG.previousRelease 
+        : (CONFIG.currentRelease && CONFIG.currentRelease.title === 'Envie')
+          ? CONFIG.currentRelease
+          : {
+            title: "Envie",
+            cover: "cover_envie.jpg",
+            links: CONFIG.links
+          };
+
+      const artist = CONFIG.artist || "Merilia";
+      const nextRelease = CONFIG.currentRelease || { title: "Détail", cover: "cover_detail.jpg" };
+
+      // 1. Appliquer les métadonnées et contenus visuels
+      document.title = `${artist} - ${release.title} | Écouter maintenant`;
+      document.getElementById('artist-name').textContent = artist;
+      document.getElementById('track-title').textContent = release.title;
+      document.getElementById('cover-img').src = release.cover || 'cover_envie.jpg';
+      document.getElementById('bg-cover').style.backgroundImage = `url('${release.cover || 'cover_envie.jpg'}')`;
+
+      // Socials
+      if (CONFIG.socials) {
+        if (CONFIG.socials.instagram) document.getElementById('social-ig').href = CONFIG.socials.instagram;
+        if (CONFIG.socials.tiktok) document.getElementById('social-tt').href = CONFIG.socials.tiktok;
+      }
+
+      // Promo du prochain single
+      if (nextRelease) {
+        document.getElementById('promo-title').textContent = nextRelease.title;
+        document.getElementById('promo-artist').textContent = artist;
+        if (nextRelease.cover) document.getElementById('promo-cover-img').src = nextRelease.cover;
+        if (nextRelease.badge) document.getElementById('promo-badge').textContent = nextRelease.badge;
+      }
+
+      // 2. Initialiser les boutons des plateformes d'écoute pour "Envie"
+      const mainLinks = release.links || CONFIG.links;
+      const platforms = ['spotify', 'youtube', 'deezer', 'amazon', 'apple', 'tidal', 'qobuz'];
+
+      platforms.forEach((p, index) => {
+        const btn = document.getElementById(`btn-${p}`);
+        const url = mainLinks[p];
+
+        if (url && url.trim() !== "") {
+          btn.dataset.url = url;
+          btn.style.display = 'flex';
+
+          btn.style.opacity = '0';
+          btn.style.transform = 'translateY(20px)';
+          btn.style.cursor = 'pointer';
+
+          setTimeout(() => {
+            btn.style.transition = 'all 0.8s cubic-bezier(0.16, 1, 0.3, 1)';
+            btn.style.opacity = '1';
+            btn.style.transform = 'translateY(0)';
+          }, 200 + (index * 80));
+
+          btn.addEventListener('click', () => triggerPlatformAction(btn));
+
+          let startX = 0;
+          btn.addEventListener('touchstart', e => startX = e.touches[0].clientX, { passive: true });
+          btn.addEventListener('touchmove', e => {
+            if (e.touches[0].clientX - startX > 70) triggerPlatformAction(btn);
+          }, { passive: true });
+        } else {
+          btn.style.display = 'none';
+        }
+      });
+
+      // 3. Smart overflow check
+      function updateActionVisibility() {
+        document.querySelectorAll('.platform-item').forEach(item => {
+          const nameEl = item.querySelector('.platform-name');
+          const actionEl = item.querySelector('.platform-item-action');
+          if (!nameEl || !actionEl) return;
+          const iconBox = item.querySelector('.platform-icon-box');
+          const iconW = iconBox ? iconBox.offsetWidth + parseInt(getComputedStyle(iconBox).marginLeft) + parseInt(getComputedStyle(iconBox).marginRight) : 90;
+          const nameW = nameEl.scrollWidth;
+          const actionW = actionEl.scrollWidth + 28 + 16;
+          const available = item.clientWidth - iconW;
+          if (available < nameW + actionW + 8) {
+            item.classList.add('hide-action');
+          } else {
+            item.classList.remove('hide-action');
+          }
+        });
+      }
+
+      window.addEventListener('resize', updateActionVisibility);
+      setTimeout(updateActionVisibility, 300);
+
+      function triggerPlatformAction(item) {
+        if (item.classList.contains('success')) return;
+
+        const platform = item.dataset.platform;
+        let url = item.dataset.url;
+
+        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+
+        if (platform === 'spotify' && isIOS && mainLinks.spotify_ios) {
+          url = mainLinks.spotify_ios;
+        }
+
+        item.classList.add('success');
+        if (window.navigator.vibrate) window.navigator.vibrate(30);
+
+        if (platform === 'spotify' && isIOS) {
+          window.location.href = url;
+          setTimeout(() => item.classList.remove('success'), 1000);
+          return;
+        }
+
+        setTimeout(() => {
+          window.open(url, '_blank');
+          setTimeout(() => item.classList.remove('success'), 1000);
+        }, 200);
+      }
+
+      // --- LOGIQUE ASSISTANT TIKTOK IN-APP ---
+      const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+      const isTikTokApp = /TikTok|ByteLocale|musical_ly/i.test(userAgent) || window.location.search.includes('tiktok');
+
+      if (isTikTokApp) {
+        const ttModal = document.getElementById('tt-modal');
+        const ttCopyBtn = document.getElementById('tt-copy-btn');
+        const ttCopyText = document.getElementById('tt-copy-text');
+
+        const fullTrackTitle = `${artist.toUpperCase()} - ${release.title}`;
+        document.getElementById('tt-track-name-title').textContent = `'${release.title}'`;
+        document.getElementById('tt-track-display').textContent = fullTrackTitle;
+
+        setTimeout(() => {
+          ttModal.classList.add('active');
+          ttModal.setAttribute('aria-hidden', 'false');
+        }, 800);
+
+        ttCopyBtn.addEventListener('click', () => {
+          navigator.clipboard.writeText(fullTrackTitle).then(() => {
+            triggerCopyFeedback();
+          }).catch(err => {
+            const textArea = document.createElement("textarea");
+            textArea.value = fullTrackTitle;
+            textArea.style.position = "fixed";
+            textArea.style.opacity = "0";
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            try {
+              document.execCommand('copy');
+              triggerCopyFeedback();
+            } catch (fallbackErr) {}
+            document.body.removeChild(textArea);
+          });
+        });
+
+        function triggerCopyFeedback() {
+          ttCopyBtn.classList.add('copied');
+          ttCopyText.textContent = "Copié ! ✅";
+          if (window.navigator.vibrate) window.navigator.vibrate([40, 40]);
+          setTimeout(() => {
+            ttCopyBtn.classList.remove('copied');
+            ttCopyText.textContent = "Copier le titre";
+          }, 3000);
+        }
+      }
+    });
+  </script>
+</body>
+
+</html>

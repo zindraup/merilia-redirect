@@ -5,10 +5,26 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta name="description"
-    content="Merilia — Détail. Nouveau single à venir. Pré-sauvegarde dès maintenant et reçois le rappel en avant-première.">
+    content="MERILIA — Détail. Nouveau single à venir. Pré-sauvegarde dès maintenant et reçois le rappel en avant-première.">
   <meta name="theme-color" content="#060608">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <title>Merilia - Détail | Pre-Save Single</title>
+  <title>MERILIA - Détail | Pre-Save Single</title>
+
+  <!-- Open Graph / Social Media Preview (Facebook, WhatsApp, Discord, iMessage) -->
+  <meta property="og:type" content="music.song">
+  <meta property="og:site_name" content="MERILIA">
+  <meta property="og:title" content="MERILIA — Détail (Pre-Save)">
+  <meta property="og:description" content="Nouveau single à venir. Pré-sauvegarde dès maintenant et reçois le rappel en avant-première.">
+  <meta property="og:image" content="cover_detail.jpg">
+  <meta property="og:image:type" content="image/jpeg">
+  <meta property="og:image:alt" content="MERILIA — Détail Cover HD">
+
+  <!-- Twitter / X Cards -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="MERILIA — Détail (Pre-Save)">
+  <meta name="twitter:description" content="Nouveau single à venir. Pré-sauvegarde dès maintenant et reçois le rappel en avant-première.">
+  <meta name="twitter:image" content="cover_detail.jpg">
+  <meta name="twitter:image:alt" content="MERILIA — Détail Cover HD">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
@@ -462,11 +478,57 @@
       border-color: rgba(255, 255, 255, 0.15);
     }
 
-    .prev-header {
+    .prev-header-link {
       display: flex;
       align-items: center;
       gap: 16px;
       margin-bottom: 20px;
+      text-decoration: none;
+      color: inherit;
+      border-radius: 18px;
+      padding: 8px;
+      margin: -8px -8px 14px -8px;
+      transition: background 0.3s var(--ease), border-color 0.3s var(--ease);
+      border: 1px solid transparent;
+      cursor: pointer;
+    }
+
+    .prev-header-link:hover {
+      background: rgba(255, 255, 255, 0.06);
+      border-color: rgba(255, 255, 255, 0.15);
+    }
+
+    .prev-header-link:hover .prev-title {
+      color: var(--silver-bright);
+    }
+
+    .prev-header-link:hover .prev-cover-thumb {
+      transform: scale(1.04);
+      border-color: rgba(255, 255, 255, 0.3);
+    }
+
+    .prev-action-btn {
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 14px;
+      border-radius: 50px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      color: #fff;
+      transition: all 0.3s var(--ease);
+      flex-shrink: 0;
+    }
+
+    .prev-header-link:hover .prev-action-btn {
+      background: #fff;
+      color: #000;
+      border-color: #fff;
+      transform: translateX(3px);
     }
 
     .prev-cover-thumb {
@@ -1035,11 +1097,11 @@
 
     <!-- Cover art in silver circle -->
     <div class="cover-circle">
-      <img src="cover_detail.jpg" alt="Merilia — Détail" id="hero-cover-img" width="170" height="170">
+      <img src="cover_detail.jpg" alt="MERILIA — Détail" id="hero-cover-img" width="170" height="170">
     </div>
 
     <!-- Artist branding -->
-    <h1 class="artist-name" id="artist-name">Merilia</h1>
+    <h1 class="artist-name" id="artist-name">MERILIA</h1>
     <p class="track-title" id="track-title">Détail</p>
 
     <!-- Countdown -->
@@ -1085,16 +1147,20 @@
 
     <!-- PREVIOUS SINGLE STREAMING SECTION ("ENVIE") -->
     <section class="previous-release-card" aria-label="Écouter le titre précédent Envie">
-      <div class="prev-header">
+      <a href="envie.html" class="prev-header-link" title="Ouvrir la page du titre Envie">
         <div class="prev-cover-thumb">
-          <img src="cover_envie.jpg" alt="Merilia — Envie" id="prev-cover-img">
+          <img src="cover_envie.jpg" alt="MERILIA — Envie" id="prev-cover-img">
         </div>
         <div class="prev-info">
           <span class="prev-tag" id="prev-badge">DERNIER SINGLE DISPONIBLE</span>
           <h2 class="prev-title" id="prev-title">Envie</h2>
-          <p class="prev-subtitle" id="prev-artist">Merilia</p>
+          <p class="prev-subtitle" id="prev-artist">MERILIA</p>
         </div>
-      </div>
+        <div class="prev-action-btn">
+          <span>PAGE</span>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </div>
+      </a>
 
       <div class="prev-platforms-grid" id="prev-platforms-grid">
         <!-- Spotify -->
@@ -1267,6 +1333,14 @@
         badge: 'DERNIER SINGLE DISPONIBLE',
         links: CONFIG.links
       };
+
+      // Résolution automatique d'URL absolue pour les aperçus réseaux sociaux
+      if (window.location.origin && window.location.origin !== 'null' && !window.location.origin.startsWith('file:')) {
+        const ogImg = document.querySelector('meta[property="og:image"]');
+        const twImg = document.querySelector('meta[name="twitter:image"]');
+        if (ogImg && ogImg.content) ogImg.content = new URL(ogImg.getAttribute('content'), window.location.href).href;
+        if (twImg && twImg.content) twImg.content = new URL(twImg.getAttribute('content'), window.location.href).href;
+      }
 
       // Page Title & Hero Elements
       document.title = `${CONFIG.artist} - ${current.title} | Pre-Save Single`;

@@ -4,10 +4,26 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <meta name="description" content="Merilia — Envie. Disponible maintenant sur toutes les plateformes de streaming.">
+  <meta name="description" content="MERILIA — Envie. Disponible maintenant sur toutes les plateformes de streaming.">
   <meta name="theme-color" content="#060608">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <title>MERILIA - Envie | Écouter maintenant</title>
+
+  <!-- Open Graph / Social Media Preview (Facebook, WhatsApp, Discord, iMessage) -->
+  <meta property="og:type" content="music.song">
+  <meta property="og:site_name" content="MERILIA">
+  <meta property="og:title" content="MERILIA — Envie">
+  <meta property="og:description" content="Disponible maintenant sur toutes les plateformes de streaming.">
+  <meta property="og:image" content="cover_envie.jpg">
+  <meta property="og:image:type" content="image/jpeg">
+  <meta property="og:image:alt" content="MERILIA — Envie Cover HD">
+
+  <!-- Twitter / X Cards -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="MERILIA — Envie">
+  <meta name="twitter:description" content="Disponible maintenant sur toutes les plateformes de streaming.">
+  <meta name="twitter:image" content="cover_envie.jpg">
+  <meta name="twitter:image:alt" content="MERILIA — Envie Cover HD">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
@@ -590,10 +606,10 @@
 
   <main class="container">
     <div class="cover-circle">
-      <img src="cover_envie.jpg" alt="Merilia - Envie" id="cover-img">
+      <img src="cover_envie.jpg" alt="MERILIA — Envie" id="cover-img">
     </div>
 
-    <h1 class="artist-name" id="artist-name">Merilia</h1>
+    <h1 class="artist-name" id="artist-name">MERILIA</h1>
     <p class="track-title" id="track-title">Envie</p>
 
     <p class="headline">ÉCOUTER MAINTENANT</p>
@@ -692,12 +708,12 @@
     <a href="index.html" class="promo-card" aria-label="Découvrir le prochain single Détail">
       <div class="promo-header">
         <div class="promo-cover-thumb">
-          <img src="cover_detail.jpg" alt="Merilia — Détail" id="promo-cover-img">
+          <img src="cover_detail.jpg" alt="MERILIA — Détail" id="promo-cover-img">
         </div>
         <div class="promo-info">
           <span class="promo-tag" id="promo-badge">PROCHAIN SINGLE</span>
           <h2 class="promo-title" id="promo-title">Détail</h2>
-          <p class="promo-subtitle" id="promo-artist">Merilia</p>
+          <p class="promo-subtitle" id="promo-artist">MERILIA</p>
         </div>
       </div>
       <div class="promo-btn">PRÉ-SAVER</div>
@@ -763,8 +779,16 @@
             links: CONFIG.links
           };
 
-      const artist = CONFIG.artist || "Merilia";
+      const artist = CONFIG.artist || "MERILIA";
       const nextRelease = CONFIG.currentRelease || { title: "Détail", cover: "cover_detail.jpg" };
+
+      // Résolution automatique d'URL absolue pour les aperçus réseaux sociaux
+      if (window.location.origin && window.location.origin !== 'null' && !window.location.origin.startsWith('file:')) {
+        const ogImg = document.querySelector('meta[property="og:image"]');
+        const twImg = document.querySelector('meta[name="twitter:image"]');
+        if (ogImg && ogImg.content) ogImg.content = new URL(ogImg.getAttribute('content'), window.location.href).href;
+        if (twImg && twImg.content) twImg.content = new URL(twImg.getAttribute('content'), window.location.href).href;
+      }
 
       // 1. Appliquer les métadonnées et contenus visuels
       document.title = `${artist} - ${release.title} | Écouter maintenant`;

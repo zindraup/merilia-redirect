@@ -4,7 +4,7 @@
 // ============================================
 
 const CONFIG = {
-  artist: "Merilia",
+  artist: "MERILIA",
 
   // Nouveau single ("Détail")
   currentRelease: {

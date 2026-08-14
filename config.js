@@ -18,7 +18,7 @@ const CONFIG = {
     spotifyIosUrl: "https://spotify.openinapp.co/5argt",
     links: {
       spotify: "https://spotify.openinapp.co/5argt",
-      spotify_ios: "https://open.spotify.com/intl-fr/track/0mNGJ5sdhPVdp7AQiwWz2y?si=33753fe9380c4f25",
+      spotify_ios: "https://open.spotify.com/intl-fr/artist/6cebGXR7PHyonZ6LGE6ZZv?si=H41bUtShTeKTkxWDE4aVZg",
       youtube: "https://yt.openinapp.co/7815vn7",
       deezer: "https://openinapp.link/MERILIAdeezer",
       amazon: "https://amzn.openinapp.link/merilia",

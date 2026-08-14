@@ -17,13 +17,13 @@ const CONFIG = {
     preSaveUrl: "https://spotify.openinapp.co/31xu3",
     spotifyIosUrl: "https://spotify.openinapp.co/5argt",
     links: {
-      spotify: "https://spotify.openinapp.co/5argt",
-      spotify_ios: "https://open.spotify.com/intl-fr/artist/6cebGXR7PHyonZ6LGE6ZZv?si=H41bUtShTeKTkxWDE4aVZg",
-      youtube: "https://yt.openinapp.co/7815vn7",
-      deezer: "https://openinapp.link/MERILIAdeezer",
-      amazon: "https://amzn.openinapp.link/merilia",
+      spotify: "https://spotify.openinapp.co/jobgo",
+      spotify_ios: "https://open.spotify.com/intl-fr/track/5mAttM1HkPnNVdEDfdYWfJ?si=3f9758e5b4834250",
+      youtube: "https://youtube.openinapp.co/DETAIL",
+      deezer: "https://deezer.openinapp.link/detail",
+      amazon: "https://amzn.openinapp.link/6tv1d",
       apple: "https://applemusic.oia.bio/DETAIL-Applemusic",
-      tidal: "https://openinapp.link/MERILIAtidal",
+      tidal: "https://tidal.openinapp.link/detail",
       qobuz: "https://qobuz.openinapp.link/DETAIL"
     }
   },

@@ -15,16 +15,16 @@ const CONFIG = {
     showSpotifyPreSave: false, // Afficher ou non l'option de pre-save Spotify après que l'utilisateur a rejoint la liste (par défaut: false)
     spotifyPreSaveUrl: "https://spotify.openinapp.co/31xu3",
     preSaveUrl: "https://spotify.openinapp.co/31xu3",
-    spotifyIosUrl: "https://open.spotify.com/intl-fr/track/0mNGJ5sdhPVdp7AQiwWz2y?si=33753fe9380c4f25",
+    spotifyIosUrl: "https://spotify.openinapp.co/5argt",
     links: {
-      spotify: "https://spotify.openinapp.co/31xu3",
+      spotify: "https://spotify.openinapp.co/5argt",
       spotify_ios: "https://open.spotify.com/intl-fr/track/0mNGJ5sdhPVdp7AQiwWz2y?si=33753fe9380c4f25",
-      youtube: "https://yt.openinapp.co/c5d74",
-      deezer: "https://openinapp.link/deezermeriliaenvie",
-      amazon: "https://amzn.openinapp.link/ugxi2",
-      apple: "https://applemusic.openinapp.co/od4mg",
-      tidal: "https://openinapp.link/tidalenvie",
-      qobuz: "https://openinapp.link/qobuz"
+      youtube: "https://yt.openinapp.co/7815vn7",
+      deezer: "https://openinapp.link/MERILIAdeezer",
+      amazon: "https://amzn.openinapp.link/merilia",
+      apple: "https://applemusic.oia.bio/DETAIL-Applemusic",
+      tidal: "https://openinapp.link/MERILIAtidal",
+      qobuz: "https://qobuz.openinapp.link/DETAIL"
     }
   },
 

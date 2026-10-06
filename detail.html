@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <meta name="description" content="MERILIA — Détail. Disponible maintenant sur toutes les plateformes de streaming.">
+  <meta name="description" content="MERILIA - Détail. Disponible maintenant sur toutes les plateformes de streaming.">
   <meta name="theme-color" content="#060608">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <title>MERILIA - Détail | Écouter maintenant</title>
@@ -12,18 +12,18 @@
   <!-- Open Graph / Social Media Preview (Facebook, WhatsApp, Discord, iMessage) -->
   <meta property="og:type" content="music.song">
   <meta property="og:site_name" content="MERILIA">
-  <meta property="og:title" content="MERILIA — Détail">
+  <meta property="og:title" content="MERILIA - Détail">
   <meta property="og:description" content="Disponible maintenant sur toutes les plateformes de streaming.">
   <meta property="og:image" content="cover_detail.jpg">
   <meta property="og:image:type" content="image/jpeg">
-  <meta property="og:image:alt" content="MERILIA — Détail Cover HD">
+  <meta property="og:image:alt" content="MERILIA - Détail Cover HD">
 
   <!-- Twitter / X Cards -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="MERILIA — Détail">
+  <meta name="twitter:title" content="MERILIA - Détail">
   <meta name="twitter:description" content="Disponible maintenant sur toutes les plateformes de streaming.">
   <meta name="twitter:image" content="cover_detail.jpg">
-  <meta name="twitter:image:alt" content="MERILIA — Détail Cover HD">
+  <meta name="twitter:image:alt" content="MERILIA - Détail Cover HD">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -35,7 +35,7 @@
   <link rel="prefetch" href="envie.html">
   <style>
     /* ============================================
-       🎨 DESIGN TOKENS — Silver / Chrome palette
+       🎨 DESIGN TOKENS - Silver / Chrome palette
        ============================================ */
     :root {
       --bg: #060608;
@@ -164,7 +164,7 @@
     }
 
     /* ============================================
-       HEADER — Cover Art & Artist Info
+       HEADER - Cover Art & Artist Info
        ============================================ */
     .cover-circle {
       width: clamp(140px, 36vw, 160px);
@@ -350,7 +350,7 @@
     .platform-item[data-platform="amazon"] .platform-icon { fill: transparent; }
 
     /* ============================================
-       DIVIDER — Metallic hairline
+       DIVIDER - Metallic hairline
        ============================================ */
     .section-divider {
       width: 100%;
@@ -378,7 +378,7 @@
     }
 
     /* ============================================
-       PREVIOUS SINGLE SECTION — "ENVIE" (STREAMING CARD)
+       PREVIOUS SINGLE SECTION - "ENVIE" (STREAMING CARD)
        ============================================ */
     .previous-release-card {
       width: 100%;
@@ -575,7 +575,7 @@
     }
 
     /* ============================================
-       CROSS-PROMO SECTION — "ACCÉLÈRE" (NEXT SINGLE)
+       CROSS-PROMO SECTION - "ACCÉLÈRE" (NEXT SINGLE)
        ============================================ */
     .promo-card {
       width: 100%;
@@ -878,7 +878,7 @@
 
   <main class="container">
     <div class="cover-circle">
-      <img src="cover_detail.jpg" alt="MERILIA — Détail" id="cover-img">
+      <img src="cover_detail.jpg" alt="MERILIA - Détail" id="cover-img">
     </div>
 
     <h1 class="artist-name" id="artist-name">MERILIA</h1>
@@ -980,7 +980,7 @@
     <a href="accelere.html" class="promo-card" aria-label="Découvrir le prochain single Accélère">
       <div class="promo-header">
         <div class="promo-cover-thumb">
-          <img src="cover_accelere.jpg" alt="MERILIA — Accélère" id="promo-cover-img">
+          <img src="cover_accelere.jpg" alt="MERILIA - Accélère" id="promo-cover-img">
         </div>
         <div class="promo-info">
           <span class="promo-tag" id="promo-badge">PROCHAIN SINGLE</span>
@@ -1002,7 +1002,7 @@
     <section class="previous-release-card" aria-label="Écouter le titre précédent Envie">
       <a href="envie.html" class="prev-header-link" id="prev-page-link" title="Ouvrir la page du titre Envie">
         <div class="prev-cover-thumb">
-          <img src="cover_envie.jpg" alt="MERILIA — Envie" id="prev-cover-img">
+          <img src="cover_envie.jpg" alt="MERILIA - Envie" id="prev-cover-img">
         </div>
         <div class="prev-info">
           <span class="prev-tag" id="prev-badge">SINGLE PRÉCÉDENT</span>
@@ -1108,7 +1108,7 @@
   <script src="config.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      // detail.html est une page FIXE pour "Détail" — indépendante de currentRelease
+      // detail.html est une page FIXE pour "Détail" - indépendante de currentRelease
       const current = CONFIG.previousRelease || {
         title: 'Détail',
         cover: 'cover_detail.jpg',
@@ -1188,7 +1188,7 @@
         }
       });
 
-      // 3. Smart overflow check — hide ÉCOUTER label if not enough room
+      // 3. Smart overflow check - hide ÉCOUTER label if not enough room
       function updateActionVisibility() {
         // Main platform rows
         document.querySelectorAll('.platform-item').forEach(item => {

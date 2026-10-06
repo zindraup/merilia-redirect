@@ -1,5 +1,5 @@
 /**
- * MERILIA — Fluid Page Transitions Engine
+ * MERILIA - Fluid Page Transitions Engine
  * Gère le fondu d'entrée, de sortie et le préchargement des images de fond.
  */
 (function () {

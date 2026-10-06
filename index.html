@@ -53,7 +53,7 @@
 
   <style>
     /* ============================================
-       🎨 DESIGN SYSTEM — LIQUID CHROME & DEEP SPACE
+       🎨 DESIGN SYSTEM - LIQUID CHROME & DEEP SPACE
        ============================================ */
     :root {
       --bg: #060608;
@@ -134,7 +134,7 @@
     }
 
     /* ============================================
-       NAVIGATION — MINIMAL & PRESTIGE
+       NAVIGATION - MINIMAL & PRESTIGE
        ============================================ */
     .site-nav {
       position: sticky;
@@ -237,7 +237,7 @@
     }
 
     /* ============================================
-       HERO — DERNIÈRE SORTIE (COMPACTE & PERCUTANTE)
+       HERO - DERNIÈRE SORTIE (COMPACTE & PERCUTANTE)
        ============================================ */
     .hero-section {
       width: 100%;
@@ -509,7 +509,7 @@
       text-transform: uppercase;
     }
 
-    /* Grille de morceaux — centrée avec flex/grid */
+    /* Grille de morceaux - centrée avec flex/grid */
     .releases-grid {
       display: flex;
       flex-wrap: wrap;
@@ -1020,7 +1020,7 @@
 
   <main class="page-main">
     <!-- ============================================
-         HERO SECTION — DERNIÈRE SORTIE (FEATURED)
+         HERO SECTION - DERNIÈRE SORTIE (FEATURED)
          ============================================ -->
     <section class="hero-section" id="hero" aria-label="Sortie musicale">
       <div class="hero-badge" id="hero-badge">
@@ -1157,7 +1157,7 @@
       if (featured) {
         heroTitle.textContent = featured.title;
         heroCover.src = featured.cover;
-        heroCover.alt = `MERILIA — ${featured.title}`;
+        heroCover.alt = `MERILIA - ${featured.title}`;
 
         const released = isReleased(featured);
 
@@ -1219,7 +1219,7 @@
             btn.target = '_blank';
             btn.rel = 'noopener';
             btn.title = `${p.name} · Écouter "${featured.title}"`;
-            btn.setAttribute('aria-label', `${p.name} — Écouter ${featured.title}`);
+            btn.setAttribute('aria-label', `${p.name} - Écouter ${featured.title}`);
             btn.innerHTML = p.icon;
             quickContainer.appendChild(btn);
           }
@@ -1240,11 +1240,11 @@
         card.className = 'release-card';
         card.setAttribute('role', 'button');
         card.setAttribute('tabindex', '0');
-        card.setAttribute('aria-label', `${rel.title} — ${rel.badge || 'Single'}`);
+        card.setAttribute('aria-label', `${rel.title} - ${rel.badge || 'Single'}`);
 
         card.innerHTML = `
           <div class="release-card-cover-wrap">
-            <img src="${rel.cover}" alt="MERILIA — ${rel.title}" class="release-card-img" loading="lazy">
+            <img src="${rel.cover}" alt="MERILIA - ${rel.title}" class="release-card-img" loading="lazy">
             <div class="card-play-overlay">
               <div class="card-play-bubble" aria-label="Écouter ${rel.title}">
                 <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg>

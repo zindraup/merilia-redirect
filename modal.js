@@ -1,5 +1,5 @@
 /**
- * MERILIA — Pre-Save Modal Component
+ * MERILIA - Pre-Save Modal Component
  * Modale universelle de pré-sauvegarde (Instagram / SMS) partagée entre les pages.
  * 
  * Inclus automatiquement :

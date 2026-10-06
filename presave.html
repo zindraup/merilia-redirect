@@ -92,36 +92,34 @@
     /* ============================================
        BACKGROUND ATMOSPHERE
        ============================================ */
-    .bg-cover {
+    .bg-ambient {
       position: fixed;
       inset: 0;
       z-index: 0;
-      background: url('cover_detail.jpg') center center / cover no-repeat;
-      filter: blur(14px) saturate(1.1) brightness(0.8);
-      transform: scale(1.08) translateZ(0);
-      opacity: 0.9;
       pointer-events: none;
-      will-change: transform;
+      overflow: hidden;
     }
 
-    .bg-vignette {
-      position: fixed;
-      inset: 0;
-      z-index: 1;
-      pointer-events: none;
-      background:
-        radial-gradient(ellipse at center, rgba(6, 6, 8, 0.3) 0%, rgba(6, 6, 8, 0.85) 75%),
-        linear-gradient(180deg, rgba(6, 6, 8, 0.3) 0%, rgba(6, 6, 8, 0.9) 100%);
+    .bg-blur-orb {
+      position: absolute;
+      top: -15%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: clamp(320px, 80vw, 700px);
+      height: clamp(320px, 80vw, 700px);
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(160, 160, 190, 0.18) 0%, rgba(6, 6, 8, 0) 70%);
+      filter: blur(80px);
+      will-change: transform;
     }
 
     .bg-noise {
       position: fixed;
       inset: 0;
-      z-index: 2;
-      opacity: 0.04;
+      z-index: 1;
+      opacity: 0.035;
       pointer-events: none;
       background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-      background-size: 256px;
     }
 
     /* ============================================
@@ -1086,8 +1084,9 @@
 <body>
 
   <!-- Background layers -->
-  <div class="bg-cover" id="bg-cover" aria-hidden="true"></div>
-  <div class="bg-vignette" aria-hidden="true"></div>
+  <div class="bg-ambient" aria-hidden="true">
+    <div class="bg-blur-orb"></div>
+  </div>
   <div class="bg-noise" aria-hidden="true"></div>
 
   <!-- Main content -->
@@ -1350,7 +1349,7 @@
       document.getElementById('artist-name').textContent = CONFIG.artist;
       document.getElementById('track-title').textContent = current.title;
       document.getElementById('hero-cover-img').src = current.cover;
-      document.getElementById('bg-cover').style.backgroundImage = `url('${current.cover}')`;
+
 
       if (current.badge) {
         document.getElementById('release-badge').querySelector('span').textContent = current.badge;
@@ -1431,6 +1430,7 @@
       const modal = document.getElementById('modal');
       const ctaBtn = document.getElementById('cta-btn');
       let isBackdropClick = false;
+      let isSubmitted = false;
 
       ctaBtn.addEventListener('click', function (e) {
         const r = document.createElement('span');
@@ -1446,6 +1446,16 @@
         setTimeout(() => {
           modal.classList.add('active');
           modal.setAttribute('aria-hidden', 'false');
+          if (isSubmitted) {
+            document.getElementById('modal-main-icon').style.display = 'none';
+            document.getElementById('modal-content').style.display = 'none';
+            document.getElementById('modal-success').style.display = 'block';
+          } else {
+            const inp = currentMode === 'ig' ? handleInput : phoneInput;
+            inp.focus();
+            const len = inp.value.length;
+            inp.setSelectionRange?.(len, len);
+          }
         }, 120);
       });
 
@@ -1493,6 +1503,9 @@
         phoneGroup.style.display = 'none';
         modalIconContainer.innerHTML = ICONS.ig;
         modalDesc.innerHTML = `Laisse ton Instagram pour recevoir le lien de <strong>${current.title}</strong> dès la sortie.`;
+        handleInput.focus();
+        const len = handleInput.value.length;
+        handleInput.setSelectionRange?.(len, len);
       });
 
       btnSms.addEventListener('click', () => {
@@ -1503,6 +1516,9 @@
         phoneGroup.style.display = 'block';
         modalIconContainer.innerHTML = ICONS.sms;
         modalDesc.innerHTML = `Laisse ton numéro pour recevoir le rappel de <strong>${current.title}</strong> par SMS dès la sortie.`;
+        phoneInput.focus();
+        const len = phoneInput.value.length;
+        phoneInput.setSelectionRange?.(len, len);
       });
 
       [handleInput, phoneInput].forEach(inp => {
@@ -1580,6 +1596,7 @@
         }
 
         setTimeout(() => {
+          isSubmitted = true;
           document.getElementById('modal-main-icon').style.display = 'none';
           document.getElementById('modal-content').style.display = 'none';
           document.getElementById('modal-success').style.display = 'block';

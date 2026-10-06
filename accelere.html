@@ -94,36 +94,34 @@
     /* ============================================
        BACKGROUND ATMOSPHERE
        ============================================ */
-    .bg-cover {
+    .bg-ambient {
       position: fixed;
       inset: 0;
       z-index: 0;
-      background: url('cover_accelere.jpg') center center / cover no-repeat;
-      filter: blur(14px) saturate(1.1) brightness(0.8);
-      transform: scale(1.08) translateZ(0);
-      opacity: 0.9;
       pointer-events: none;
-      will-change: transform;
+      overflow: hidden;
     }
 
-    .bg-vignette {
-      position: fixed;
-      inset: 0;
-      z-index: 1;
-      pointer-events: none;
-      background:
-        radial-gradient(ellipse at center, rgba(6, 6, 8, 0.3) 0%, rgba(6, 6, 8, 0.85) 75%),
-        linear-gradient(180deg, rgba(6, 6, 8, 0.3) 0%, rgba(6, 6, 8, 0.9) 100%);
+    .bg-blur-orb {
+      position: absolute;
+      top: -15%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: clamp(320px, 80vw, 700px);
+      height: clamp(320px, 80vw, 700px);
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(160, 160, 190, 0.18) 0%, rgba(6, 6, 8, 0) 70%);
+      filter: blur(80px);
+      will-change: transform;
     }
 
     .bg-noise {
       position: fixed;
       inset: 0;
-      z-index: 2;
-      opacity: 0.04;
+      z-index: 1;
+      opacity: 0.035;
       pointer-events: none;
       background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-      background-size: 256px;
     }
 
     /* ============================================
@@ -679,247 +677,7 @@
       fill: currentColor;
     }
 
-    /* ============================================
-       MODAL — LEAD CAPTURE (IG / SMS / SPOTIFY)
-       ============================================ */
-    .modal-ov {
-      position: fixed;
-      inset: 0;
-      z-index: 100;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: rgba(0, 0, 0, 0);
-      pointer-events: none;
-      transition: background .4s var(--ease);
-    }
-
-    .modal-ov.active {
-      background: rgba(0, 0, 0, 0.7);
-      pointer-events: auto;
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-    }
-
-    .modal-card {
-      width: 92%;
-      max-width: 420px;
-      background: var(--bg2);
-      border: 1px solid var(--card-border);
-      border-radius: 28px;
-      padding: 32px 24px;
-      transform: translate(-50%, -40%) scale(0.92);
-      opacity: 0;
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transition: all .4s var(--ease);
-      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.85);
-      max-height: 90vh;
-      overflow-y: auto;
-    }
-
-    .modal-ov.active .modal-card {
-      transform: translate(-50%, -50%) scale(1);
-      opacity: 1;
-    }
-
-    .modal-card.keyboard-up {
-      transform: translate(-50%, -65%) scale(1) !important;
-    }
-
-    .modal-icon {
-      width: 48px;
-      height: 48px;
-      border-radius: 50%;
-      background: var(--silver-dim);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: 0 auto 16px;
-    }
-
-    .modal-icon svg {
-      width: 22px;
-      height: 22px;
-      fill: none;
-      stroke: var(--silver-bright);
-      stroke-width: 2;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-    }
-
-    .modal-title-text {
-      font-size: 20px;
-      font-weight: 800;
-      color: #fff;
-      margin-bottom: 6px;
-    }
-
-    .modal-text {
-      font-size: 13.5px;
-      line-height: 1.5;
-      color: var(--t2);
-      margin-bottom: 24px;
-      text-align: center;
-    }
-
-    .option-toggle {
-      display: flex;
-      background: rgba(255, 255, 255, 0.04);
-      padding: 4px;
-      border-radius: 14px;
-      margin-bottom: 20px;
-      border: 1px solid var(--card-border);
-    }
-
-    .option-btn {
-      flex: 1;
-      padding: 10px;
-      font-size: 11px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--t3);
-      cursor: pointer;
-      border-radius: 10px;
-      transition: all 0.3s var(--ease);
-      border: none;
-      background: transparent;
-      font-family: var(--font);
-    }
-
-    .option-btn.active {
-      background: rgba(255, 255, 255, 0.12);
-      color: var(--silver-bright);
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-    }
-
-    .input-group {
-      margin-bottom: 20px;
-      text-align: left;
-    }
-
-    .input-label {
-      font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      color: var(--t3);
-      margin-bottom: 8px;
-      display: block;
-      font-weight: 600;
-    }
-
-    .handle-input-wrap {
-      position: relative;
-      width: 100%;
-    }
-
-    .handle-input {
-      width: 100%;
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid var(--card-border);
-      border-radius: 14px;
-      padding: 16px 16px 16px 36px;
-      color: #fff;
-      font-family: var(--font);
-      font-size: 15px;
-      outline: none;
-      transition: all 0.3s var(--ease);
-    }
-
-    .handle-input::placeholder {
-      color: rgba(255, 255, 255, 0.25);
-    }
-
-    .handle-input:focus {
-      border-color: var(--silver-bright);
-      background: rgba(255, 255, 255, 0.07);
-      box-shadow: 0 0 15px var(--silver-glow);
-    }
-
-    .at-prefix {
-      position: absolute;
-      left: 16px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: var(--t3);
-      font-weight: 600;
-      pointer-events: none;
-    }
-
-    .handle-input.error-input {
-      border-color: #ff4d4d !important;
-      box-shadow: 0 0 15px rgba(255, 77, 77, 0.4) !important;
-      background: rgba(255, 77, 77, 0.05);
-    }
-
-    .success-state {
-      display: none;
-      text-align: center;
-      padding: 16px 0;
-    }
-
-    .success-state h3 {
-      font-size: 22px;
-      margin-bottom: 10px;
-      color: var(--silver-bright);
-    }
-
-    .success-state p {
-      color: var(--t2);
-      font-size: 14px;
-      line-height: 1.5;
-    }
-
-    .success-icon {
-      width: 58px;
-      height: 58px;
-      background: var(--silver-bright);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: 0 auto 16px;
-      animation: scaleIn .5s var(--spring) both;
-    }
-
-    .success-icon svg {
-      width: 30px;
-      height: 30px;
-      fill: none;
-      stroke: var(--bg);
-      stroke-width: 3;
-    }
-
-    .spotify-prompt {
-      margin-top: 20px;
-      padding-top: 20px;
-      border-top: 1px solid var(--card-border);
-      display: none;
-    }
-
-    .btn-spotify {
-      background: linear-gradient(135deg, #1db954, #1ed760, #1db954) !important;
-      color: #000 !important;
-      box-shadow: 0 4px 20px rgba(29, 185, 84, 0.3) !important;
-      margin-top: 10px;
-    }
-
-    .btn-later {
-      background: transparent !important;
-      border: 1px solid var(--card-border) !important;
-      color: var(--t3) !important;
-      box-shadow: none !important;
-      margin-top: 8px;
-      font-size: 11px !important;
-      padding: 12px 20px !important;
-    }
-
-    .btn-later:hover {
-      border-color: var(--t2) !important;
-      color: var(--t2) !important;
-    }
+    /* (Styles de la modale pre-save gérés par modal.js) */
 
     /* ============================================
        📱 TIKTOK IN-APP BROWSER ASSISTANT MODAL
@@ -1088,8 +846,9 @@
 <body>
 
   <!-- Background layers -->
-  <div class="bg-cover" id="bg-cover" aria-hidden="true"></div>
-  <div class="bg-vignette" aria-hidden="true"></div>
+  <div class="bg-ambient" aria-hidden="true">
+    <div class="bg-blur-orb"></div>
+  </div>
   <div class="bg-noise" aria-hidden="true"></div>
 
   <!-- Main content -->
@@ -1250,74 +1009,10 @@
     </div>
   </div>
 
-  <!-- ============================================
-       MODAL — PRE-SAVE LEAD CAPTURE
-       ============================================ -->
-  <div class="modal-ov" id="modal" role="dialog" aria-modal="true" aria-hidden="true">
-    <div class="modal-card">
-      <div class="modal-icon" id="modal-main-icon">
-        <svg viewBox="0 0 24 24">
-          <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
-          <circle cx="12" cy="12" r="5" />
-          <circle cx="17.5" cy="6.5" r="1.2" fill="var(--silver-bright)" stroke="none" />
-        </svg>
-      </div>
-
-      <div id="modal-content">
-        <h3 class="modal-title-text" style="text-align: center;">Rejoindre la liste</h3>
-        <p class="modal-text" id="modal-desc">
-          Laisse ton Instagram ou numéro pour recevoir le lien de <strong>Accélère</strong> dès la sortie.
-        </p>
-
-        <div class="option-toggle">
-          <button type="button" class="option-btn active" id="btn-mode-ig">Instagram</button>
-          <button type="button" class="option-btn" id="btn-mode-sms">SMS</button>
-        </div>
-
-        <div class="input-group" id="ig-group">
-          <label class="input-label">Ton Instagram</label>
-          <div class="handle-input-wrap">
-            <span class="at-prefix">@</span>
-            <input type="text" id="handle-input" class="handle-input" placeholder="ton_pseudo" autocomplete="off"
-              autocapitalize="none" autocorrect="off" spellcheck="false">
-          </div>
-        </div>
-
-        <div class="input-group" id="phone-group" style="display: none;">
-          <label class="input-label">Ton Numéro (FR)</label>
-          <div class="handle-input-wrap">
-            <input type="tel" id="phone-input" class="handle-input" placeholder="06 12 34 56 78" style="padding-left: 16px;">
-          </div>
-        </div>
-
-        <button class="cta-btn" id="modal-submit-btn" type="button" style="max-width: 100%; width: 100%;">
-          Confirmer la pre-save
-        </button>
-      </div>
-
-      <div id="modal-success" class="success-state">
-        <div class="success-icon">
-          <svg viewBox="0 0 24 24">
-            <path d="M20 6L9 17l-5-5" />
-          </svg>
-        </div>
-        <h3>T'es bien inscrit(e) !</h3>
-        <p id="success-message">Tu recevras le lien direct vers <strong>Accélère</strong> en avant-première dès sa sortie. 🔥</p>
-
-        <div id="spotify-prompt" class="spotify-prompt">
-          <p style="font-size: 13px; color: var(--t2); margin-bottom: 14px;">Veux-tu aussi ajouter <strong>Accélère</strong> directement sur ton Spotify ?</p>
-          <div style="display: flex; flex-direction: column; align-items: center; gap: 8px; width: 100%;">
-            <button class="cta-btn btn-spotify" id="btn-spotify-presave" style="max-width: 100%; width: 100%;">Pre-save sur Spotify</button>
-            <button class="cta-btn btn-later" onclick="closeModal()">Fermer</button>
-          </div>
-        </div>
-
-        <button class="cta-btn btn-later" id="btn-success-close" onclick="closeModal()" style="margin-top: 16px; display: none; width: 100%; max-width: 100%;">Fermer</button>
-      </div>
-    </div>
-  </div>
+  <!-- Modale pre-save injectée dynamiquement par modal.js -->
 
   <script src="config.js"></script>
+  <script src="modal.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       const userAgent = navigator.userAgent || navigator.vendor || window.opera;
@@ -1352,7 +1047,7 @@
       document.getElementById('artist-name').textContent = CONFIG.artist;
       document.getElementById('track-title').textContent = current.title;
       document.getElementById('hero-cover-img').src = current.cover;
-      document.getElementById('bg-cover').style.backgroundImage = `url('${current.cover}')`;
+
 
       if (current.badge) {
         document.getElementById('release-badge').querySelector('span').textContent = current.badge;
@@ -1429,186 +1124,24 @@
       window.addEventListener('resize', updateActionVisibility);
       setTimeout(updateActionVisibility, 100);
 
-      /* === 4. MODALE PRE-SAVE === */
-      const modal = document.getElementById('modal');
+      /* === 4. MODALE PRE-SAVE (GÉRÉE PAR modal.js) === */
       const ctaBtn = document.getElementById('cta-btn');
-      let isBackdropClick = false;
+      if (ctaBtn) {
+        ctaBtn.addEventListener('click', function (e) {
+          const r = document.createElement('span');
+          r.classList.add('ripple');
+          const rect = this.getBoundingClientRect();
+          const sz = Math.max(rect.width, rect.height);
+          r.style.width = r.style.height = sz + 'px';
+          r.style.left = (e.clientX - rect.left - sz / 2) + 'px';
+          r.style.top = (e.clientY - rect.top - sz / 2) + 'px';
+          this.appendChild(r);
+          r.addEventListener('animationend', () => r.remove());
 
-      ctaBtn.addEventListener('click', function (e) {
-        const r = document.createElement('span');
-        r.classList.add('ripple');
-        const rect = this.getBoundingClientRect();
-        const sz = Math.max(rect.width, rect.height);
-        r.style.width = r.style.height = sz + 'px';
-        r.style.left = (e.clientX - rect.left - sz / 2) + 'px';
-        r.style.top = (e.clientY - rect.top - sz / 2) + 'px';
-        this.appendChild(r);
-        r.addEventListener('animationend', () => r.remove());
-
-        setTimeout(() => {
-          modal.classList.add('active');
-          modal.setAttribute('aria-hidden', 'false');
-        }, 120);
-      });
-
-      modal.addEventListener('mousedown', function (e) {
-        if (e.target === modal) isBackdropClick = true;
-      });
-
-      modal.addEventListener('mouseup', function (e) {
-        if (e.target === modal && isBackdropClick) closeModal();
-        isBackdropClick = false;
-      });
-
-      document.addEventListener('keydown', function (e) {
-        if (e.key === 'Escape' && modal.classList.contains('active')) closeModal();
-      });
-
-      window.closeModal = function () {
-        modal.classList.remove('active');
-        modal.setAttribute('aria-hidden', 'true');
-        isBackdropClick = false;
-      };
-
-      /* === 5. BASCULE IG / SMS & SOUMISSION === */
-      let currentMode = 'ig';
-      const btnIg = document.getElementById('btn-mode-ig');
-      const btnSms = document.getElementById('btn-mode-sms');
-      const igGroup = document.getElementById('ig-group');
-      const phoneGroup = document.getElementById('phone-group');
-      const modalDesc = document.getElementById('modal-desc');
-      const modalIconContainer = document.getElementById('modal-main-icon');
-      const handleInput = document.getElementById('handle-input');
-      const phoneInput = document.getElementById('phone-input');
-      const modalSubmitBtn = document.getElementById('modal-submit-btn');
-
-      const ICONS = {
-        ig: `<svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.2" fill="var(--silver-bright)" stroke="none"/></svg>`,
-        sms: `<svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>`
-      };
-
-      btnIg.addEventListener('click', () => {
-        currentMode = 'ig';
-        btnIg.classList.add('active');
-        btnSms.classList.remove('active');
-        igGroup.style.display = 'block';
-        phoneGroup.style.display = 'none';
-        modalIconContainer.innerHTML = ICONS.ig;
-        modalDesc.innerHTML = `Laisse ton Instagram pour recevoir le lien de <strong>${current.title}</strong> dès la sortie.`;
-      });
-
-      btnSms.addEventListener('click', () => {
-        currentMode = 'sms';
-        btnIg.classList.remove('active');
-        btnSms.classList.add('active');
-        igGroup.style.display = 'none';
-        phoneGroup.style.display = 'block';
-        modalIconContainer.innerHTML = ICONS.sms;
-        modalDesc.innerHTML = `Laisse ton numéro pour recevoir le rappel de <strong>${current.title}</strong> par SMS dès la sortie.`;
-      });
-
-      [handleInput, phoneInput].forEach(inp => {
-        inp.addEventListener('keydown', (e) => {
-          if (e.key === 'Enter') {
-            e.preventDefault();
-            inp.blur();
-            submitPreSave();
-          }
+          setTimeout(() => {
+            if (window.openPreSaveModal) window.openPreSaveModal();
+          }, 120);
         });
-
-        inp.addEventListener('focus', () => {
-          if (window.innerWidth < 640) {
-            document.querySelector('.modal-card').classList.add('keyboard-up');
-          }
-        });
-
-        inp.addEventListener('blur', () => {
-          document.querySelector('.modal-card').classList.remove('keyboard-up');
-        });
-
-        inp.addEventListener('input', () => {
-          inp.classList.remove('error-input');
-        });
-      });
-
-      modalSubmitBtn.addEventListener('click', submitPreSave);
-
-      function submitPreSave() {
-        let value = '';
-        let inputEl = currentMode === 'ig' ? handleInput : phoneInput;
-
-        if (currentMode === 'ig') {
-          value = inputEl.value.trim().toLowerCase().replace(/^@/, '');
-        } else {
-          const rawPhone = inputEl.value.trim().replace(/\s/g, '').replace(/-/g, '').replace(/\./g, '');
-          const phoneRegex = /^(?:(?:\+|00)33|0)[67]\d{8}$/;
-          if (!phoneRegex.test(rawPhone)) {
-            value = '';
-          } else {
-            value = rawPhone;
-          }
-        }
-
-        if (!value) {
-          inputEl.classList.add('error-input');
-          inputEl.focus();
-          modalSubmitBtn.style.animation = 'shake 0.4s ease';
-          setTimeout(() => modalSubmitBtn.style.animation = '', 400);
-          return;
-        }
-
-        modalSubmitBtn.textContent = 'Envoi en cours...';
-        modalSubmitBtn.style.opacity = '0.7';
-        modalSubmitBtn.style.pointerEvents = 'none';
-
-        const SHEET_API_URL = 'https://script.google.com/macros/s/AKfycbyKzkcj_uCQzfkTubH6LJ9H_Q67q0x4SKi_5qnlpc6QfKcIgbvPrnBgZvov7v9hyqm8/exec';
-
-        // Un seul champ "contact" — plus de logique conditionnelle dans Apps Script
-        const payload = {
-          contact: value,
-          method: currentMode,
-          track: current.title,
-          sheet: "ACCELERE",
-          date: new Date().toLocaleString()
-        };
-
-        console.log('[PreSave] Envoi payload:', JSON.stringify(payload));
-
-        if (SHEET_API_URL) {
-          fetch(SHEET_API_URL, {
-            method: 'POST',
-            mode: 'no-cors',
-            body: JSON.stringify(payload)
-          }).catch(e => console.error(e));
-        }
-
-        setTimeout(() => {
-          document.getElementById('modal-main-icon').style.display = 'none';
-          document.getElementById('modal-content').style.display = 'none';
-          document.getElementById('modal-success').style.display = 'block';
-
-          // Option de pre-save Spotify après inscription : désactivée sur TikTok ou si showSpotifyPreSave dans config.js vaut false
-          const showSpotifyConfig = current.showSpotifyPreSave ?? CONFIG.showSpotifyPreSave ?? false;
-          const shouldOfferSpotify = Boolean(showSpotifyConfig) && !isTikTokApp;
-
-          if (shouldOfferSpotify) {
-            setTimeout(() => {
-              const prompt = document.getElementById('spotify-prompt');
-              prompt.style.display = 'block';
-              prompt.style.animation = 'fadeIn .5s var(--ease) both';
-
-              document.getElementById('btn-spotify-presave').addEventListener('click', () => {
-                const url = current.spotifyPreSaveUrl || current.preSaveUrl || 'https://spotify.openinapp.co/31xu3';
-                window.open(url, '_blank');
-                closeModal();
-              });
-            }, 400);
-          } else {
-            document.getElementById('spotify-prompt').style.display = 'none';
-            const closeBtn = document.getElementById('btn-success-close');
-            if (closeBtn) closeBtn.style.display = 'block';
-          }
-        }, 600);
       }
 
       /* === 6. LOGIQUE TIKTOK IN-APP BROWSER === */

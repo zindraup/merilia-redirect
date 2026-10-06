@@ -73,7 +73,7 @@ const CONFIG = {
   // Le premier morceau avec `featured: true` (ou releases[0]) est mis en avant dans le Hero.
   // Les autres morceaux apparaissent automatiquement dans la section Discographie.
   // ============================================
-  bio: "MERILIA évolue à la croisée de la pop et de la drum and bass. Inspirée par l’intensité de Mylène Farmer et l’énergie brute de la scène électro, elle façonne un univers aérien, dark et sensuel, où chaque morceau oscille entre vertige et apesanteur. Avec le compositeur SAINT-DROP, ils forment un duo fusionnel, sculptant une signature sonore immersive et texturée. MERILIA explore le renouveau, l’amour et la liberté avec une puissance magnétique, dans un monde où l’ombre et la lumière se confondent.",
+  bio: "MERILIA évolue à la croisée de la pop et de la drum and bass. Inspirée par l’intensité de Mylène Farmer et l’énergie brute de la scène électro, elle façonne un univers aérien, dark et sensuel, où chaque morceau oscille entre vertige et apesanteur.",
 
   releases: [
     {

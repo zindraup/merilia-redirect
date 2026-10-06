@@ -6,14 +6,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta name="theme-color" content="#060608">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <title>MERILIA — Site Officiel | Musique & Discographie</title>
+  <title>MERILIA - Site Officiel</title>
   <meta name="description"
     content="Site officiel du projet musical MERILIA (Drum & Bass · Liquid · Dance-pop). Découvrez le nouveau single et l'ensemble de la discographie.">
 
   <!-- Open Graph / Meta Réseaux Sociaux -->
   <meta property="og:type" content="music.musician">
   <meta property="og:site_name" content="MERILIA">
-  <meta property="og:title" content="MERILIA — Site Officiel | Musique & Discographie">
+  <meta property="og:title" content="MERILIA - Site Officiel">
   <meta property="og:description"
     content="Découvrez l'univers musical de MERILIA. Dernier single disponible sur toutes les plateformes de streaming.">
   <meta property="og:image" content="cover_accelere.jpg">
@@ -21,8 +21,8 @@
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="MERILIA — Site Officiel">
-  <meta name="twitter:description" content="Projet musical Drum & Bass / Liquid Dance-pop. Écoutez le dernier titre.">
+  <meta name="twitter:title" content="MERILIA - Site Officiel">
+  <meta name="twitter:description" content="Découvrez l'univers musical de MERILIA. Dernier single disponible sur toutes les plateformes de streaming.">
   <meta name="twitter:image" content="cover_accelere.jpg">
 
   <!-- Données Structurées Schema.org -->
@@ -171,7 +171,7 @@
 
     .brand-logo span {
       background: linear-gradient(135deg, #fff 0%, var(--silver-bright) 50%, #999 100%);
-      -webkit-background-clip: text;
+      background-clip: text;
       -webkit-text-fill-color: transparent;
     }
 
@@ -223,6 +223,17 @@
       display: flex;
       flex-direction: column;
       align-items: center;
+      animation: fadeUp .9s var(--ease) both;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: translateY(0); }
     }
 
     /* ============================================
@@ -231,7 +242,7 @@
     .hero-section {
       width: 100%;
       max-width: 520px;
-      margin: 18px auto 32px auto;
+      margin: 32px auto 32px auto;
       text-align: center;
       display: flex;
       flex-direction: column;
@@ -255,6 +266,7 @@
       color: var(--silver-bright);
       margin-bottom: 14px;
       box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
+      animation: fadeInUp .8s .1s both;
     }
 
     .hero-badge .badge-dot {
@@ -271,7 +283,7 @@
       50% { opacity: 0.4; transform: scale(0.85); }
     }
 
-    /* Pochette Hero — taille optimisée pour apercevoir la discographie sans scroll excessif */
+    /* Pochette Hero */
     .hero-artwork-frame {
       position: relative;
       width: clamp(170px, 42vw, 210px);
@@ -285,6 +297,7 @@
       margin-bottom: 14px;
       transition: transform 0.4s var(--ease), box-shadow 0.4s var(--ease);
       cursor: pointer;
+      animation: fadeInUp .8s .2s both;
     }
 
     .hero-artwork-frame:hover {
@@ -320,9 +333,9 @@
       line-height: 1.1;
       background: linear-gradient(135deg, #888 0%, var(--silver-bright) 35%, #fff 50%, var(--silver-bright) 65%, #888 100%);
       background-size: 200% 200%;
-      -webkit-background-clip: text;
+      background-clip: text;
       -webkit-text-fill-color: transparent;
-      animation: chromeShift 8s ease-in-out infinite;
+      animation: fadeInUp .8s .3s both, chromeShift 8s ease-in-out infinite;
       margin-bottom: 4px;
       filter: drop-shadow(0 0 16px rgba(255, 255, 255, 0.1));
     }
@@ -339,6 +352,7 @@
       letter-spacing: 0.06em;
       margin-bottom: 20px;
       line-height: 1.6;
+      animation: fadeInUp .8s .4s both;
     }
 
     /* Bouton CTA Principal */
@@ -368,7 +382,7 @@
       transition: all 0.3s var(--ease);
       user-select: none;
       -webkit-tap-highlight-color: transparent;
-      animation: chromeBtn 6s ease-in-out infinite;
+      animation: fadeInUp .8s .5s both, chromeBtn 6s ease-in-out infinite;
     }
 
     @keyframes chromeBtn {
@@ -398,6 +412,7 @@
       justify-content: center;
       gap: 12px;
       margin-top: 12px;
+      animation: fadeInUp .8s .6s both;
     }
 
     .quick-icon-btn {
@@ -438,6 +453,7 @@
       justify-content: center;
       gap: 16px;
       margin: 28px 0 22px 0;
+      animation: fadeInUp .8s .7s both;
     }
 
     .section-divider .divider-line {
@@ -465,6 +481,7 @@
       display: flex;
       flex-direction: column;
       align-items: center;
+      animation: fadeInUp .8s .8s both;
     }
 
     .discography-header {
@@ -676,15 +693,21 @@
       margin-bottom: 60px;
       text-align: center;
       backdrop-filter: blur(12px);
+      animation: fadeInUp .8s .9s both;
     }
 
     .about-title {
-      font-size: 13px;
-      font-weight: 800;
-      letter-spacing: 0.2em;
+      font-size: clamp(14px, 2.5vw, 20px);
+      font-weight: 900;
+      letter-spacing: 0.22em;
       text-transform: uppercase;
-      color: var(--silver);
-      margin-bottom: 12px;
+      background: linear-gradient(135deg, #888 0%, var(--silver-bright) 35%, #fff 50%, var(--silver-bright) 65%, #888 100%);
+      background-size: 200% 200%;
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: chromeShift 8s ease-in-out infinite;
+      margin-bottom: 16px;
     }
 
     .about-desc {
@@ -708,6 +731,7 @@
       padding-top: 20px;
       border-top: 1px solid rgba(255, 255, 255, 0.06);
       text-align: center;
+      animation: fadeInUp .8s 1s both;
     }
 
     .footer-socials {
@@ -949,250 +973,7 @@
     [data-plat="tidal"] .sheet-platform-icon { color: #fff; }
     [data-plat="qobuz"] .sheet-platform-icon { color: #fff; }
 
-    /* ============================================
-       MODALE PRE-SAVE (LEAD CAPTURE IG / SMS)
-       ============================================ */
-    .presave-modal-ov {
-      position: fixed;
-      inset: 0;
-      z-index: 1100;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: rgba(0, 0, 0, 0);
-      pointer-events: none;
-      transition: background .4s var(--ease);
-      padding: 20px;
-    }
-
-    .presave-modal-ov.active {
-      background: rgba(0, 0, 0, 0.78);
-      pointer-events: auto;
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
-    }
-
-    .presave-modal-card {
-      width: 100%;
-      max-width: 420px;
-      background: #0e0e14;
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      border-radius: 28px;
-      padding: 32px 24px;
-      transform: translateY(20px) scale(0.95);
-      opacity: 0;
-      transition: all .38s var(--ease);
-      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.85);
-      max-height: 90vh;
-      overflow-y: auto;
-    }
-
-    .presave-modal-ov.active .presave-modal-card {
-      transform: translateY(0) scale(1);
-      opacity: 1;
-    }
-
-    .presave-modal-card.keyboard-up {
-      transform: translateY(-80px) scale(1) !important;
-    }
-
-    .pm-icon {
-      width: 48px;
-      height: 48px;
-      border-radius: 50%;
-      background: rgba(192, 192, 204, 0.1);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: 0 auto 16px;
-    }
-
-    .pm-icon svg {
-      width: 22px;
-      height: 22px;
-      fill: none;
-      stroke: var(--silver-bright);
-      stroke-width: 2;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-    }
-
-    .pm-title {
-      font-size: 20px;
-      font-weight: 800;
-      color: #fff;
-      margin-bottom: 6px;
-      text-align: center;
-    }
-
-    .pm-desc {
-      font-size: 13.5px;
-      line-height: 1.55;
-      color: var(--t2);
-      margin-bottom: 22px;
-      text-align: center;
-    }
-
-    .pm-toggle {
-      display: flex;
-      background: rgba(255, 255, 255, 0.04);
-      padding: 4px;
-      border-radius: 14px;
-      margin-bottom: 18px;
-      border: 1px solid rgba(255, 255, 255, 0.08);
-    }
-
-    .pm-toggle-btn {
-      flex: 1;
-      padding: 10px;
-      font-size: 11px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--t3);
-      cursor: pointer;
-      border-radius: 10px;
-      transition: all 0.3s var(--ease);
-      border: none;
-      background: transparent;
-      font-family: var(--font);
-    }
-
-    .pm-toggle-btn.active {
-      background: rgba(255, 255, 255, 0.12);
-      color: var(--silver-bright);
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-    }
-
-    .pm-input-group {
-      margin-bottom: 18px;
-      text-align: left;
-    }
-
-    .pm-input-label {
-      font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      color: var(--t3);
-      margin-bottom: 8px;
-      display: block;
-      font-weight: 600;
-    }
-
-    .pm-input-wrap {
-      position: relative;
-      width: 100%;
-    }
-
-    .pm-input {
-      width: 100%;
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 14px;
-      padding: 16px 16px 16px 36px;
-      color: #fff;
-      font-family: var(--font);
-      font-size: 15px;
-      outline: none;
-      transition: all 0.3s var(--ease);
-    }
-
-    .pm-input.phone-input {
-      padding-left: 16px;
-    }
-
-    .pm-input::placeholder { color: rgba(255,255,255,0.25); }
-    .pm-input:focus {
-      border-color: var(--silver-bright);
-      background: rgba(255,255,255,0.07);
-      box-shadow: 0 0 15px rgba(192,192,204,0.25);
-    }
-    .pm-input.error { border-color: #ff4d4d !important; box-shadow: 0 0 15px rgba(255,77,77,0.4) !important; }
-
-    .pm-at {
-      position: absolute;
-      left: 14px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: var(--t3);
-      font-weight: 600;
-      pointer-events: none;
-    }
-
-    .pm-submit-btn {
-      position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      width: 100%;
-      padding: 18px 24px;
-      font-family: var(--font);
-      font-size: 13px;
-      font-weight: 800;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: #060608;
-      background: linear-gradient(135deg, #999, var(--silver-light), #fff, var(--silver-light), #999);
-      background-size: 400% 400%;
-      border: none;
-      border-radius: 50px;
-      cursor: pointer;
-      outline: none;
-      overflow: hidden;
-      transition: all .35s var(--ease);
-      box-shadow: 0 8px 30px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.6);
-      animation: chromeBtn 6s ease-in-out infinite;
-    }
-    .pm-submit-btn:hover { transform: translateY(-2px) scale(1.01); }
-    .pm-submit-btn:active { transform: translateY(1px) scale(.98); }
-
-    .pm-success {
-      display: none;
-      text-align: center;
-      padding: 16px 0;
-    }
-    .pm-success h3 {
-      font-size: 22px;
-      margin-bottom: 10px;
-      color: var(--silver-bright);
-    }
-    .pm-success p { color: var(--t2); font-size: 14px; line-height: 1.5; }
-
-    .pm-success-icon {
-      width: 58px;
-      height: 58px;
-      background: var(--silver-bright);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: 0 auto 16px;
-      animation: pmScaleIn .5s var(--spring) both;
-    }
-    @keyframes pmScaleIn {
-      0% { transform: scale(0.6); opacity: 0; }
-      100% { transform: scale(1); opacity: 1; }
-    }
-    .pm-success-icon svg { width: 30px; height: 30px; fill: none; stroke: #060608; stroke-width: 3; }
-
-    .pm-close-btn {
-      display: block;
-      margin-top: 16px;
-      width: 100%;
-      padding: 12px;
-      background: transparent;
-      border: 1px solid rgba(255,255,255,0.1);
-      color: var(--t3);
-      font-family: var(--font);
-      font-size: 12px;
-      font-weight: 700;
-      letter-spacing: 0.08em;
-      border-radius: 50px;
-      cursor: pointer;
-      transition: all .2s ease;
-    }
-    .pm-close-btn:hover { border-color: rgba(255,255,255,0.3); color: #fff; }
+    /* (Styles de la modale pre-save gérés par modal.js) */
 
     /* ============================================
        RESPONSIVE MOBILE
@@ -1235,14 +1016,7 @@
   </div>
   <div class="bg-noise"></div>
 
-  <!-- Barre de navigation minimale -->
-  <header class="site-nav">
-    <div class="nav-inner">
-      <a href="index.html" class="brand-logo" aria-label="MERILIA Accueil">
-        <span>MERILIA</span>
-      </a>
-    </div>
-  </header>
+
 
   <main class="page-main">
     <!-- ============================================
@@ -1297,7 +1071,7 @@
     <section class="about-card" id="a-propos">
       <h3 class="about-title">MERILIA</h3>
       <p class="about-desc">
-        MERILIA évolue à la croisée de la pop et de la drum and bass. Inspirée par l’intensité de Mylène Farmer et l’énergie brute de la scène électro, elle façonne un univers aérien, dark et sensuel, où chaque morceau oscille entre vertige et apesanteur. Avec le compositeur SAINT-DROP, ils forment un duo fusionnel, sculptant une signature sonore immersive et texturée. MERILIA explore le renouveau, l’amour et la liberté avec une puissance magnétique, dans un monde où l’ombre et la lumière se confondent.
+        MERILIA évolue à la croisée de la pop et de la drum and bass. Inspirée par l’intensité de Mylène Farmer et l’énergie brute de la scène électro, elle façonne un univers aérien, dark et sensuel, où chaque morceau oscille entre vertige et apesanteur.
       </p>
     </section>
 
@@ -1346,61 +1120,11 @@
     </div>
   </div>
 
-  <!-- ============================================
-       MODALE PRE-SAVE (INSCRIPTION IG / SMS)
-       ============================================ -->
-  <div class="presave-modal-ov" id="presave-modal" role="dialog" aria-modal="true" aria-hidden="true">
-    <div class="presave-modal-card" id="presave-modal-card">
-
-      <!-- Icône IG (mode par défaut) -->
-      <div class="pm-icon" id="pm-icon">
-        <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.2" fill="var(--silver-bright)" stroke="none"/></svg>
-      </div>
-
-      <!-- Contenu du formulaire -->
-      <div id="pm-form-content">
-        <h3 class="pm-title">Rejoindre la liste</h3>
-        <p class="pm-desc" id="pm-desc">Laisse ton Instagram ou numéro pour recevoir le lien dès la sortie.</p>
-
-        <div class="pm-toggle">
-          <button type="button" class="pm-toggle-btn active" id="pm-btn-ig">Instagram</button>
-          <button type="button" class="pm-toggle-btn" id="pm-btn-sms">SMS</button>
-        </div>
-
-        <div class="pm-input-group" id="pm-ig-group">
-          <label class="pm-input-label">Ton Instagram</label>
-          <div class="pm-input-wrap">
-            <span class="pm-at">@</span>
-            <input type="text" id="pm-handle" class="pm-input" placeholder="ton_pseudo"
-              autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false">
-          </div>
-        </div>
-
-        <div class="pm-input-group" id="pm-sms-group" style="display:none;">
-          <label class="pm-input-label">Ton Numéro (FR)</label>
-          <div class="pm-input-wrap">
-            <input type="tel" id="pm-phone" class="pm-input phone-input" placeholder="06 12 34 56 78">
-          </div>
-        </div>
-
-        <button class="pm-submit-btn" id="pm-submit" type="button">Confirmer la pre-save</button>
-      </div>
-
-      <!-- État succès -->
-      <div class="pm-success" id="pm-success">
-        <div class="pm-success-icon">
-          <svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
-        </div>
-        <h3>T'es bien inscrit(e)&nbsp;!</h3>
-        <p id="pm-success-msg">Tu recevras le lien en avant-première dès la sortie. 🔥</p>
-        <button class="pm-close-btn" id="pm-success-close">Fermer</button>
-      </div>
-
-    </div>
-  </div>
+  <!-- Modale pre-save injectée dynamiquement par modal.js -->
 
   <script src="config.js"></script>
   <script src="transitions.js"></script>
+  <script src="modal.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       const releases = CONFIG.releases || [];
@@ -1434,12 +1158,14 @@
         heroTitle.textContent = featured.title;
         heroCover.src = featured.cover;
         heroCover.alt = `MERILIA — ${featured.title}`;
-        if (featured.badge) heroBadgeText.textContent = featured.badge;
 
         const released = isReleased(featured);
 
+        // Badge dynamique selon statut
+        heroBadgeText.textContent = released ? 'NOUVEAU SINGLE' : 'NOUVEAU SINGLE · PRE-SAVE';
+
         heroMeta.textContent = released
-          ? `${featured.year || '2026'} · Single · Disponible à l'écoute`
+          ? `${featured.year || '2026'} · Single`
           : `${featured.year || '2026'} · Single · En pré-sauvegarde`;
 
         // Label du bouton CTA
@@ -1457,8 +1183,8 @@
             // Morceau sorti avec liens → ouvre le drawer d'écoute
             openListenModal(featured);
           } else if (!released) {
-            // En pre-save → ouvre la modale d'inscription directement
-            openPreSaveModal(featured);
+            // En pre-save → ouvre la modale d'inscription directement via modal.js
+            if (window.openPreSaveModal) window.openPreSaveModal(featured);
           } else if (featured.pageUrl) {
             window.location.href = featured.pageUrl;
           }
@@ -1543,6 +1269,8 @@
           const hasStreamingLinks = rel.links && Object.values(rel.links).some(l => l && !l.endsWith('.html'));
           if (rel.status === 'available' && hasStreamingLinks) {
             openListenModal(rel);
+          } else if (rel.status === 'presave') {
+            if (window.openPreSaveModal) window.openPreSaveModal(rel);
           } else if (rel.pageUrl) {
             window.location.href = rel.pageUrl;
           }
@@ -1643,141 +1371,11 @@
       modalClose.addEventListener('click', closeListenModal);
       listenModal.addEventListener('click', (e) => { if (e.target === listenModal) closeListenModal(); });
 
-      // ─── MODALE PRE-SAVE ────────────────────────
-      const psModal = document.getElementById('presave-modal');
-      const psCard = document.getElementById('presave-modal-card');
-      const psFormContent = document.getElementById('pm-form-content');
-      const psSuccess = document.getElementById('pm-success');
-      const psIcon = document.getElementById('pm-icon');
-      const psDesc = document.getElementById('pm-desc');
-      const psBtnIg = document.getElementById('pm-btn-ig');
-      const psBtnSms = document.getElementById('pm-btn-sms');
-      const psIgGroup = document.getElementById('pm-ig-group');
-      const psSmsGroup = document.getElementById('pm-sms-group');
-      const psHandle = document.getElementById('pm-handle');
-      const psPhone = document.getElementById('pm-phone');
-      const psSubmit = document.getElementById('pm-submit');
-      const psSuccessMsg = document.getElementById('pm-success-msg');
-      const psSuccessClose = document.getElementById('pm-success-close');
-
-      let psMode = 'ig';
-      let psCurrentRel = null;
-
-      const PS_ICONS = {
-        ig: `<svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.2" fill="var(--silver-bright)" stroke="none"/></svg>`,
-        sms: `<svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>`
-      };
-
-      function openPreSaveModal(rel) {
-        psCurrentRel = rel;
-        psMode = 'ig';
-        // Reset form
-        psFormContent.style.display = 'block';
-        psSuccess.style.display = 'none';
-        psIcon.innerHTML = PS_ICONS.ig;
-        psDesc.innerHTML = `Laisse ton Instagram ou numéro pour recevoir le lien de <strong>${rel.title}</strong> dès la sortie.`;
-        psBtnIg.classList.add('active');
-        psBtnSms.classList.remove('active');
-        psIgGroup.style.display = 'block';
-        psSmsGroup.style.display = 'none';
-        psHandle.value = '';
-        psPhone.value = '';
-        psHandle.classList.remove('error');
-        psPhone.classList.remove('error');
-        psSubmit.textContent = 'Confirmer la pre-save';
-        psSubmit.style.opacity = '';
-        psSubmit.style.pointerEvents = '';
-
-        psModal.classList.add('active');
-        psModal.setAttribute('aria-hidden', 'false');
-        setTimeout(() => psHandle.focus(), 350);
-      }
-
-      function closePreSaveModal() {
-        psModal.classList.remove('active');
-        psModal.setAttribute('aria-hidden', 'true');
-      }
-
-      psBtnIg.addEventListener('click', () => {
-        psMode = 'ig';
-        psBtnIg.classList.add('active');
-        psBtnSms.classList.remove('active');
-        psIgGroup.style.display = 'block';
-        psSmsGroup.style.display = 'none';
-        psIcon.innerHTML = PS_ICONS.ig;
-        psDesc.innerHTML = `Laisse ton Instagram pour recevoir le lien de <strong>${psCurrentRel?.title || ''}</strong> dès la sortie.`;
-      });
-
-      psBtnSms.addEventListener('click', () => {
-        psMode = 'sms';
-        psBtnIg.classList.remove('active');
-        psBtnSms.classList.add('active');
-        psIgGroup.style.display = 'none';
-        psSmsGroup.style.display = 'block';
-        psIcon.innerHTML = PS_ICONS.sms;
-        psDesc.innerHTML = `Laisse ton numéro pour recevoir le rappel de <strong>${psCurrentRel?.title || ''}</strong> par SMS dès la sortie.`;
-      });
-
-      [psHandle, psPhone].forEach(inp => {
-        inp.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); inp.blur(); submitPreSave(); } });
-        inp.addEventListener('focus', () => { if (window.innerWidth < 640) psCard.classList.add('keyboard-up'); });
-        inp.addEventListener('blur', () => psCard.classList.remove('keyboard-up'));
-        inp.addEventListener('input', () => inp.classList.remove('error'));
-      });
-
-      psSubmit.addEventListener('click', submitPreSave);
-
-      function submitPreSave() {
-        let value = '';
-        const inputEl = psMode === 'ig' ? psHandle : psPhone;
-
-        if (psMode === 'ig') {
-          value = psHandle.value.trim().toLowerCase().replace(/^@/, '');
-        } else {
-          const raw = psPhone.value.trim().replace(/[\s\-\.]/g, '');
-          value = /^(?:(?:\+|00)33|0)[67]\d{8}$/.test(raw) ? raw : '';
-        }
-
-        if (!value) {
-          inputEl.classList.add('error');
-          inputEl.focus();
-          return;
-        }
-
-        psSubmit.textContent = 'Envoi en cours...';
-        psSubmit.style.opacity = '0.7';
-        psSubmit.style.pointerEvents = 'none';
-
-        const payload = {
-          contact: value,
-          method: psMode,
-          track: psCurrentRel?.title || 'Accélère',
-          sheet: 'ACCELERE',
-          date: new Date().toLocaleString()
-        };
-
-        fetch('https://script.google.com/macros/s/AKfycbyKzkcj_uCQzfkTubH6LJ9H_Q67q0x4SKi_5qnlpc6QfKcIgbvPrnBgZvov7v9hyqm8/exec', {
-          method: 'POST',
-          mode: 'no-cors',
-          body: JSON.stringify(payload)
-        }).catch(e => console.error(e));
-
-        setTimeout(() => {
-          psFormContent.style.display = 'none';
-          psIcon.style.display = 'none';
-          psSuccess.style.display = 'block';
-          psSuccessMsg.innerHTML = `Tu recevras le lien direct vers <strong>${psCurrentRel?.title || 'Accélère'}</strong> en avant-première dès sa sortie. 🔥`;
-        }, 600);
-      }
-
-      psSuccessClose.addEventListener('click', closePreSaveModal);
-      psModal.addEventListener('mousedown', e => { if (e.target === psModal) closePreSaveModal(); });
-
-      // ESC ferme les deux modales
+      // ESC ferme les modales
       document.addEventListener('keydown', e => {
         if (e.key === 'Escape') {
           if (listenModal.classList.contains('is-open')) closeListenModal();
-          if (psModal.classList.contains('active')) closePreSaveModal();
+          if (window.closeModal) window.closeModal();
         }
       });
     });

@@ -8,30 +8,32 @@
     content="MERILIA — Détail. Nouveau single à venir. Pré-sauvegarde dès maintenant et reçois le rappel en avant-première.">
   <meta name="theme-color" content="#060608">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <title>MERILIA - Détail | Pre-Save Single</title>
+  <title>MERILIA - Accélère | Pre-Save Single</title>
 
   <!-- Open Graph / Social Media Preview (Facebook, WhatsApp, Discord, iMessage) -->
   <meta property="og:type" content="music.song">
   <meta property="og:site_name" content="MERILIA">
-  <meta property="og:title" content="MERILIA — Détail (Pre-Save)">
+  <meta property="og:title" content="MERILIA — Accélère (Pre-Save)">
   <meta property="og:description" content="Nouveau single à venir. Pré-sauvegarde dès maintenant et reçois le rappel en avant-première.">
-  <meta property="og:image" content="cover_detail.jpg">
+  <meta property="og:image" content="cover_accelere.jpg">
   <meta property="og:image:type" content="image/jpeg">
-  <meta property="og:image:alt" content="MERILIA — Détail Cover HD">
+  <meta property="og:image:alt" content="MERILIA — Accélère Cover HD">
 
   <!-- Twitter / X Cards -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="MERILIA — Détail (Pre-Save)">
+  <meta name="twitter:title" content="MERILIA — Accélère (Pre-Save)">
   <meta name="twitter:description" content="Nouveau single à venir. Pré-sauvegarde dès maintenant et reçois le rappel en avant-première.">
-  <meta name="twitter:image" content="cover_detail.jpg">
-  <meta name="twitter:image:alt" content="MERILIA — Détail Cover HD">
+  <meta name="twitter:image" content="cover_accelere.jpg">
+  <meta name="twitter:image:alt" content="MERILIA — Accélère Cover HD">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="transitions.css">
   <link rel="preload" as="image" href="cover_accelere.jpg">
   <link rel="preload" as="image" href="cover_detail.jpg">
   <link rel="preload" as="image" href="cover_envie.jpg">
+  <link rel="prefetch" href="detail.html">
+  <link rel="prefetch" href="envie.html">
   <style>
     /* ============================================
        🎨 DESIGN TOKENS — Silver / Chrome Liquid Palette
@@ -96,7 +98,7 @@
       position: fixed;
       inset: 0;
       z-index: 0;
-      background: url('cover_detail.jpg') center center / cover no-repeat;
+      background: url('cover_accelere.jpg') center center / cover no-repeat;
       filter: blur(14px) saturate(1.1) brightness(0.8);
       transform: scale(1.08) translateZ(0);
       opacity: 0.9;
@@ -1100,12 +1102,12 @@
 
     <!-- Cover art in silver circle -->
     <div class="cover-circle">
-      <img src="cover_detail.jpg" alt="MERILIA — Détail" id="hero-cover-img" width="170" height="170">
+      <img src="cover_accelere.jpg" alt="MERILIA — Accélère" id="hero-cover-img" width="170" height="170">
     </div>
 
     <!-- Artist branding -->
     <h1 class="artist-name" id="artist-name">MERILIA</h1>
-    <p class="track-title" id="track-title">Détail</p>
+    <p class="track-title" id="track-title">Accélère</p>
 
     <!-- Countdown -->
     <p class="headline">DISPONIBLE DANS</p>
@@ -1137,26 +1139,26 @@
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
           <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
         </svg>
-        <span>PRÉ-SAUVEGARDER "DÉTAIL"</span>
+        <span>PRÉ-SAUVEGARDER "ACCÉLÈRE"</span>
       </button>
     </div>
 
     <!-- Separator -->
     <div class="section-divider">
       <div class="line"></div>
-      <span class="badge">EN ATTENDANT "DÉTAIL"</span>
+      <span class="badge">EN ATTENDANT "ACCÉLÈRE"</span>
       <div class="line"></div>
     </div>
 
     <!-- PREVIOUS SINGLE STREAMING SECTION ("ENVIE") -->
-    <section class="previous-release-card" aria-label="Écouter le titre précédent Envie">
-      <a href="envie.html" class="prev-header-link" title="Ouvrir la page du titre Envie">
+    <section class="previous-release-card" aria-label="Écouter le titre précédent Détail">
+      <a href="detail.html" class="prev-header-link" id="prev-page-link" title="Ouvrir la page du titre Détail">
         <div class="prev-cover-thumb">
-          <img src="cover_envie.jpg" alt="MERILIA — Envie" id="prev-cover-img">
+          <img src="cover_detail.jpg" alt="MERILIA — Détail" id="prev-cover-img">
         </div>
         <div class="prev-info">
           <span class="prev-tag" id="prev-badge">DERNIER SINGLE DISPONIBLE</span>
-          <h2 class="prev-title" id="prev-title">Envie</h2>
+          <h2 class="prev-title" id="prev-title">Détail</h2>
           <p class="prev-subtitle" id="prev-artist">MERILIA</p>
         </div>
         <div class="prev-action-btn">
@@ -1230,14 +1232,14 @@
         </svg>
       </button>
 
-      <h2 class="tt-modal-title">Prêt(e) pour <span id="tt-track-name-title">'Détail'</span> ? ✨</h2>
+      <h2 class="tt-modal-title">Prêt(e) pour <span id="tt-track-name-title">'Accélère'</span> ? ✨</h2>
       <p class="tt-modal-subtitle">
         TikTok bloque l'ouverture directe des applications de musique. Copie le titre ci-dessous pour le coller dans ton appli de streaming préférée :
       </p>
 
       <div class="tt-modal-section">
         <span>🎵 Recherche le titre directement :</span>
-        <strong class="tt-track-display" id="tt-track-display">MERILIA - Détail</strong>
+        <strong class="tt-track-display" id="tt-track-display">MERILIA - Accélère</strong>
         <button class="tt-copy-btn" id="tt-copy-btn" type="button">
           <svg viewBox="0 0 24 24">
             <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z" />
@@ -1264,7 +1266,7 @@
       <div id="modal-content">
         <h3 class="modal-title-text" style="text-align: center;">Rejoindre la liste</h3>
         <p class="modal-text" id="modal-desc">
-          Laisse ton Instagram ou numéro pour recevoir le lien de <strong>Détail</strong> dès la sortie.
+          Laisse ton Instagram ou numéro pour recevoir le lien de <strong>Accélère</strong> dès la sortie.
         </p>
 
         <div class="option-toggle">
@@ -1300,10 +1302,10 @@
           </svg>
         </div>
         <h3>T'es bien inscrit(e) !</h3>
-        <p id="success-message">Tu recevras le lien direct vers <strong>Détail</strong> en avant-première dès sa sortie. 🔥</p>
+        <p id="success-message">Tu recevras le lien direct vers <strong>Accélère</strong> en avant-première dès sa sortie. 🔥</p>
 
         <div id="spotify-prompt" class="spotify-prompt">
-          <p style="font-size: 13px; color: var(--t2); margin-bottom: 14px;">Veux-tu aussi ajouter <strong>Détail</strong> directement sur ton Spotify ?</p>
+          <p style="font-size: 13px; color: var(--t2); margin-bottom: 14px;">Veux-tu aussi ajouter <strong>Accélère</strong> directement sur ton Spotify ?</p>
           <div style="display: flex; flex-direction: column; align-items: center; gap: 8px; width: 100%;">
             <button class="cta-btn btn-spotify" id="btn-spotify-presave" style="max-width: 100%; width: 100%;">Pre-save sur Spotify</button>
             <button class="cta-btn btn-later" onclick="closeModal()">Fermer</button>
@@ -1388,7 +1390,7 @@
 
         if (diff <= 0) {
           ended = true;
-          window.location.href = 'index.html';
+          window.location.href = 'detail.html';
           return;
         }
 
@@ -1566,6 +1568,7 @@
           contact: value,
           method: currentMode,
           track: current.title,
+          sheet: "ACCELERE",
           date: new Date().toLocaleString()
         };
 

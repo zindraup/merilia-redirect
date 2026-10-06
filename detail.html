@@ -4,26 +4,26 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <meta name="description" content="MERILIA — Envie. Disponible maintenant sur toutes les plateformes de streaming.">
+  <meta name="description" content="MERILIA — Détail. Disponible maintenant sur toutes les plateformes de streaming.">
   <meta name="theme-color" content="#060608">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <title>MERILIA - Envie | Écouter maintenant</title>
+  <title>MERILIA - Détail | Écouter maintenant</title>
 
   <!-- Open Graph / Social Media Preview (Facebook, WhatsApp, Discord, iMessage) -->
   <meta property="og:type" content="music.song">
   <meta property="og:site_name" content="MERILIA">
-  <meta property="og:title" content="MERILIA — Envie">
+  <meta property="og:title" content="MERILIA — Détail">
   <meta property="og:description" content="Disponible maintenant sur toutes les plateformes de streaming.">
-  <meta property="og:image" content="cover_envie.jpg">
+  <meta property="og:image" content="cover_detail.jpg">
   <meta property="og:image:type" content="image/jpeg">
-  <meta property="og:image:alt" content="MERILIA — Envie Cover HD">
+  <meta property="og:image:alt" content="MERILIA — Détail Cover HD">
 
   <!-- Twitter / X Cards -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="MERILIA — Envie">
+  <meta name="twitter:title" content="MERILIA — Détail">
   <meta name="twitter:description" content="Disponible maintenant sur toutes les plateformes de streaming.">
-  <meta name="twitter:image" content="cover_envie.jpg">
-  <meta name="twitter:image:alt" content="MERILIA — Envie Cover HD">
+  <meta name="twitter:image" content="cover_detail.jpg">
+  <meta name="twitter:image:alt" content="MERILIA — Détail Cover HD">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -32,7 +32,7 @@
   <link rel="preload" as="image" href="cover_detail.jpg">
   <link rel="preload" as="image" href="cover_envie.jpg">
   <link rel="prefetch" href="accelere.html">
-  <link rel="prefetch" href="detail.html">
+  <link rel="prefetch" href="envie.html">
   <style>
     /* ============================================
        🎨 DESIGN TOKENS — Silver / Chrome palette
@@ -67,7 +67,7 @@
     *::after {
       margin: 0;
       padding: 0;
-      box-sizing: border-box;
+      box-sizing: border-box
     }
 
     html,
@@ -97,7 +97,7 @@
       position: fixed;
       inset: 0;
       z-index: 0;
-      background: url('cover_envie.jpg') center center / cover no-repeat;
+      background: url('cover_detail.jpg') center center / cover no-repeat;
       filter: blur(15px) saturate(1.2) brightness(0.8);
       transform: scale(1.1);
       opacity: 1;
@@ -142,12 +142,12 @@
     @keyframes fadeUp {
       from {
         opacity: 0;
-        transform: translateY(30px);
+        transform: translateY(30px)
       }
 
       to {
         opacity: 1;
-        transform: translateY(0);
+        transform: translateY(0)
       }
     }
 
@@ -229,7 +229,7 @@
     }
 
     /* ============================================
-       PLATFORM LIST (ENVIE)
+       PLATFORM LIST (DÉTAIL)
        ============================================ */
     .platform-list {
       width: 100%;
@@ -303,6 +303,7 @@
       transition: transform 0.3s var(--spring);
     }
 
+    /* Real DOM action label (replaces ::after pseudo) */
     .platform-item-action {
       position: absolute;
       right: 28px;
@@ -328,7 +329,14 @@
       background: rgba(255, 255, 255, 0.12);
     }
 
-    .platform-item.hide-action .platform-item-action {
+    .platform-item.success .platform-item-action {
+      content: '✓';
+      color: #fff;
+      opacity: 1;
+    }
+
+    .platform-item.hide-action .platform-item-action,
+    .platform-pill.hide-action .platform-pill-action {
       display: none !important;
     }
 
@@ -370,7 +378,204 @@
     }
 
     /* ============================================
-       CROSS-PROMO SECTION — "DÉTAIL" (NEXT SINGLE)
+       PREVIOUS SINGLE SECTION — "ENVIE" (STREAMING CARD)
+       ============================================ */
+    .previous-release-card {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.025);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 24px;
+      padding: 24px;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+      text-align: left;
+      transition: border-color 0.3s ease;
+      animation: fadeIn .8s .7s both;
+    }
+
+    .previous-release-card:hover {
+      border-color: rgba(255, 255, 255, 0.15);
+    }
+
+    .prev-header-link {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 20px;
+      text-decoration: none;
+      color: inherit;
+      border-radius: 18px;
+      padding: 8px;
+      margin: -8px -8px 14px -8px;
+      transition: background 0.3s var(--ease), border-color 0.3s var(--ease);
+      border: 1px solid transparent;
+      cursor: pointer;
+    }
+
+    .prev-header-link:hover {
+      background: rgba(255, 255, 255, 0.06);
+      border-color: rgba(255, 255, 255, 0.15);
+    }
+
+    .prev-header-link:hover .prev-title {
+      color: var(--silver-bright);
+    }
+
+    .prev-header-link:hover .prev-cover-thumb {
+      transform: scale(1.04);
+      border-color: rgba(255, 255, 255, 0.3);
+    }
+
+    .prev-action-btn {
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 14px;
+      border-radius: 50px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      color: #fff;
+      transition: all 0.3s var(--ease);
+      flex-shrink: 0;
+    }
+
+    .prev-header-link:hover .prev-action-btn {
+      background: #fff;
+      color: #000;
+      border-color: #fff;
+      transform: translateX(3px);
+    }
+
+    .prev-cover-thumb {
+      width: 68px;
+      height: 68px;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+      flex-shrink: 0;
+    }
+
+    .prev-cover-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .prev-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .prev-tag {
+      font-size: 9.5px;
+      font-weight: 800;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--silver);
+      opacity: 0.7;
+      margin-bottom: 4px;
+      display: block;
+    }
+
+    .prev-title {
+      font-size: 18px;
+      font-weight: 800;
+      color: #fff;
+      letter-spacing: 0.02em;
+      line-height: 1.2;
+    }
+
+    .prev-subtitle {
+      font-size: 12px;
+      color: var(--t2);
+      margin-top: 2px;
+    }
+
+    .prev-platforms-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+
+    .platform-pill {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 14px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      border-radius: 14px;
+      color: var(--t1);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 600;
+      overflow: hidden;
+      transition: all 0.25s var(--ease);
+    }
+
+    .platform-pill:hover {
+      background: rgba(255, 255, 255, 0.09);
+      border-color: rgba(255, 255, 255, 0.2);
+      transform: translateY(-2px);
+    }
+
+    .platform-pill-icon {
+      width: 22px;
+      height: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      z-index: 1;
+    }
+
+    .platform-pill-icon svg {
+      width: 100%;
+      height: 100%;
+      fill: currentColor;
+    }
+
+    .platform-pill[data-platform="spotify"] .platform-pill-icon { color: #1DB954; }
+    .platform-pill[data-platform="youtube"] .platform-pill-icon { color: #FF0000; }
+    .platform-pill[data-platform="deezer"] .platform-pill-icon { color: #EF5464; }
+    .platform-pill[data-platform="apple"] .platform-pill-icon { color: #fff; }
+    .platform-pill[data-platform="apple"] .platform-pill-icon svg { fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+
+    .platform-pill-name {
+      z-index: 1;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .platform-pill-action {
+      margin-left: auto;
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--t3);
+      letter-spacing: 0.05em;
+      z-index: 1;
+      white-space: nowrap;
+    }
+
+    .platform-pill:hover .platform-pill-action {
+      color: #fff;
+    }
+
+    @media (max-width: 380px) {
+      .platform-pill-action { display: none !important; }
+    }
+
+    /* ============================================
+       CROSS-PROMO SECTION — "ACCÉLÈRE" (NEXT SINGLE)
        ============================================ */
     .promo-card {
       width: 100%;
@@ -389,7 +594,7 @@
       gap: 16px;
       text-decoration: none;
       color: inherit;
-      animation: fadeIn .8s .65s both;
+      animation: fadeIn .8s .6s both;
     }
 
     .promo-card:hover {
@@ -552,6 +757,34 @@
       opacity: 1;
     }
 
+    .tt-modal-close {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: var(--t2);
+      transition: all 0.2s ease;
+    }
+
+    .tt-modal-close:hover {
+      background: rgba(255, 255, 255, 0.15);
+      color: #fff;
+    }
+
+    .tt-modal-close svg {
+      width: 14px;
+      height: 14px;
+      fill: currentColor;
+    }
+
     .tt-modal-title {
       font-size: clamp(20px, 5.5vw, 24px);
       font-weight: 800;
@@ -570,6 +803,21 @@
       text-align: center;
       line-height: 1.5;
       margin-bottom: 20px;
+    }
+
+    .tt-modal-section {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 20px;
+      padding: 20px;
+      margin-bottom: 12px;
+      font-size: 13px;
+      line-height: 1.5;
+      color: var(--t2);
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
 
     .tt-track-display {
@@ -629,11 +877,11 @@
 
   <main class="container">
     <div class="cover-circle">
-      <img src="cover_envie.jpg" alt="MERILIA — Envie" id="cover-img">
+      <img src="cover_detail.jpg" alt="MERILIA — Détail" id="cover-img">
     </div>
 
     <h1 class="artist-name" id="artist-name">MERILIA</h1>
-    <p class="track-title" id="track-title">Envie</p>
+    <p class="track-title" id="track-title">Détail</p>
 
     <p class="headline">ÉCOUTER MAINTENANT</p>
 
@@ -671,7 +919,7 @@
         <span class="platform-item-action">ÉCOUTER</span>
       </div>
 
-      <!-- Amazon Music -->
+      <!-- Amazon -->
       <div class="platform-item" data-platform="amazon" id="btn-amazon" style="display:none;">
         <div class="platform-icon-box">
           <div class="platform-icon" style="padding: 2px;">
@@ -682,7 +930,7 @@
         <span class="platform-item-action">ÉCOUTER</span>
       </div>
 
-      <!-- Apple Music -->
+      <!-- Apple -->
       <div class="platform-item" data-platform="apple" id="btn-apple" style="display:none;">
         <div class="platform-icon-box">
           <div class="platform-icon">
@@ -727,8 +975,8 @@
       <div class="line"></div>
     </div>
 
-    <!-- PROMO SECTION FOR NEXT SINGLE ("DÉTAIL") -->
-    <a href="accelere.html" class="promo-card" aria-label="Découvrir le prochain single Détail">
+    <!-- PROMO SECTION FOR NEXT SINGLE ("ACCÉLÈRE") -->
+    <a href="accelere.html" class="promo-card" aria-label="Découvrir le prochain single Accélère">
       <div class="promo-header">
         <div class="promo-cover-thumb">
           <img src="cover_accelere.jpg" alt="MERILIA — Accélère" id="promo-cover-img">
@@ -742,16 +990,81 @@
       <div class="promo-btn">PRÉ-SAVER</div>
     </a>
 
+    <!-- Separator -->
+    <div class="section-divider">
+      <div class="line"></div>
+      <span class="badge">SINGLE PRÉCÉDENT</span>
+      <div class="line"></div>
+    </div>
+
+    <!-- PREVIOUS SINGLE STREAMING SECTION ("ENVIE") -->
+    <section class="previous-release-card" aria-label="Écouter le titre précédent Envie">
+      <a href="envie.html" class="prev-header-link" id="prev-page-link" title="Ouvrir la page du titre Envie">
+        <div class="prev-cover-thumb">
+          <img src="cover_envie.jpg" alt="MERILIA — Envie" id="prev-cover-img">
+        </div>
+        <div class="prev-info">
+          <span class="prev-tag" id="prev-badge">SINGLE PRÉCÉDENT</span>
+          <h2 class="prev-title" id="prev-title">Envie</h2>
+          <p class="prev-subtitle" id="prev-artist">MERILIA</p>
+        </div>
+        <div class="prev-action-btn">
+          <span>PAGE</span>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </div>
+      </a>
+
+      <div class="prev-platforms-grid" id="prev-platforms-grid">
+        <!-- Spotify -->
+        <a href="https://spotify.openinapp.co/31xu3" target="_blank" class="platform-pill" data-platform="spotify" id="prev-link-spotify">
+          <div class="platform-pill-icon">
+            <svg viewBox="0 0 24 24"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.503 17.306c-.215.353-.674.464-1.027.249-2.863-1.748-6.467-2.144-10.712-1.173-.404.092-.81-.157-.903-.561-.092-.403.157-.809.561-.902 4.646-1.063 8.625-.615 11.832 1.34.353.215.464.674.249 1.027zm1.468-3.259c-.27.44-.847.579-1.287.308-3.277-2.014-8.273-2.597-12.149-1.42-.497.151-1.024-.131-1.174-.627-.151-.497.131-1.024.627-1.174 4.429-1.344 9.94-.693 13.676 1.605.44.271.579.848.308 1.288zm.139-3.391c-3.931-2.333-10.428-2.55-14.218-1.4c-.603.183-1.246-.168-1.429-.771-.183-.603.168-1.246.771-1.429 4.343-1.32 11.523-1.054 16.002 1.604.542.321.721 1.024.399 1.565-.321.543-1.024.722-1.565.401-.001 0-.001 0-.001 0z"/></svg>
+          </div>
+          <span class="platform-pill-name">Spotify</span>
+          <span class="platform-pill-action">ÉCOUTER</span>
+        </a>
+
+        <!-- YouTube -->
+        <a href="https://yt.openinapp.co/c5d74" target="_blank" class="platform-pill" data-platform="youtube" id="prev-link-youtube">
+          <div class="platform-pill-icon">
+            <svg viewBox="0 0 24 24"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/></svg>
+          </div>
+          <span class="platform-pill-name">YouTube</span>
+          <span class="platform-pill-action">ÉCOUTER</span>
+        </a>
+
+        <!-- Deezer -->
+        <a href="https://openinapp.link/deezermeriliaenvie" target="_blank" class="platform-pill" data-platform="deezer" id="prev-link-deezer">
+          <div class="platform-pill-icon">
+            <svg viewBox="0 0 24 24"><path d="M19.125 15.656h4.875v3.469h-4.875v-3.469zm-6.375 0h4.875v3.469h-4.875v-3.469zm-6.375 0h4.875v3.469h-4.875v-3.469zm-6.375 0h4.875v3.469h-4.875v-3.469zm19.125-5.25h4.875v3.469h-4.875v-3.469zm-6.375 0h4.875v3.469h-4.875v-3.469zm-6.375 0h4.875v3.469h-4.875v-3.469zm-6.375 0h4.875v3.469h-4.875v-3.469zm19.125-5.25h4.875v3.469h-4.875v-3.469zm-6.375 0h4.875v3.469h-4.875v-3.469zm-6.375 10.5h4.875v3.469h-4.875v-3.469zm0-15.75h4.875v3.469h-4.875v-3.469zm-6.375 10.5h4.875v3.469h-4.875v-3.469z"/></svg>
+          </div>
+          <span class="platform-pill-name">Deezer</span>
+          <span class="platform-pill-action">ÉCOUTER</span>
+        </a>
+
+        <!-- Apple Music -->
+        <a href="https://applemusic.openinapp.co/od4mg" target="_blank" class="platform-pill" data-platform="apple" id="prev-link-apple">
+          <div class="platform-pill-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle>
+            </svg>
+          </div>
+          <span class="platform-pill-name">Apple Music</span>
+          <span class="platform-pill-action">ÉCOUTER</span>
+        </a>
+      </div>
+    </section>
+
     <!-- Footer -->
     <footer class="footer">
       <div class="social-links">
-        <a href="https://instagram.com/merilia_dnb" class="social-link" target="_blank" aria-label="Instagram" id="social-ig">
+        <a href="https://instagram.com/merilia_dnb" class="social-link" target="_blank" aria-label="Instagram">
           <svg class="social-icon" viewBox="0 0 24 24">
             <path
               d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z" />
           </svg>
         </a>
-        <a href="https://tiktok.com/@merilia_dnb" class="social-link" target="_blank" aria-label="TikTok" id="social-tt">
+        <a href="https://tiktok.com/@merilia_dnb" class="social-link" target="_blank" aria-label="TikTok">
           <svg class="social-icon" viewBox="0 0 24 24">
             <path
               d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.9-.32-1.98-.23-2.81.36-.54.38-.89.98-1.03 1.64-.14.65-.01 1.34.33 1.91.43.72 1.21 1.2 2.04 1.24.89.07 1.83-.23 2.45-.88.6-.61.85-1.48.83-2.33-.03-4.75-.01-9.51-.02-14.26z" />
@@ -766,9 +1079,12 @@
        ============================================ -->
   <div class="tt-modal-ov" id="tt-modal" role="dialog" aria-hidden="true">
     <div class="tt-modal-card">
-      <h2 class="tt-modal-title">Prêt à écouter <span id="tt-track-name-title">'Envie'</span> ? ✨</h2>
+      <div class="tt-modal-glow"></div>
+
+      <h2 class="tt-modal-title">Prêt à écouter <span id="tt-track-name-title">'Détail'</span> ? ✨</h2>
       <p class="tt-modal-subtitle">
-        TikTok bloque l'ouverture des applis de musique. C'est l'occasion de sortir de l'application et de découvrir ce morceau. 🫂
+        TikTok bloque l'ouverture des applis de musique. C'est l'occasion de sortir de l'application du
+        diable et de découvrir un super morceau. 🫂
       </p>
 
       <div class="tt-modal-instruction">
@@ -776,7 +1092,7 @@
       </div>
 
       <div class="tt-track-container">
-        <strong class="tt-track-display" id="tt-track-display">MERILIA - Envie</strong>
+        <strong class="tt-track-display" id="tt-track-display">MERILIA - Détail</strong>
         <button class="tt-copy-btn" id="tt-copy-btn" type="button">
           <svg viewBox="0 0 24 24">
             <path
@@ -791,21 +1107,23 @@
   <script src="config.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      // Priorité à CONFIG.previousRelease (ou fallback sur CONFIG si la chanson principale est Envie)
-      const release = (CONFIG.previousRelease && CONFIG.previousRelease.title === 'Envie') 
-        ? CONFIG.previousRelease 
-        : (CONFIG.currentRelease && CONFIG.currentRelease.title === 'Envie')
-          ? CONFIG.currentRelease
-          : {
-            title: "Envie",
-            cover: "cover_envie.jpg",
-            links: CONFIG.links
-          };
+      // detail.html est une page FIXE pour "Détail" — indépendante de currentRelease
+      const current = CONFIG.previousRelease || {
+        title: 'Détail',
+        cover: 'cover_detail.jpg',
+        links: {}
+      };
 
-      const artist = CONFIG.artist || "MERILIA";
-      const nextRelease = CONFIG.currentRelease || { title: "Accélère", cover: "cover_accelere.jpg" };
+      const prev = CONFIG.envieRelease || {
+        title: 'Envie',
+        cover: 'cover_envie.jpg',
+        badge: 'SINGLE PRÉCÉDENT',
+        links: {}
+      };
+
 
       // Résolution automatique d'URL absolue pour les aperçus réseaux sociaux
+
       if (window.location.origin && window.location.origin !== 'null' && !window.location.origin.startsWith('file:')) {
         const ogImg = document.querySelector('meta[property="og:image"]');
         const twImg = document.querySelector('meta[name="twitter:image"]');
@@ -813,29 +1131,39 @@
         if (twImg && twImg.content) twImg.content = new URL(twImg.getAttribute('content'), window.location.href).href;
       }
 
-      // 1. Appliquer les métadonnées et contenus visuels
-      document.title = `${artist} - ${release.title} | Écouter maintenant`;
-      document.getElementById('artist-name').textContent = artist;
-      document.getElementById('track-title').textContent = release.title;
-      document.getElementById('cover-img').src = release.cover || 'cover_envie.jpg';
-      document.getElementById('bg-cover').style.backgroundImage = `url('${release.cover || 'cover_envie.jpg'}')`;
+      // 1. Appliquer la config pour la sortie principale ("Détail")
+      document.title = `${CONFIG.artist} - ${current.title} | Écouter maintenant`;
+      document.getElementById('artist-name').textContent = CONFIG.artist;
+      document.getElementById('track-title').textContent = current.title;
+      document.getElementById('cover-img').src = current.cover;
+      document.getElementById('bg-cover').style.backgroundImage = `url('${current.cover}')`;
 
-      // Socials
-      if (CONFIG.socials) {
-        if (CONFIG.socials.instagram) document.getElementById('social-ig').href = CONFIG.socials.instagram;
-        if (CONFIG.socials.tiktok) document.getElementById('social-tt').href = CONFIG.socials.tiktok;
-      }
-
-      // Promo du prochain single
+      // Configurer la carte du prochain single ("Accélère")
+      const nextRelease = CONFIG.currentRelease;
       if (nextRelease) {
-        document.getElementById('promo-title').textContent = nextRelease.title;
-        document.getElementById('promo-artist').textContent = artist;
-        if (nextRelease.cover) document.getElementById('promo-cover-img').src = nextRelease.cover;
-        if (nextRelease.badge) document.getElementById('promo-badge').textContent = nextRelease.badge;
+        if (document.getElementById('promo-title')) document.getElementById('promo-title').textContent = nextRelease.title;
+        if (document.getElementById('promo-artist')) document.getElementById('promo-artist').textContent = CONFIG.artist;
+        if (nextRelease.cover && document.getElementById('promo-cover-img')) document.getElementById('promo-cover-img').src = nextRelease.cover;
+        if (nextRelease.badge && document.getElementById('promo-badge')) document.getElementById('promo-badge').textContent = nextRelease.badge;
       }
 
-      // 2. Initialiser les boutons des plateformes d'écoute pour "Envie"
-      const mainLinks = release.links || CONFIG.links;
+      // Configurer la carte du morceau précédent ("Envie")
+      if (prev) {
+        document.getElementById('prev-title').textContent = prev.title;
+        document.getElementById('prev-artist').textContent = CONFIG.artist;
+        if (prev.cover) document.getElementById('prev-cover-img').src = prev.cover;
+        if (prev.badge) document.getElementById('prev-badge').textContent = prev.badge;
+
+        if (prev.links) {
+          if (prev.links.spotify) document.getElementById('prev-link-spotify').href = prev.links.spotify;
+          if (prev.links.youtube) document.getElementById('prev-link-youtube').href = prev.links.youtube;
+          if (prev.links.deezer) document.getElementById('prev-link-deezer').href = prev.links.deezer;
+          if (prev.links.apple) document.getElementById('prev-link-apple').href = prev.links.apple;
+        }
+      }
+
+      // 2. Initialiser les boutons des plateformes d'écoute pour "Détail"
+      const mainLinks = current.links || CONFIG.links;
       const platforms = ['spotify', 'youtube', 'deezer', 'amazon', 'apple', 'tidal', 'qobuz'];
 
       platforms.forEach((p, index) => {
@@ -859,8 +1187,9 @@
         }
       });
 
-      // 3. Smart overflow check
+      // 3. Smart overflow check — hide ÉCOUTER label if not enough room
       function updateActionVisibility() {
+        // Main platform rows
         document.querySelectorAll('.platform-item').forEach(item => {
           const nameEl = item.querySelector('.platform-name');
           const actionEl = item.querySelector('.platform-item-action');
@@ -868,12 +1197,20 @@
           const iconBox = item.querySelector('.platform-icon-box');
           const iconW = iconBox ? iconBox.offsetWidth + parseInt(getComputedStyle(iconBox).marginLeft) + parseInt(getComputedStyle(iconBox).marginRight) : 90;
           const nameW = nameEl.scrollWidth;
-          const actionW = actionEl.scrollWidth + 28 + 16;
+          const actionW = actionEl.scrollWidth + 28 + 16; // right padding + gap
           const available = item.clientWidth - iconW;
           if (available < nameW + actionW + 8) {
             item.classList.add('hide-action');
           } else {
             item.classList.remove('hide-action');
+          }
+        });
+        // Envie pill buttons
+        document.querySelectorAll('.platform-pill').forEach(pill => {
+          if (pill.clientWidth < 135) {
+            pill.classList.add('hide-action');
+          } else {
+            pill.classList.remove('hide-action');
           }
         });
       }
@@ -917,8 +1254,8 @@
         const ttCopyBtn = document.getElementById('tt-copy-btn');
         const ttCopyText = document.getElementById('tt-copy-text');
 
-        const fullTrackTitle = `${artist.toUpperCase()} - ${release.title}`;
-        document.getElementById('tt-track-name-title').textContent = `'${release.title}'`;
+        const fullTrackTitle = `${CONFIG.artist.toUpperCase()} - ${current.title}`;
+        document.getElementById('tt-track-name-title').textContent = `'${current.title}'`;
         document.getElementById('tt-track-display').textContent = fullTrackTitle;
 
         setTimeout(() => {

@@ -26,13 +26,8 @@
   <meta name="twitter:image:alt" content="MERILIA — Envie Cover HD">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="transitions.css">
-  <link rel="preload" as="image" href="cover_accelere.jpg">
-  <link rel="preload" as="image" href="cover_detail.jpg">
-  <link rel="preload" as="image" href="cover_envie.jpg">
-  <link rel="prefetch" href="accelere.html">
-  <link rel="prefetch" href="detail.html">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+    rel="stylesheet">
   <style>
     /* ============================================
        🎨 DESIGN TOKENS — Silver / Chrome palette
@@ -151,18 +146,6 @@
       }
     }
 
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: translateY(10px);
-      }
-
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
     /* ============================================
        HEADER — Cover Art & Artist Info
        ============================================ */
@@ -173,7 +156,7 @@
       padding: 3px;
       background: linear-gradient(135deg, #666, var(--silver-bright), #555, var(--silver-bright), #666);
       background-size: 200% 200%;
-      animation: fadeIn .8s .15s both, chromeShift 6s ease-in-out infinite;
+      animation: chromeShift 6s ease-in-out infinite;
       margin-bottom: 24px;
       box-shadow: 0 0 40px rgba(200, 200, 220, 0.18), 0 10px 30px rgba(0, 0, 0, 0.5);
     }
@@ -197,7 +180,7 @@
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
-      animation: fadeIn .8s .2s both, chromeShift 10s ease-in-out infinite;
+      animation: chromeShift 10s ease-in-out infinite;
       margin-bottom: 8px;
       filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.1));
     }
@@ -215,7 +198,6 @@
       color: var(--silver);
       opacity: .85;
       margin-bottom: 32px;
-      animation: fadeIn .8s .3s both;
     }
 
     .headline {
@@ -225,7 +207,6 @@
       text-transform: uppercase;
       color: var(--t3);
       margin-bottom: 24px;
-      animation: fadeIn .8s .4s both;
     }
 
     /* ============================================
@@ -237,7 +218,6 @@
       flex-direction: column;
       gap: 16px;
       margin-top: 10px;
-      animation: fadeIn .8s .45s both;
     }
 
     .platform-item {
@@ -351,7 +331,6 @@
       justify-content: center;
       gap: 16px;
       margin: 48px 0 32px 0;
-      animation: fadeIn .8s .55s both;
     }
 
     .section-divider .line {
@@ -389,7 +368,6 @@
       gap: 16px;
       text-decoration: none;
       color: inherit;
-      animation: fadeIn .8s .65s both;
     }
 
     .promo-card:hover {
@@ -477,7 +455,6 @@
       width: 100%;
       display: flex;
       justify-content: center;
-      animation: fadeIn .8s .75s both;
     }
 
     .social-links {
@@ -723,23 +700,23 @@
     <!-- Separator -->
     <div class="section-divider">
       <div class="line"></div>
-      <span class="badge">PROCHAIN SINGLE</span>
+      <span class="badge">NOUVEAU SINGLE</span>
       <div class="line"></div>
     </div>
 
     <!-- PROMO SECTION FOR NEXT SINGLE ("DÉTAIL") -->
-    <a href="accelere.html" class="promo-card" aria-label="Découvrir le prochain single Détail">
+    <a href="index.html" class="promo-card" aria-label="Découvrir le nouveau single Détail">
       <div class="promo-header">
         <div class="promo-cover-thumb">
-          <img src="cover_accelere.jpg" alt="MERILIA — Accélère" id="promo-cover-img">
+          <img src="cover_detail.jpg" alt="MERILIA — Détail" id="promo-cover-img">
         </div>
         <div class="promo-info">
           <span class="promo-tag" id="promo-badge">PROCHAIN SINGLE</span>
-          <h2 class="promo-title" id="promo-title">Accélère</h2>
+          <h2 class="promo-title" id="promo-title">Détail</h2>
           <p class="promo-subtitle" id="promo-artist">MERILIA</p>
         </div>
       </div>
-      <div class="promo-btn">PRÉ-SAVER</div>
+      <div class="promo-btn">ÉCOUTER</div>
     </a>
 
     <!-- Footer -->
@@ -803,7 +780,7 @@
           };
 
       const artist = CONFIG.artist || "MERILIA";
-      const nextRelease = CONFIG.currentRelease || { title: "Accélère", cover: "cover_accelere.jpg" };
+      const nextRelease = CONFIG.currentRelease || { title: "Détail", cover: "cover_detail.jpg" };
 
       // Résolution automatique d'URL absolue pour les aperçus réseaux sociaux
       if (window.location.origin && window.location.origin !== 'null' && !window.location.origin.startsWith('file:')) {
@@ -845,7 +822,16 @@
         if (url && url.trim() !== "") {
           btn.dataset.url = url;
           btn.style.display = 'flex';
+
+          btn.style.opacity = '0';
+          btn.style.transform = 'translateY(20px)';
           btn.style.cursor = 'pointer';
+
+          setTimeout(() => {
+            btn.style.transition = 'all 0.8s cubic-bezier(0.16, 1, 0.3, 1)';
+            btn.style.opacity = '1';
+            btn.style.transform = 'translateY(0)';
+          }, 200 + (index * 80));
 
           btn.addEventListener('click', () => triggerPlatformAction(btn));
 
@@ -957,7 +943,6 @@
       }
     });
   </script>
-  <script src="transitions.js"></script>
 </body>
 
 </html>

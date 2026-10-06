@@ -28,10 +28,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
-  <link rel="stylesheet" href="transitions.css">
-  <link rel="preload" as="image" href="cover_accelere.jpg">
-  <link rel="preload" as="image" href="cover_detail.jpg">
-  <link rel="preload" as="image" href="cover_envie.jpg">
+    rel="stylesheet">
   <style>
     /* ============================================
        🎨 DESIGN TOKENS — Silver / Chrome Liquid Palette
@@ -1095,7 +1092,7 @@
 
     <!-- Badge -->
     <div class="release-badge" id="release-badge">
-      <span>NOUVEAU SINGLE - PRE-SAVE</span>
+      <span>NOUVEAU SINGLE</span>
     </div>
 
     <!-- Cover art in silver circle -->
@@ -1326,7 +1323,7 @@
         title: CONFIG.title || 'Détail',
         cover: CONFIG.cover || 'cover_detail.jpg',
         releaseDate: '2026-08-15T00:00:00',
-        badge: 'NOUVEAU SINGLE - PRE-SAVE',
+        badge: 'NOUVEAU SINGLE',
         spotifyPreSaveUrl: CONFIG.links?.spotify || 'https://spotify.openinapp.co/31xu3'
       };
 
@@ -1559,7 +1556,7 @@
         modalSubmitBtn.style.opacity = '0.7';
         modalSubmitBtn.style.pointerEvents = 'none';
 
-        const SHEET_API_URL = 'https://script.google.com/macros/s/AKfycbyKzkcj_uCQzfkTubH6LJ9H_Q67q0x4SKi_5qnlpc6QfKcIgbvPrnBgZvov7v9hyqm8/exec';
+        const SHEET_API_URL = 'https://script.google.com/macros/s/AKfycbwBokoSbC7lTjIfHVcCSkj8a-6gesAELVCFIJxPoM881iSqv0PZpTmtoloeOspKTZYo/exec';
 
         // Un seul champ "contact" — plus de logique conditionnelle dans Apps Script
         const payload = {
@@ -1678,7 +1675,6 @@
     `;
     document.head.appendChild(errStyle);
   </script>
-  <script src="transitions.js"></script>
 </body>
 
 </html>

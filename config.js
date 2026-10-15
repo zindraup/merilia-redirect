@@ -17,12 +17,12 @@ const CONFIG = {
     preSaveUrl: "",
     links: {
       spotify: "https://spotify.openinapp.co/wvp2w",
-      spotify_ios: "https://spotify.openinapp.co/wvp2w",
+      spotify_ios: "https://open.spotify.com/intl-fr/track/6FzudwpBaoczgmXxp5GBDF?si=2fc510e93c0b49fe",
       youtube: "https://yt.openinapp.co/ssavq",
       deezer: "https://openinapp.link/pp5af",
       amazon: "",
       apple: "https://applemusic.openinapp.co/sikxn",
-      tidal: "https://openinapp.link/nmmzb",
+      tidal: "https://tidal.openinapp.link/asb6a",
       qobuz: "https://qobuz.openinapp.link/0s7o8"
     }
   },
@@ -94,7 +94,7 @@ const CONFIG = {
         deezer: "https://openinapp.link/pp5af",
         amazon: "",
         apple: "https://applemusic.openinapp.co/sikxn",
-        tidal: "https://openinapp.link/nmmzb",
+        tidal: "https://tidal.openinapp.link/asb6a",
         qobuz: "https://qobuz.openinapp.link/0s7o8"
       }
     },

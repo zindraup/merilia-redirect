@@ -16,14 +16,14 @@ const CONFIG = {
     spotifyPreSaveUrl: "",
     preSaveUrl: "",
     links: {
-      spotify: "",
-      spotify_ios: "",
-      youtube: "",
-      deezer: "",
+      spotify: "https://spotify.openinapp.co/wvp2w",
+      spotify_ios: "https://spotify.openinapp.co/wvp2w",
+      youtube: "https://yt.openinapp.co/ssavq",
+      deezer: "https://openinapp.link/pp5af",
       amazon: "",
-      apple: "",
-      tidal: "",
-      qobuz: ""
+      apple: "https://applemusic.openinapp.co/sikxn",
+      tidal: "https://openinapp.link/nmmzb",
+      qobuz: "https://qobuz.openinapp.link/0s7o8"
     }
   },
 
@@ -89,13 +89,13 @@ const CONFIG = {
       ctaLabel: "PRE-SAVE",
       links: {
         page: "accelere.html",
-        spotify: "",
-        youtube: "",
-        deezer: "",
-        apple: "",
+        spotify: "https://spotify.openinapp.co/wvp2w",
+        youtube: "https://yt.openinapp.co/ssavq",
+        deezer: "https://openinapp.link/pp5af",
         amazon: "",
-        tidal: "",
-        qobuz: ""
+        apple: "https://applemusic.openinapp.co/sikxn",
+        tidal: "https://openinapp.link/nmmzb",
+        qobuz: "https://qobuz.openinapp.link/0s7o8"
       }
     },
     {

@@ -17,7 +17,7 @@ const CONFIG = {
     preSaveUrl: "",
     links: {
       spotify: "https://spotify.openinapp.co/wvp2w",
-      spotify_ios: "https://open.spotify.com/intl-fr/track/6FzudwpBaoczgmXxp5GBDF?si=2fc510e93c0b49fe",
+      spotify_ios: "https://open.spotify.com/intl-fr/artist/6cebGXR7PHyonZ6LGE6ZZv",
       youtube: "https://yt.openinapp.co/ssavq",
       deezer: "https://openinapp.link/pp5af",
       amazon: "",

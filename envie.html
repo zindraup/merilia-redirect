@@ -890,8 +890,9 @@
 
         const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
 
-        if (platform === 'spotify' && isIOS && mainLinks.spotify_ios) {
-          url = mainLinks.spotify_ios;
+        if (platform === 'spotify' && isIOS) {
+          url = mainLinks.spotify_ios || url;
+          url = url.replace(/\/intl-[a-z]{2}(-[a-z]{2})?\//i, '/');
         }
 
         item.classList.add('success');

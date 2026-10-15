@@ -1210,8 +1210,13 @@
           { key: 'deezer', name: 'Deezer', icon: '<svg viewBox="0 0 24 24"><path d="M19.125 15.656h4.875v3.469h-4.875v-3.469zm-6.375 0h4.875v3.469h-4.875v-3.469zm-6.375 0h4.875v3.469h-4.875v-3.469zm-6.375 0h4.875v3.469h-4.875v-3.469zm19.125-5.25h4.875v3.469h-4.875v-3.469zm-6.375 0h4.875v3.469h-4.875v-3.469zm-6.375 0h4.875v3.469h-4.875v-3.469zm-6.375 0h4.875v3.469h-4.875v-3.469zm19.125-5.25h4.875v3.469h-4.875v-3.469zm-6.375 0h4.875v3.469h-4.875v-3.469zm-6.375 10.5h4.875v3.469h-4.875v-3.469zm0-15.75h4.875v3.469h-4.875v-3.469zm-6.375 10.5h4.875v3.469h-4.875v-3.469z"/></svg>' }
         ];
 
+        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+
         heroPlatformDefs.forEach(p => {
-          const url = featured.links?.[p.key];
+          let url = featured.links?.[p.key];
+          if (p.key === 'spotify' && isIOS && featured.links?.spotify_ios) {
+            url = featured.links.spotify_ios;
+          }
           if (url && url.trim() !== '') {
             const btn = document.createElement('a');
             btn.className = 'quick-icon-btn';
@@ -1326,7 +1331,10 @@
 
         let hasAnyLink = false;
         platformDefs.forEach(p => {
-          const url = rel.links?.[p.key];
+          let url = rel.links?.[p.key];
+          if (p.key === 'spotify' && isIOS && rel.links?.spotify_ios) {
+            url = rel.links.spotify_ios;
+          }
           if (url && url.trim() !== '') {
             hasAnyLink = true;
             const a = document.createElement('a');

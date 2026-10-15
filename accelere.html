@@ -1113,6 +1113,8 @@
         links: {}
       };
 
+      const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+
       // Résolution automatique d'URL absolue pour les aperçus réseaux sociaux
       if (window.location.origin && window.location.origin !== 'null' && !window.location.origin.startsWith('file:')) {
         const ogImg = document.querySelector('meta[property="og:image"]');
@@ -1146,7 +1148,8 @@
         if (prev.pageUrl && document.getElementById('prev-page-link')) document.getElementById('prev-page-link').href = prev.pageUrl;
 
         if (prev.links) {
-          if (prev.links.spotify && document.getElementById('prev-link-spotify')) document.getElementById('prev-link-spotify').href = prev.links.spotify;
+          const prevSpotify = (isIOS && prev.links.spotify_ios) ? prev.links.spotify_ios : (prev.links.spotify || '');
+          if (prevSpotify && document.getElementById('prev-link-spotify')) document.getElementById('prev-link-spotify').href = prevSpotify.replace(/\/intl-[a-z]{2}(-[a-z]{2})?\//i, '/');
           if (prev.links.youtube && document.getElementById('prev-link-youtube')) document.getElementById('prev-link-youtube').href = prev.links.youtube;
           if (prev.links.deezer && document.getElementById('prev-link-deezer')) document.getElementById('prev-link-deezer').href = prev.links.deezer;
           if (prev.links.apple && document.getElementById('prev-link-apple')) document.getElementById('prev-link-apple').href = prev.links.apple;
@@ -1162,7 +1165,8 @@
         if (envie.pageUrl && document.getElementById('envie-page-link')) document.getElementById('envie-page-link').href = envie.pageUrl;
 
         if (envie.links) {
-          if (envie.links.spotify && document.getElementById('envie-link-spotify')) document.getElementById('envie-link-spotify').href = envie.links.spotify;
+          const envieSpotify = (isIOS && envie.links.spotify_ios) ? envie.links.spotify_ios : (envie.links.spotify || '');
+          if (envieSpotify && document.getElementById('envie-link-spotify')) document.getElementById('envie-link-spotify').href = envieSpotify.replace(/\/intl-[a-z]{2}(-[a-z]{2})?\//i, '/');
           if (envie.links.youtube && document.getElementById('envie-link-youtube')) document.getElementById('envie-link-youtube').href = envie.links.youtube;
           if (envie.links.deezer && document.getElementById('envie-link-deezer')) document.getElementById('envie-link-deezer').href = envie.links.deezer;
           if (envie.links.apple && document.getElementById('envie-link-apple')) document.getElementById('envie-link-apple').href = envie.links.apple;
@@ -1231,10 +1235,9 @@
         const platform = item.dataset.platform;
         let url = item.dataset.url;
 
-        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
-
-        if (platform === 'spotify' && isIOS && mainLinks.spotify_ios) {
-          url = mainLinks.spotify_ios;
+        if (platform === 'spotify' && isIOS) {
+          url = mainLinks.spotify_ios || 'https://open.spotify.com/track/6FzudwpBaoczgmXxp5GBDF';
+          url = url.replace(/\/intl-[a-z]{2}(-[a-z]{2})?\//i, '/');
         }
 
         item.classList.add('success');

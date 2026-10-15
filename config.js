@@ -19,10 +19,10 @@ const CONFIG = {
     preSaveUrl: "",
     links: {
       spotify: "https://spotify.openinapp.co/wvp2w",
-      spotify_ios: "https://open.spotify.com/intl-fr/artist/6cebGXR7PHyonZ6LGE6ZZv",
+      spotify_ios: "https://open.spotify.com/track/6FzudwpBaoczgmXxp5GBDF",
       youtube: "https://yt.openinapp.co/ssavq",
       deezer: "https://openinapp.link/pp5af",
-      amazon: "",
+      amazon: "https://amzn.openinapp.link/bisx2",
       apple: "https://applemusic.openinapp.co/sikxn",
       tidal: "https://tidal.openinapp.link/asb6a",
       qobuz: "https://qobuz.openinapp.link/0s7o8"
@@ -37,7 +37,7 @@ const CONFIG = {
     pageUrl: "detail.html",
     links: {
       spotify: "https://spotify.openinapp.co/jobgo",
-      spotify_ios: "https://open.spotify.com/intl-fr/track/5mAttM1HkPnNVdEDfdYWfJ?si=3f9758e5b4834250",
+      spotify_ios: "https://open.spotify.com/track/5mAttM1HkPnNVdEDfdYWfJ?si=3f9758e5b4834250",
       youtube: "https://youtube.openinapp.co/DETAIL",
       deezer: "https://deezer.openinapp.link/detail",
       amazon: "https://amzn.openinapp.link/6tv1d",
@@ -55,7 +55,7 @@ const CONFIG = {
     pageUrl: "envie.html",
     links: {
       spotify: "https://spotify.openinapp.co/31xu3",
-      spotify_ios: "https://open.spotify.com/intl-fr/track/0mNGJ5sdhPVdp7AQiwWz2y?si=33753fe9380c4f25",
+      spotify_ios: "https://open.spotify.com/track/0mNGJ5sdhPVdp7AQiwWz2y?si=33753fe9380c4f25",
       youtube: "https://yt.openinapp.co/c5d74",
       deezer: "https://openinapp.link/deezermeriliaenvie",
       amazon: "https://amzn.openinapp.link/ugxi2",
@@ -92,10 +92,10 @@ const CONFIG = {
       links: {
         page: "accelere.html",
         spotify: "https://spotify.openinapp.co/wvp2w",
-        spotify_ios: "https://open.spotify.com/intl-fr/artist/6cebGXR7PHyonZ6LGE6ZZv",
+        spotify_ios: "https://open.spotify.com/track/6FzudwpBaoczgmXxp5GBDF",
         youtube: "https://yt.openinapp.co/ssavq",
         deezer: "https://openinapp.link/pp5af",
-        amazon: "",
+        amazon: "https://amzn.openinapp.link/bisx2",
         apple: "https://applemusic.openinapp.co/sikxn",
         tidal: "https://tidal.openinapp.link/asb6a",
         qobuz: "https://qobuz.openinapp.link/0s7o8"
@@ -114,7 +114,7 @@ const CONFIG = {
       links: {
         page: "detail.html",
         spotify: "https://spotify.openinapp.co/jobgo",
-        spotify_ios: "https://open.spotify.com/intl-fr/track/5mAttM1HkPnNVdEDfdYWfJ?si=3f9758e5b4834250",
+        spotify_ios: "https://open.spotify.com/track/5mAttM1HkPnNVdEDfdYWfJ?si=3f9758e5b4834250",
         youtube: "https://youtube.openinapp.co/DETAIL",
         deezer: "https://deezer.openinapp.link/detail",
         amazon: "https://amzn.openinapp.link/6tv1d",
@@ -136,7 +136,7 @@ const CONFIG = {
       links: {
         page: "envie.html",
         spotify: "https://spotify.openinapp.co/31xu3",
-        spotify_ios: "https://open.spotify.com/intl-fr/track/0mNGJ5sdhPVdp7AQiwWz2y?si=33753fe9380c4f25",
+        spotify_ios: "https://open.spotify.com/track/0mNGJ5sdhPVdp7AQiwWz2y?si=33753fe9380c4f25",
         youtube: "https://yt.openinapp.co/c5d74",
         deezer: "https://openinapp.link/deezermeriliaenvie",
         amazon: "https://amzn.openinapp.link/ugxi2",
@@ -152,10 +152,10 @@ const CONFIG = {
   cover: "cover_accelere.jpg",
   links: {
     spotify: "https://spotify.openinapp.co/wvp2w",
-    spotify_ios: "https://open.spotify.com/intl-fr/artist/6cebGXR7PHyonZ6LGE6ZZv",
+    spotify_ios: "https://open.spotify.com/track/6FzudwpBaoczgmXxp5GBDF",
     youtube: "https://yt.openinapp.co/ssavq",
     deezer: "https://openinapp.link/pp5af",
-    amazon: "",
+    amazon: "https://amzn.openinapp.link/bisx2",
     apple: "https://applemusic.openinapp.co/sikxn",
     tidal: "https://tidal.openinapp.link/asb6a",
     qobuz: "https://qobuz.openinapp.link/0s7o8"

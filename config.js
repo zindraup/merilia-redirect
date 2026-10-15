@@ -6,12 +6,14 @@
 const CONFIG = {
   artist: "MERILIA",
 
-  // Nouveau single en pre-save ("Accélère")
+  // Nouveau single disponible ("Accélère")
   currentRelease: {
     title: "Accélère",
-    badge: "NOUVEAU SINGLE - PRE-SAVE",
+    badge: "NOUVEAU SINGLE",
     cover: "cover_accelere.jpg",
     releaseDate: "2026-10-16T00:00:00",
+    status: "available",
+    pageUrl: "accelere.html",
     showSpotifyPreSave: false, // Afficher ou non l'option de pre-save Spotify après inscription (par défaut: false)
     spotifyPreSaveUrl: "",
     preSaveUrl: "",
@@ -79,17 +81,18 @@ const CONFIG = {
     {
       id: "accelere",
       title: "Accélère",
-      badge: "FUTURE SORTIE",
+      badge: "NOUVEAU SINGLE",
       cover: "cover_accelere.jpg",
       year: "2026",
       featured: true,
-      status: "presave", // "presave" ou "available"
+      status: "available", // "presave" ou "available"
       releaseDate: "2026-10-16T00:00:00",
       pageUrl: "accelere.html",
-      ctaLabel: "PRE-SAVE",
+      ctaLabel: "ÉCOUTER",
       links: {
         page: "accelere.html",
         spotify: "https://spotify.openinapp.co/wvp2w",
+        spotify_ios: "https://open.spotify.com/intl-fr/artist/6cebGXR7PHyonZ6LGE6ZZv",
         youtube: "https://yt.openinapp.co/ssavq",
         deezer: "https://openinapp.link/pp5af",
         amazon: "",
@@ -148,13 +151,16 @@ const CONFIG = {
   title: "Accélère",
   cover: "cover_accelere.jpg",
   links: {
-    spotify: "https://spotify.openinapp.co/31xu3",
-    spotify_ios: "https://open.spotify.com/intl-fr/track/0mNGJ5sdhPVdp7AQiwWz2y?si=33753fe9380c4f25",
-    youtube: "https://yt.openinapp.co/c5d74",
-    deezer: "https://openinapp.link/deezermeriliaenvie",
-    amazon: "https://amzn.openinapp.link/ugxi2",
-    apple: "https://applemusic.openinapp.co/od4mg",
-    tidal: "https://openinapp.link/tidalenvie",
-    qobuz: "https://openinapp.link/qobuz"
+    spotify: "https://spotify.openinapp.co/wvp2w",
+    spotify_ios: "https://open.spotify.com/intl-fr/artist/6cebGXR7PHyonZ6LGE6ZZv",
+    youtube: "https://yt.openinapp.co/ssavq",
+    deezer: "https://openinapp.link/pp5af",
+    amazon: "",
+    apple: "https://applemusic.openinapp.co/sikxn",
+    tidal: "https://tidal.openinapp.link/asb6a",
+    qobuz: "https://qobuz.openinapp.link/0s7o8"
   }
 };
+
+CONFIG.accelereRelease = CONFIG.currentRelease;
+

@@ -545,13 +545,7 @@
         date: new Date().toLocaleString('fr-FR', { timeZone: 'Europe/Paris' })
       };
 
-      if (SHEET_API_URL) {
-        fetch(SHEET_API_URL, {
-          method: 'POST',
-          mode: 'no-cors',
-          body: JSON.stringify(payload)
-        }).catch(e => console.error('[PreSave API Error]', e));
-      }
+      if (SHEET_API_URL) sendSignup(JSON.stringify(payload), 1);
 
       setTimeout(() => {
         isSubmitted = true;
@@ -581,6 +575,25 @@
           if (btnSuccessClose) btnSuccessClose.style.display = 'block';
         }
       }, 600);
+    }
+
+    // Envoi de l'inscription au Google Sheet.
+    // Le script Google reste parfois sans réponse : sans réponse au bout de 10 s,
+    // on renvoie (3 essais max). Un éventuel doublon est ignoré dans l'admin.
+    // keepalive : l'envoi continue même si le visiteur quitte la page aussitôt.
+    function sendSignup(body, attempt) {
+      let settled = false;
+      const retry = setTimeout(() => {
+        if (!settled && attempt < 3) sendSignup(body, attempt + 1);
+      }, 10000);
+      fetch(SHEET_API_URL, { method: 'POST', mode: 'no-cors', keepalive: true, body })
+        .then(() => { settled = true; clearTimeout(retry); })
+        .catch(e => {
+          settled = true;
+          clearTimeout(retry);
+          console.error('[PreSave API Error]', e);
+          if (attempt < 3) setTimeout(() => sendSignup(body, attempt + 1), 2000);
+        });
     }
 
     // Fermeture

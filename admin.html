@@ -1243,6 +1243,8 @@
       async function enterDashboard() {
         show('view-dash');
         await loadReleases();
+        // Préchargement des inscrits en arrière-plan : l'onglet est prêt quand tu l'ouvres
+        if (sheetKey) loadSubs();
       }
 
       async function loadReleases() {
@@ -1518,6 +1520,7 @@
       // ─── Inscrits pre-save (Google Sheet, un onglet par morceau) ─
       // Les données ne quittent jamais le Sheet : lues à la demande, gardées en mémoire.
       let subs = { sheets: null, active: null, filter: 'all', sort: 'recent', query: '' };
+      let subsLoading = null;
       const LIST_PREFIX = 'MERILIA-LIST\n'; // format non-JSON : un ancien script le rejette sans rien écrire
       const DATE_RE = /^\d{1,2}\/\d{1,2}\/\d{2,4}|^\d{4}-\d{2}-\d{2}/;
       const PHONE_RE = /^(\+|00)?\d[\d\s.\-]{7,}$/;
@@ -1597,16 +1600,53 @@
         return tabs;
       }
 
+      // Le script Google laisse parfois une requête sans réponse (≈ 1 sur 2 lors des tests),
+      // alors qu'une autre répond en 1 à 2 s. On relance donc une demande en parallèle
+      // toutes les 4 s (5 max) : la première réponse gagne, les autres sont annulées.
+      function hedgedFetchJson(url, body, { every = 4000, max = 5, timeout = 45000 } = {}) {
+        return new Promise((resolve, reject) => {
+          const controllers = [];
+          let finished = false;
+          let failures = 0;
+          let launched = 0;
+          let timer = null;
+
+          const finish = (fn, value) => {
+            if (finished) return;
+            finished = true;
+            clearInterval(timer);
+            clearTimeout(deadline);
+            controllers.forEach(c => c.abort());
+            fn(value);
+          };
+
+          const launch = () => {
+            if (finished || launched >= max) return;
+            launched++;
+            if (launched > 1) msg($('subs-msg'), `Le Google Sheet tarde à répondre, nouvel essai (${launched}/${max})…`, 'info');
+            const ctrl = new AbortController();
+            controllers.push(ctrl);
+            fetch(url, { method: 'POST', body, signal: ctrl.signal })
+              .then(res => res.text())
+              .then(text => finish(resolve, JSON.parse(text)))
+              .catch(() => {
+                if (finished) return;
+                failures++;
+                if (failures >= max) finish(reject, new Error('Impossible de joindre le script Google. Vérifie ta connexion puis clique sur « Actualiser ».'));
+                else launch(); // échec immédiat (réseau) : on relance tout de suite
+              });
+          };
+
+          const deadline = setTimeout(() => finish(reject, new Error('Le Google Sheet ne répond pas pour le moment. Clique sur « Actualiser » dans un instant.')), timeout);
+          launch();
+          timer = setInterval(launch, every);
+        });
+      }
+
       async function fetchSubs(key) {
         const api = state.config && state.config.data.presaveApi;
         if (!api) throw new Error('URL du script Google absente de config.js (presaveApi).');
-        let data;
-        try {
-          const res = await fetch(api, { method: 'POST', body: LIST_PREFIX + key });
-          data = JSON.parse(await res.text());
-        } catch (e) {
-          throw new Error('Impossible de joindre le script Google. Vérifie ta connexion puis réessaie.');
-        }
+        const data = await hedgedFetchJson(api, LIST_PREFIX + key);
         if (data.status === 'unauthorized') {
           const err = new Error('Clé refusée par le script Google (vérifie ADMIN_KEY dans les propriétés du script).');
           err.unauthorized = true;
@@ -1627,12 +1667,19 @@
         $('subs-setup').classList.add('hidden');
         $('subs-panel').classList.remove('hidden');
         if (subs.sheets && !force) return renderSubs();
+        if (subsLoading) return subsLoading; // déjà en cours (préchargement)
+        subsLoading = doLoadSubs().finally(() => { subsLoading = null; });
+        return subsLoading;
+      }
 
+      async function doLoadSubs() {
         $('subs-list').innerHTML = '<li class="empty-state">Chargement depuis le Google Sheet…</li>';
         msg($('subs-msg'), '');
         $('btn-refresh-subs').disabled = true;
         try {
-          subs.sheets = buildSubsTabs(await fetchSubs(sheetKey));
+          const sheets = await fetchSubs(sheetKey);
+          if (!sheetKey) return; // verrouillé entre-temps
+          subs.sheets = buildSubsTabs(sheets);
           if (!subs.sheets.some(t => t.id === subs.active)) subs.active = subs.sheets.length ? subs.sheets[0].id : null;
           renderSubs();
         } catch (err) {

@@ -295,16 +295,53 @@
     }
     .tab.active { background: rgba(255, 255, 255, 0.1); color: #fff; border-color: var(--line2); }
 
-    ul.subs { list-style: none; max-height: 420px; overflow-y: auto; }
+    /* Inscrits pre-save */
+    .subtabs { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 14px; }
+    .subtab {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 14px;
+      border-radius: 50px;
+      border: 1px solid var(--line);
+      background: transparent;
+      color: var(--t3);
+      font-family: var(--font);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all .2s var(--ease);
+    }
+    .subtab:hover { color: #fff; }
+    .subtab.active { background: rgba(255, 255, 255, 0.1); color: #fff; border-color: var(--line2); }
+    .subtab .count {
+      font-size: 10px;
+      padding: 2px 7px;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.08);
+      letter-spacing: 0;
+    }
+
+    .subs-stats { font-size: 12px; color: var(--t3); margin-left: auto; }
+
+    ul.subs { list-style: none; max-height: 520px; overflow-y: auto; margin-top: 6px; }
     ul.subs li {
       display: flex;
       justify-content: space-between;
+      align-items: center;
       gap: 10px;
       padding: 10px 0;
       border-bottom: 1px solid rgba(255, 255, 255, 0.04);
       font-size: 14px;
     }
-    ul.subs li span:last-child { color: var(--t3); font-size: 12px; white-space: nowrap; }
+    ul.subs li .handle { color: var(--silver-bright); font-weight: 600; text-decoration: none; word-break: break-all; }
+    ul.subs li .handle:hover { text-decoration: underline; text-underline-offset: 3px; }
+    ul.subs li .meta { color: var(--t3); font-size: 12px; white-space: nowrap; text-align: right; }
+    ul.subs li .pill { margin: 0 0 0 6px; }
+    .pill.ig { background: rgba(225, 48, 108, 0.14); color: #ff6fa3; }
+    .pill.sms { background: rgba(61, 220, 132, 0.12); color: var(--ok); }
   </style>
 </head>
 
@@ -434,12 +471,49 @@
       </div>
 
       <div id="tab-subs" class="hidden">
-        <div class="card">
-          <div class="row between" style="margin-bottom: 10px;">
-            <h2 style="margin: 0;" id="subs-count">Inscrits</h2>
-            <button class="btn small" type="button" id="btn-copy-subs">Copier tout</button>
+        <!-- Connexion au Google Sheet (une fois par appareil) -->
+        <div class="card hidden" id="subs-setup">
+          <h2>Connecter le Google Sheet</h2>
+          <p class="help">
+            Les inscrits restent dans ton Google Sheet : ils ne sont jamais publiés sur le site.
+            L'admin les lit grâce à une clé secrète connue seulement de toi et du script Google.
+          </p>
+          <ol class="steps">
+            <li>Google Sheet → <b>Extensions → Apps Script</b> : remplace tout le code par le fichier
+              <code>MERILIA - Google Apps Script (pre-save).gs</code> → Enregistrer.</li>
+            <li><b>⚙️ Paramètres du projet → Propriétés du script</b> : ajoute <code>ADMIN_KEY</code> avec une longue phrase secrète.</li>
+            <li><b>Déployer → Gérer les déploiements → ✏️</b> sur le déploiement existant → Version : <i>Nouvelle version</i> → Déployer.
+              <br>⚠️ Pas de « Nouveau déploiement », sinon l'URL change.</li>
+            <li>Colle la même phrase secrète ci-dessous.</li>
+          </ol>
+          <form id="form-sheetkey" autocomplete="off">
+            <label class="field">
+              <span>Clé secrète (ADMIN_KEY)</span>
+              <input type="password" id="sheetkey-input" required>
+              <small>Enregistrée chiffrée sur cet appareil avec ton mot de passe admin.</small>
+            </label>
+            <button class="btn primary full" type="submit" id="btn-sheetkey">Connecter le Sheet</button>
+            <div class="msg" id="sheetkey-msg"></div>
+          </form>
+        </div>
+
+        <!-- Liste des inscrits, un onglet par morceau -->
+        <div class="card hidden" id="subs-panel">
+          <div class="row between" style="margin-bottom: 14px;">
+            <h2 style="margin: 0;" id="subs-count">Inscrits pre-save</h2>
+            <div class="row">
+              <button class="btn small" type="button" id="btn-refresh-subs">Actualiser</button>
+              <button class="linkbtn" type="button" id="btn-change-key">Changer la clé</button>
+            </div>
           </div>
-          <ul class="subs" id="subs-list"><li><span>Chargement…</span></li></ul>
+          <div class="subtabs" id="subs-tabs"></div>
+          <div class="row">
+            <button class="btn small" type="button" id="btn-copy-ig">Copier les Instagram</button>
+            <button class="btn small" type="button" id="btn-copy-sms">Copier les numéros</button>
+            <span class="subs-stats" id="subs-stats"></span>
+          </div>
+          <ul class="subs" id="subs-list"></ul>
+          <div class="msg" id="subs-msg"></div>
         </div>
       </div>
     </section>
@@ -467,6 +541,8 @@
 
       const $ = id => document.getElementById(id);
       let token = null;
+      let sheetKey = null;        // clé ADMIN_KEY du script Google (en mémoire uniquement)
+      let sessionPassword = null; // pour ré-enregistrer le coffre quand la clé change
       let state = { config: null, editingId: null, coverBlob: null };
 
       $('repo-label').textContent = `${REPO.owner}/${REPO.name}`;
@@ -515,6 +591,19 @@
         const key = await deriveKey(password, unb64(raw.salt));
         const data = await crypto.subtle.decrypt({ name: 'AES-GCM', iv: unb64(raw.iv) }, key, unb64(raw.data));
         return dec.decode(data);
+      }
+
+      // Le coffre contient { token, sheetKey } (anciennes versions : le jeton seul)
+      function unpackVault(text) {
+        try {
+          const obj = JSON.parse(text);
+          if (obj && obj.token) return obj;
+        } catch (e) { /* ancien format */ }
+        return { token: text };
+      }
+
+      function persistVault() {
+        return saveVault(sessionPassword, JSON.stringify({ token, sheetKey }));
       }
 
       function hasVault() {
@@ -739,9 +828,11 @@
           if (!repo.permissions || !repo.permissions.push) {
             throw new Error('Ce jeton peut lire le dépôt mais pas écrire. Mets « Contents : Read and write ».');
           }
-          await saveVault(pw, tk);
-          $('setup-token').value = $('setup-pw').value = $('setup-pw2').value = '';
           token = tk;
+          sheetKey = null;
+          sessionPassword = pw;
+          await persistVault();
+          $('setup-token').value = $('setup-pw').value = $('setup-pw2').value = '';
           enterDashboard();
         } catch (err) {
           msg(m, err.status === 401 ? 'Jeton invalide ou expiré.' : err.status === 404 ? 'Ce jeton n\'a pas accès au dépôt ' + REPO.owner + '/' + REPO.name + '.' : err.message, 'err');
@@ -756,7 +847,11 @@
         $('btn-login').disabled = true;
         msg(m, 'Déverrouillage…', 'info');
         try {
-          token = await openVault($('login-pw').value);
+          const pw = $('login-pw').value;
+          const vault = unpackVault(await openVault(pw));
+          token = vault.token;
+          sheetKey = vault.sheetKey || null;
+          sessionPassword = pw;
         } catch (err) {
           $('btn-login').disabled = false;
           return msg(m, 'Mot de passe incorrect.', 'err');
@@ -770,13 +865,15 @@
       $('btn-reset').addEventListener('click', () => {
         if (!confirm('Effacer la connexion enregistrée sur cet appareil ? Il faudra recoller un jeton GitHub.')) return;
         localStorage.removeItem(VAULT_KEY);
-        token = null;
+        token = sheetKey = sessionPassword = null;
         show('view-setup');
       });
 
       $('btn-lock').addEventListener('click', () => {
-        token = null;
+        token = sheetKey = sessionPassword = null;
         state = { config: null, editingId: null, coverBlob: null };
+        subs = { sheets: null, active: null };
+        $('subs-list').innerHTML = '';
         show(hasVault() ? 'view-login' : 'view-setup');
       });
 
@@ -1056,27 +1153,196 @@
         if (t.dataset.tab === 'subs') loadSubs();
       }));
 
-      // ─── Inscrits pre-save (Google Sheet) ───────────────────────
-      async function loadSubs() {
-        const list = $('subs-list');
+      // ─── Inscrits pre-save (Google Sheet, un onglet par morceau) ─
+      // Les données ne quittent jamais le Sheet : lues à la demande, gardées en mémoire.
+      let subs = { sheets: null, active: null };
+      const LIST_PREFIX = 'MERILIA-LIST\n'; // format non-JSON : un ancien script le rejette sans rien écrire
+      const DATE_RE = /^\d{1,2}\/\d{1,2}\/\d{2,4}|^\d{4}-\d{2}-\d{2}/;
+      const PHONE_RE = /^(\+|00)?\d[\d\s.\-]{7,}$/;
+
+      const normalize = str => String(str || '').normalize('NFD').replace(/[̀-ͯ]/g, '')
+        .toLowerCase().replace(/[^a-z0-9]/g, '');
+
+      function cleanContact(value) {
+        return String(value || '').trim().replace(/^['"]+|['"]+$/g, '').replace(/^@/, '').trim();
+      }
+
+      // Lignes brutes d'un onglet → inscrits uniques (avec ou sans ligne d'en-têtes)
+      function parseSheet(rows) {
+        let start = 0, cContact = -1, cDate = -1, cMethod = -1;
+        // En-têtes reconnus seulement s'ils correspondent exactement (un pseudo comme "best_user" n'en est pas un)
+        const HEADER_NAMES = ['date', 'username', 'usernamenumero', 'numero', 'contact', 'pseudo', 'methode', 'method', 'plateforme', 'titre', 'track'];
+        const head = (rows[0] || []).map(h => normalize(h));
+        if (head.some(h => HEADER_NAMES.includes(h))) {
+          start = 1;
+          cContact = head.findIndex(h => /user|numero|contact|pseudo|handle|instagram/.test(h));
+          cDate = head.findIndex(h => /date/.test(h));
+          cMethod = head.findIndex(h => /methode|method|plateforme/.test(h));
+        }
+
+        const seen = new Set();
+        const list = [];
+        let duplicates = 0;
+        rows.slice(start).forEach(row => {
+          const cells = row.map(c => String(c || '').trim());
+          const raw = cContact >= 0 ? cells[cContact] : cells.find(c => c && !DATE_RE.test(c));
+          const contact = cleanContact(raw);
+          if (!contact) return;
+          const sms = (cMethod >= 0 && /sms/i.test(cells[cMethod])) || PHONE_RE.test(contact);
+          const key = sms ? contact.replace(/\D/g, '').replace(/^33/, '0') : contact.toLowerCase();
+          if (seen.has(key)) { duplicates++; return; }
+          seen.add(key);
+          list.push({ contact, sms, key, date: cDate >= 0 ? cells[cDate] : (cells.find(c => DATE_RE.test(c)) || '') });
+        });
+        return { list, duplicates };
+      }
+
+      // Associe chaque onglet du Sheet à un morceau du site (ACCELERE ↔ Accélère)
+      function buildSubsTabs(sheets) {
+        const releases = sortReleases((state.config && state.config.data.releases) || []);
+        const tabs = sheets.map(s => {
+          const parsed = parseSheet(s.rows || []);
+          const rel = releases.find(r => normalize(r.id) === normalize(s.name) || normalize(r.title) === normalize(s.name));
+          return { id: s.name, label: rel ? rel.title : s.name, order: rel ? releases.indexOf(rel) : 999, ...parsed };
+        }).filter(t => t.list.length || t.order < 999);
+
+        tabs.sort((a, b) => a.order - b.order);
+
+        // Onglet "Tous" : chaque personne une seule fois, tous morceaux confondus
+        if (tabs.length > 1) {
+          const seen = new Set();
+          const all = [];
+          tabs.forEach(t => t.list.forEach(u => { if (!seen.has(u.key)) { seen.add(u.key); all.push(u); } }));
+          tabs.push({ id: '__all__', label: 'Tous', list: all, duplicates: 0, order: 1000 });
+        }
+        return tabs;
+      }
+
+      async function fetchSubs(key) {
         const api = state.config && state.config.data.presaveApi;
-        list.innerHTML = '<li><span>Chargement…</span></li>';
+        if (!api) throw new Error('URL du script Google absente de config.js (presaveApi).');
+        let data;
         try {
-          const res = await fetch(`${api}?action=list`);
-          const data = JSON.parse(await res.text());
-          if (!Array.isArray(data)) throw new Error('format');
-          $('subs-count').textContent = `${data.length} inscrit(s)`;
-          list.innerHTML = data.length
-            ? data.map(u => `<li><span class="handle">${esc(u.contact || u.handle || '')}</span><span>${esc(u.track || '')} · ${esc(u.date || '')}</span></li>`).join('')
-            : '<li><span>Aucun inscrit pour le moment.</span></li>';
+          const res = await fetch(api, { method: 'POST', body: LIST_PREFIX + key });
+          data = JSON.parse(await res.text());
         } catch (e) {
-          list.innerHTML = `<li><span style="color:var(--t2); line-height:1.6;">La liste n'est pas lisible depuis le site : le script Google ne renvoie pas les inscrits (et c'est plus sûr ainsi, ce sont des numéros de téléphone). Consulte-les directement dans ton Google Sheet.</span></li>`;
+          throw new Error('Impossible de joindre le script Google. Vérifie ta connexion puis réessaie.');
+        }
+        if (data.status === 'unauthorized') {
+          const err = new Error('Clé refusée par le script Google (vérifie ADMIN_KEY dans les propriétés du script).');
+          err.unauthorized = true;
+          throw err;
+        }
+        if (data.status !== 'ok' || !Array.isArray(data.sheets)) {
+          throw new Error('Le script Google n\'est pas encore à jour : fais les étapes 1 à 3 ci-dessus (sans oublier « Nouvelle version »).');
+        }
+        return data.sheets;
+      }
+
+      async function loadSubs(force) {
+        if (!sheetKey) {
+          $('subs-setup').classList.remove('hidden');
+          $('subs-panel').classList.add('hidden');
+          return;
+        }
+        $('subs-setup').classList.add('hidden');
+        $('subs-panel').classList.remove('hidden');
+        if (subs.sheets && !force) return renderSubs();
+
+        $('subs-list').innerHTML = '';
+        msg($('subs-msg'), 'Chargement depuis le Google Sheet…', 'info');
+        $('btn-refresh-subs').disabled = true;
+        try {
+          subs.sheets = buildSubsTabs(await fetchSubs(sheetKey));
+          if (!subs.sheets.some(t => t.id === subs.active)) subs.active = subs.sheets.length ? subs.sheets[0].id : null;
+          msg($('subs-msg'), '');
+          renderSubs();
+        } catch (err) {
+          msg($('subs-msg'), err.message, 'err');
+          if (err.unauthorized) {
+            $('subs-setup').classList.remove('hidden');
+            msg($('sheetkey-msg'), err.message, 'err');
+          }
+        } finally {
+          $('btn-refresh-subs').disabled = false;
         }
       }
 
-      $('btn-copy-subs').addEventListener('click', () => {
-        const text = Array.from(document.querySelectorAll('#subs-list .handle')).map(el => el.textContent).join('\n');
-        if (text) navigator.clipboard.writeText(text);
+      function renderSubs() {
+        const tabs = subs.sheets || [];
+        const total = tabs.find(t => t.id === '__all__') || tabs[0];
+        $('subs-count').textContent = total ? `Inscrits pre-save · ${total.list.length}` : 'Inscrits pre-save';
+
+        $('subs-tabs').innerHTML = tabs.map(t => `
+          <button class="subtab${t.id === subs.active ? ' active' : ''}" type="button" data-sheet="${esc(t.id)}">
+            ${esc(t.label)} <span class="count">${t.list.length}</span>
+          </button>`).join('');
+        $('subs-tabs').querySelectorAll('.subtab').forEach(b => b.addEventListener('click', () => {
+          subs.active = b.dataset.sheet;
+          renderSubs();
+        }));
+
+        const tab = tabs.find(t => t.id === subs.active);
+        const list = $('subs-list');
+        if (!tab) {
+          list.innerHTML = '<li><span class="meta">Aucun inscrit pour le moment.</span></li>';
+          $('subs-stats').textContent = '';
+          return;
+        }
+
+        const ig = tab.list.filter(u => !u.sms).length;
+        const sms = tab.list.length - ig;
+        $('subs-stats').textContent = `${ig} Instagram · ${sms} SMS` + (tab.duplicates ? ` · ${tab.duplicates} doublon${tab.duplicates > 1 ? 's' : ''} ignoré${tab.duplicates > 1 ? 's' : ''}` : '');
+
+        list.innerHTML = tab.list.length ? tab.list.map(u => {
+          const link = u.sms
+            ? `<a class="handle" href="sms:${esc(u.contact.replace(/[^\d+]/g, ''))}">${esc(u.contact)}</a>`
+            : `<a class="handle" href="https://instagram.com/${encodeURIComponent(u.contact)}" target="_blank" rel="noopener">@${esc(u.contact)}</a>`;
+          return `<li>${link}<span class="meta">${esc(u.date)}<span class="pill ${u.sms ? 'sms' : 'ig'}">${u.sms ? 'SMS' : 'IG'}</span></span></li>`;
+        }).join('') : '<li><span class="meta">Aucun inscrit pour ce morceau.</span></li>';
+      }
+
+      function copySubs(wantSms, button) {
+        const tab = (subs.sheets || []).find(t => t.id === subs.active);
+        if (!tab) return;
+        const text = tab.list.filter(u => u.sms === wantSms).map(u => wantSms ? u.contact : '@' + u.contact).join('\n');
+        if (!text) return;
+        navigator.clipboard.writeText(text).then(() => {
+          const old = button.textContent;
+          button.textContent = 'Copié !';
+          setTimeout(() => { button.textContent = old; }, 1800);
+        });
+      }
+
+      $('btn-copy-ig').addEventListener('click', e => copySubs(false, e.currentTarget));
+      $('btn-copy-sms').addEventListener('click', e => copySubs(true, e.currentTarget));
+      $('btn-refresh-subs').addEventListener('click', () => loadSubs(true));
+      $('btn-change-key').addEventListener('click', () => {
+        $('subs-setup').classList.remove('hidden');
+        $('sheetkey-input').focus();
+      });
+
+      $('form-sheetkey').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const m = $('sheetkey-msg');
+        const key = $('sheetkey-input').value.trim();
+        if (!key) return;
+        $('btn-sheetkey').disabled = true;
+        msg(m, 'Vérification auprès du Google Sheet…', 'info');
+        try {
+          const sheets = await fetchSubs(key);
+          sheetKey = key;
+          await persistVault();
+          $('sheetkey-input').value = '';
+          msg(m, '');
+          subs.sheets = buildSubsTabs(sheets);
+          subs.active = subs.sheets.length ? subs.sheets[0].id : null;
+          loadSubs();
+        } catch (err) {
+          msg(m, err.message, 'err');
+        } finally {
+          $('btn-sheetkey').disabled = false;
+        }
       });
 
       // ─── Démarrage ──────────────────────────────────────────────

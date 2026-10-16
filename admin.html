@@ -1617,6 +1617,7 @@
             clearInterval(timer);
             clearTimeout(deadline);
             controllers.forEach(c => c.abort());
+            msg($('subs-msg'), ''); // efface « nouvel essai… » (l'appelant affiche l'erreur si besoin)
             fn(value);
           };
 

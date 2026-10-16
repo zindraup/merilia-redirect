@@ -33,6 +33,7 @@
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
     html, body { background: var(--bg); }
+    html { color-scheme: dark; scrollbar-color: rgba(255, 255, 255, 0.18) transparent; }
 
     body {
       color: var(--t1);
@@ -295,53 +296,363 @@
     }
     .tab.active { background: rgba(255, 255, 255, 0.1); color: #fff; border-color: var(--line2); }
 
-    /* Inscrits pre-save */
-    .subtabs { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 14px; }
+    /* ============================================
+       INSCRITS PRE-SAVE
+       ============================================ */
+    :root {
+      --ig: linear-gradient(135deg, #feda75 0%, #fa7e1e 25%, #d62976 55%, #962fbf 80%, #4f5bd5 100%);
+      --ig-solid: #e1306c;
+      --sms: #3ddc84;
+    }
+
+    .subs-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 18px;
+      flex-wrap: wrap;
+    }
+    .subs-eyebrow {
+      font-size: 10.5px;
+      font-weight: 800;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--t3);
+    }
+    .subs-total {
+      font-size: 44px;
+      font-weight: 900;
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      background: linear-gradient(135deg, #999, var(--silver-bright), #fff, var(--silver-bright), #999);
+      background-size: 200% 200%;
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: chromeShift 8s ease-in-out infinite;
+    }
+    .subs-total small {
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      -webkit-text-fill-color: var(--t3);
+      margin-left: 6px;
+    }
+    @keyframes chromeShift {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+
+    /* Onglets morceaux avec pochette */
+    .subtabs {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+      margin-bottom: 16px;
+      scrollbar-width: none;
+    }
+    .subtabs::-webkit-scrollbar { display: none; }
     .subtab {
+      flex-shrink: 0;
       display: inline-flex;
       align-items: center;
-      gap: 6px;
-      padding: 8px 14px;
+      gap: 9px;
+      padding: 6px 14px 6px 6px;
       border-radius: 50px;
       border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.02);
+      color: var(--t2);
+      font-family: var(--font);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      cursor: pointer;
+      transition: all .25s var(--ease);
+    }
+    .subtab:hover { color: #fff; border-color: var(--line2); }
+    .subtab.active {
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+      border-color: rgba(255, 255, 255, 0.28);
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    }
+    .subtab img, .subtab .tab-ico {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      object-fit: cover;
+      background: var(--bg3);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+    }
+    .subtab .count {
+      font-size: 10.5px;
+      padding: 2px 8px;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--t2);
+    }
+    .subtab.active .count { background: #fff; color: var(--bg); }
+
+    /* Tuiles de stats (cliquables = filtres rapides) */
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+    @media (max-width: 620px) { .stat-grid { grid-template-columns: repeat(2, 1fr); } }
+    .stat {
+      position: relative;
+      text-align: left;
+      padding: 14px 14px 12px;
+      border-radius: 16px;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.025);
+      font-family: var(--font);
+      color: #fff;
+      cursor: pointer;
+      overflow: hidden;
+      transition: all .25s var(--ease);
+    }
+    .stat:hover { border-color: var(--line2); transform: translateY(-1px); }
+    .stat.active { border-color: rgba(255, 255, 255, 0.35); background: rgba(255, 255, 255, 0.06); }
+    .stat::before {
+      content: '';
+      position: absolute;
+      inset: 0 auto auto 0;
+      width: 100%;
+      height: 2px;
+      background: var(--accent, rgba(255, 255, 255, 0.3));
+      opacity: .9;
+    }
+    .stat-label {
+      display: block;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--t3);
+      margin-bottom: 6px;
+    }
+    .stat-value { font-size: 24px; font-weight: 900; letter-spacing: -0.01em; }
+    .stat-sub { display: block; font-size: 11px; color: var(--t3); margin-top: 2px; }
+    .stat.ig { --accent: var(--ig); }
+    .stat.sms { --accent: var(--sms); }
+    .stat.todo { --accent: var(--warn); }
+
+    /* Barre d'action Instagram */
+    .ig-bar {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 14px;
+      border-radius: 18px;
+      background:
+        linear-gradient(var(--bg2), var(--bg2)) padding-box,
+        var(--ig) border-box;
+      border: 1px solid transparent;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+    .ig-bar-info { flex: 1; min-width: 180px; }
+    .ig-bar-title { font-size: 13.5px; font-weight: 800; }
+    .ig-bar-sub { font-size: 12px; color: var(--t3); margin-top: 2px; }
+    .progress {
+      height: 5px;
+      border-radius: 5px;
+      background: rgba(255, 255, 255, 0.07);
+      margin-top: 9px;
+      overflow: hidden;
+    }
+    .progress > span {
+      display: block;
+      height: 100%;
+      width: 0;
+      border-radius: 5px;
+      background: var(--ig);
+      transition: width .5s var(--ease);
+    }
+    .btn.ig-btn {
+      background: var(--ig);
+      border: none;
+      color: #fff;
+      box-shadow: 0 8px 22px rgba(214, 41, 118, 0.35);
+    }
+    .btn.ig-btn:hover { transform: translateY(-1px); box-shadow: 0 10px 26px rgba(214, 41, 118, 0.5); }
+    .batch-select {
+      appearance: none;
+      -webkit-appearance: none;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--line2);
+      color: #fff;
+      border-radius: 50px;
+      padding: 10px 30px 10px 14px;
+      font-family: var(--font);
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23fff' stroke-width='1.6' fill='none'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 12px center;
+    }
+    .batch-select option { background: var(--bg2); }
+
+    .notice {
+      font-size: 12.5px;
+      line-height: 1.55;
+      color: var(--warn);
+      background: rgba(255, 182, 72, 0.08);
+      border: 1px solid rgba(255, 182, 72, 0.25);
+      border-radius: 12px;
+      padding: 10px 12px;
+      margin: -6px 0 16px;
+    }
+
+    /* Recherche, filtres, tri */
+    .toolbar {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-bottom: 10px;
+    }
+    .search {
+      position: relative;
+      flex: 1;
+      min-width: 180px;
+    }
+    .search svg {
+      position: absolute;
+      left: 13px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 15px;
+      height: 15px;
+      stroke: var(--t3);
+      fill: none;
+      stroke-width: 2.2;
+      pointer-events: none;
+    }
+    .search input { padding-left: 38px; font-size: 14px; border-radius: 50px; }
+    .seg {
+      display: inline-flex;
+      padding: 3px;
+      border-radius: 50px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--line);
+    }
+    .seg button {
+      border: none;
       background: transparent;
       color: var(--t3);
       font-family: var(--font);
       font-size: 11px;
       font-weight: 800;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 8px 12px;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: all .2s var(--ease);
+      white-space: nowrap;
+    }
+    .seg button:hover { color: #fff; }
+    .seg button.active { background: rgba(255, 255, 255, 0.12); color: #fff; }
+    .toolbar .batch-select { padding-top: 9px; padding-bottom: 9px; }
+    .list-meta {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      font-size: 11.5px;
+      color: var(--t3);
+      margin: 6px 2px 4px;
+    }
+
+    /* Liste */
+    ul.subs { list-style: none; margin: 0 -8px; }
+    ul.subs li {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 8px;
+      border-radius: 14px;
+      transition: background .2s var(--ease), opacity .2s;
+    }
+    ul.subs li:hover { background: rgba(255, 255, 255, 0.035); }
+    ul.subs li.done { opacity: .5; }
+    ul.subs li.done:hover { opacity: .85; }
+    .avatar {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      font-weight: 900;
+      text-transform: uppercase;
+      color: #fff;
+    }
+    .avatar.ig { background: var(--ig); }
+    .avatar.sms { background: linear-gradient(135deg, #1f8f55, var(--sms)); color: #052b16; }
+    .avatar svg { width: 17px; height: 17px; fill: none; stroke: currentColor; stroke-width: 2.2; }
+    .sub-main { flex: 1; min-width: 0; }
+    ul.subs .handle {
+      color: #fff;
+      font-weight: 700;
+      font-size: 14px;
+      text-decoration: none;
+      word-break: break-all;
+    }
+    ul.subs .handle:hover { text-decoration: underline; text-underline-offset: 3px; }
+    .sub-meta { font-size: 11.5px; color: var(--t3); margin-top: 2px; }
+    .sub-meta .track-tag { color: var(--t2); font-weight: 600; }
+    .done-btn {
+      flex-shrink: 0;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 12px;
+      border-radius: 50px;
+      border: 1px solid var(--line2);
+      background: transparent;
+      color: var(--t3);
+      font-family: var(--font);
+      font-size: 10.5px;
+      font-weight: 800;
       letter-spacing: 0.08em;
       text-transform: uppercase;
       cursor: pointer;
       transition: all .2s var(--ease);
+      white-space: nowrap;
     }
-    .subtab:hover { color: #fff; }
-    .subtab.active { background: rgba(255, 255, 255, 0.1); color: #fff; border-color: var(--line2); }
-    .subtab .count {
-      font-size: 10px;
-      padding: 2px 7px;
-      border-radius: 20px;
-      background: rgba(255, 255, 255, 0.08);
-      letter-spacing: 0;
+    .done-btn:hover { color: #fff; border-color: rgba(255, 255, 255, 0.35); }
+    .done-btn.on { background: rgba(61, 220, 132, 0.12); border-color: rgba(61, 220, 132, 0.4); color: var(--ok); }
+    .done-btn svg { width: 12px; height: 12px; fill: none; stroke: currentColor; stroke-width: 3; }
+    .empty-state {
+      text-align: center;
+      padding: 36px 10px;
+      color: var(--t3);
+      font-size: 13px;
     }
+    .empty-state b { display: block; font-size: 26px; margin-bottom: 6px; }
 
-    .subs-stats { font-size: 12px; color: var(--t3); margin-left: auto; }
-
-    ul.subs { list-style: none; max-height: 520px; overflow-y: auto; margin-top: 6px; }
-    ul.subs li {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 10px;
-      padding: 10px 0;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-      font-size: 14px;
-    }
-    ul.subs li .handle { color: var(--silver-bright); font-weight: 600; text-decoration: none; word-break: break-all; }
-    ul.subs li .handle:hover { text-decoration: underline; text-underline-offset: 3px; }
-    ul.subs li .meta { color: var(--t3); font-size: 12px; white-space: nowrap; text-align: right; }
-    ul.subs li .pill { margin: 0 0 0 6px; }
     .pill.ig { background: rgba(225, 48, 108, 0.14); color: #ff6fa3; }
     .pill.sms { background: rgba(61, 220, 132, 0.12); color: var(--ok); }
+
+    @media (max-width: 560px) {
+      .subs-total { font-size: 36px; }
+      .ig-bar .btn, .ig-bar .batch-select { flex: 1; }
+      .done-btn span { display: none; }
+      .seg { width: 100%; }
+      .seg button { flex: 1; }
+    }
   </style>
 </head>
 
@@ -499,18 +810,68 @@
 
         <!-- Liste des inscrits, un onglet par morceau -->
         <div class="card hidden" id="subs-panel">
-          <div class="row between" style="margin-bottom: 14px;">
-            <h2 style="margin: 0;" id="subs-count">Inscrits pre-save</h2>
+          <div class="subs-head">
+            <div>
+              <div class="subs-eyebrow" id="subs-eyebrow">Inscrits pre-save</div>
+              <div class="subs-total" id="subs-total">0</div>
+            </div>
             <div class="row">
-              <button class="btn small" type="button" id="btn-refresh-subs">Actualiser</button>
+              <button class="btn small" type="button" id="btn-refresh-subs">↻ Actualiser</button>
               <button class="linkbtn" type="button" id="btn-change-key">Changer la clé</button>
             </div>
           </div>
-          <div class="subtabs" id="subs-tabs"></div>
-          <div class="row">
-            <button class="btn small" type="button" id="btn-copy-ig">Copier les Instagram</button>
-            <button class="btn small" type="button" id="btn-copy-sms">Copier les numéros</button>
-            <span class="subs-stats" id="subs-stats"></span>
+
+          <div class="subtabs" id="subs-tabs" role="tablist"></div>
+
+          <div class="stat-grid" id="subs-stats-grid">
+            <button class="stat" type="button" data-filter="all"><span class="stat-label">Inscrits</span><span class="stat-value" id="st-all">0</span><span class="stat-sub" id="st-all-sub"></span></button>
+            <button class="stat ig" type="button" data-filter="ig"><span class="stat-label">Instagram</span><span class="stat-value" id="st-ig">0</span><span class="stat-sub" id="st-ig-sub"></span></button>
+            <button class="stat sms" type="button" data-filter="sms"><span class="stat-label">SMS</span><span class="stat-value" id="st-sms">0</span><span class="stat-sub" id="st-sms-sub"></span></button>
+            <button class="stat todo" type="button" data-filter="todo"><span class="stat-label">À contacter</span><span class="stat-value" id="st-todo">0</span><span class="stat-sub" id="st-todo-sub"></span></button>
+          </div>
+
+          <div class="ig-bar" id="ig-bar">
+            <div class="ig-bar-info">
+              <div class="ig-bar-title" id="ig-bar-title">Profils Instagram</div>
+              <div class="ig-bar-sub" id="ig-bar-sub"></div>
+              <div class="progress"><span id="ig-progress"></span></div>
+            </div>
+            <select class="batch-select" id="ig-batch" aria-label="Nombre de profils à ouvrir">
+              <option value="5">Par 5</option>
+              <option value="10" selected>Par 10</option>
+              <option value="20">Par 20</option>
+              <option value="0">Tous</option>
+            </select>
+            <button class="btn ig-btn" type="button" id="btn-open-ig">Ouvrir les profils</button>
+          </div>
+          <div class="notice hidden" id="popup-notice"></div>
+
+          <div class="toolbar">
+            <label class="search">
+              <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+              <input type="text" id="subs-search" placeholder="Rechercher…" autocomplete="off" spellcheck="false">
+            </label>
+            <div class="seg" id="subs-filter" role="group" aria-label="Filtrer">
+              <button type="button" data-filter="all" class="active">Tous</button>
+              <button type="button" data-filter="ig">Insta</button>
+              <button type="button" data-filter="sms">SMS</button>
+              <button type="button" data-filter="todo">À contacter</button>
+            </div>
+            <select class="batch-select" id="subs-sort" aria-label="Trier">
+              <option value="recent">Plus récents</option>
+              <option value="old">Plus anciens</option>
+              <option value="az">A → Z</option>
+              <option value="za">Z → A</option>
+            </select>
+          </div>
+
+          <div class="list-meta">
+            <span id="subs-shown"></span>
+            <span>
+              <button class="linkbtn" type="button" id="btn-copy-sms">Copier les numéros</button>
+              ·
+              <button class="linkbtn" type="button" id="btn-reset-done">Tout remettre à contacter</button>
+            </span>
           </div>
           <ul class="subs" id="subs-list"></ul>
           <div class="msg" id="subs-msg"></div>
@@ -872,7 +1233,8 @@
       $('btn-lock').addEventListener('click', () => {
         token = sheetKey = sessionPassword = null;
         state = { config: null, editingId: null, coverBlob: null };
-        subs = { sheets: null, active: null };
+        subs = { sheets: null, active: null, filter: 'all', sort: 'recent', query: '' };
+        $('subs-search').value = '';
         $('subs-list').innerHTML = '';
         show(hasVault() ? 'view-login' : 'view-setup');
       });
@@ -1155,7 +1517,7 @@
 
       // ─── Inscrits pre-save (Google Sheet, un onglet par morceau) ─
       // Les données ne quittent jamais le Sheet : lues à la demande, gardées en mémoire.
-      let subs = { sheets: null, active: null };
+      let subs = { sheets: null, active: null, filter: 'all', sort: 'recent', query: '' };
       const LIST_PREFIX = 'MERILIA-LIST\n'; // format non-JSON : un ancien script le rejette sans rien écrire
       const DATE_RE = /^\d{1,2}\/\d{1,2}\/\d{2,4}|^\d{4}-\d{2}-\d{2}/;
       const PHONE_RE = /^(\+|00)?\d[\d\s.\-]{7,}$/;
@@ -1192,28 +1554,45 @@
           const key = sms ? contact.replace(/\D/g, '').replace(/^33/, '0') : contact.toLowerCase();
           if (seen.has(key)) { duplicates++; return; }
           seen.add(key);
-          list.push({ contact, sms, key, date: cDate >= 0 ? cells[cDate] : (cells.find(c => DATE_RE.test(c)) || '') });
+          const date = cDate >= 0 ? cells[cDate] : (cells.find(c => DATE_RE.test(c)) || '');
+          list.push({ contact, sms, key, date, ts: parseSubDate(date), idx: list.length });
         });
         return { list, duplicates };
       }
 
       // Associe chaque onglet du Sheet à un morceau du site (ACCELERE ↔ Accélère)
       function buildSubsTabs(sheets) {
-        const releases = sortReleases((state.config && state.config.data.releases) || []);
+        const conf = (state.config && state.config.data) || {};
+        const releases = sortReleases(conf.releases || []);
         const tabs = sheets.map(s => {
           const parsed = parseSheet(s.rows || []);
           const rel = releases.find(r => normalize(r.id) === normalize(s.name) || normalize(r.title) === normalize(s.name));
-          return { id: s.name, label: rel ? rel.title : s.name, order: rel ? releases.indexOf(rel) : 999, ...parsed };
+          const label = rel ? rel.title : s.name;
+          parsed.list.forEach(u => { u.tracks = [label]; });
+          return {
+            id: s.name,
+            label,
+            cover: rel && conf.siteUrl ? `${conf.siteUrl}/${rel.cover}` : '',
+            order: rel ? releases.indexOf(rel) : 999,
+            ...parsed
+          };
         }).filter(t => t.list.length || t.order < 999);
 
         tabs.sort((a, b) => a.order - b.order);
 
-        // Onglet "Tous" : chaque personne une seule fois, tous morceaux confondus
+        // Onglet "Tous" : chaque personne une seule fois, avec la liste de ses morceaux
         if (tabs.length > 1) {
-          const seen = new Set();
-          const all = [];
-          tabs.forEach(t => t.list.forEach(u => { if (!seen.has(u.key)) { seen.add(u.key); all.push(u); } }));
-          tabs.push({ id: '__all__', label: 'Tous', list: all, duplicates: 0, order: 1000 });
+          const byKey = new Map();
+          tabs.forEach(t => t.list.forEach(u => {
+            const existing = byKey.get(u.key);
+            if (existing) {
+              existing.tracks.push(t.label);
+              if (u.ts && (!existing.ts || u.ts > existing.ts)) { existing.ts = u.ts; existing.date = u.date; }
+            } else {
+              byKey.set(u.key, { ...u, tracks: [t.label], idx: byKey.size });
+            }
+          }));
+          tabs.push({ id: '__all__', label: 'Tous les morceaux', cover: '', list: [...byKey.values()], duplicates: 0, order: 1000 });
         }
         return tabs;
       }
@@ -1249,15 +1628,15 @@
         $('subs-panel').classList.remove('hidden');
         if (subs.sheets && !force) return renderSubs();
 
-        $('subs-list').innerHTML = '';
-        msg($('subs-msg'), 'Chargement depuis le Google Sheet…', 'info');
+        $('subs-list').innerHTML = '<li class="empty-state">Chargement depuis le Google Sheet…</li>';
+        msg($('subs-msg'), '');
         $('btn-refresh-subs').disabled = true;
         try {
           subs.sheets = buildSubsTabs(await fetchSubs(sheetKey));
           if (!subs.sheets.some(t => t.id === subs.active)) subs.active = subs.sheets.length ? subs.sheets[0].id : null;
-          msg($('subs-msg'), '');
           renderSubs();
         } catch (err) {
+          $('subs-list').innerHTML = '';
           msg($('subs-msg'), err.message, 'err');
           if (err.unauthorized) {
             $('subs-setup').classList.remove('hidden');
@@ -1268,54 +1647,260 @@
         }
       }
 
+      // ─── Statut "contacté" (mémorisé sur cet appareil uniquement) ─
+      const DONE_KEY = 'merilia-admin-contacted';
+      let doneSet = (() => {
+        try { return new Set(JSON.parse(localStorage.getItem(DONE_KEY) || '[]')); } catch (e) { return new Set(); }
+      })();
+
+      function saveDone() {
+        try { localStorage.setItem(DONE_KEY, JSON.stringify([...doneSet])); } catch (e) { /* stockage indisponible */ }
+      }
+
+      // Statut par morceau ; dans "Tous", contacté pour au moins un morceau = contacté
+      function doneId(tab, u) {
+        return `${normalize(tab.id)}:${u.key}`;
+      }
+
+      function isDone(tab, u) {
+        if (tab.id !== '__all__') return doneSet.has(doneId(tab, u));
+        for (const d of doneSet) if (d.endsWith(':' + u.key)) return true;
+        return false;
+      }
+
+      function setDone(tab, u, value) {
+        const id = tab.id === '__all__' ? `__all__:${u.key}` : doneId(tab, u);
+        if (value) {
+          doneSet.add(id);
+        } else {
+          [...doneSet].filter(d => d === id || (tab.id === '__all__' && d.endsWith(':' + u.key))).forEach(d => doneSet.delete(d));
+        }
+        saveDone();
+      }
+
+      // ─── Dates ──────────────────────────────────────────────────
+      function parseSubDate(str) {
+        const m = String(str || '').match(/^(\d{1,2})\/(\d{1,2})\/(\d{2,4})(?:[\s,]+(\d{1,2}):(\d{2})(?::(\d{2}))?)?/);
+        if (m) {
+          let y = +m[3];
+          if (y < 100) y += 2000;
+          return new Date(y, +m[2] - 1, +m[1], +(m[4] || 0), +(m[5] || 0), +(m[6] || 0)).getTime();
+        }
+        const t = Date.parse(str);
+        return isNaN(t) ? null : t;
+      }
+
+      function timeAgo(ts) {
+        const min = (Date.now() - ts) / 60000;
+        if (min < 1) return 'à l\'instant';
+        if (min < 60) return `il y a ${Math.floor(min)} min`;
+        if (min < 1440) return `il y a ${Math.floor(min / 60)} h`;
+        if (min < 10080) return `il y a ${Math.floor(min / 1440)} j`;
+        return new Date(ts).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' });
+      }
+
+      // ─── Filtrage / tri ─────────────────────────────────────────
+      function currentTab() {
+        return (subs.sheets || []).find(t => t.id === subs.active) || null;
+      }
+
+      function visibleList(tab) {
+        const q = normalize(subs.query);
+        let list = tab.list.filter(u => {
+          if (subs.filter === 'ig' && u.sms) return false;
+          if (subs.filter === 'sms' && !u.sms) return false;
+          if (subs.filter === 'todo' && isDone(tab, u)) return false;
+          if (q && !normalize(u.contact).includes(q)) return false;
+          return true;
+        });
+        const byTime = (a, b) => ((a.ts || 0) - (b.ts || 0)) || (a.idx - b.idx);
+        if (subs.sort === 'recent') list.sort((a, b) => byTime(b, a));
+        if (subs.sort === 'old') list.sort(byTime);
+        if (subs.sort === 'az') list.sort((a, b) => a.contact.localeCompare(b.contact, 'fr', { sensitivity: 'base' }));
+        if (subs.sort === 'za') list.sort((a, b) => b.contact.localeCompare(a.contact, 'fr', { sensitivity: 'base' }));
+        return list;
+      }
+
+      // Profils Instagram à ouvrir : ceux pas encore contactés, dans l'ordre affiché
+      function igQueue(tab) {
+        return visibleList(tab).filter(u => !u.sms && !isDone(tab, u));
+      }
+
+      function igUrl(u) {
+        return `https://www.instagram.com/${encodeURIComponent(u.contact)}/`;
+      }
+
+      // ─── Rendu ──────────────────────────────────────────────────
+      const ICON_PHONE = '<svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>';
+      const ICON_CHECK = '<svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>';
+
       function renderSubs() {
         const tabs = subs.sheets || [];
-        const total = tabs.find(t => t.id === '__all__') || tabs[0];
-        $('subs-count').textContent = total ? `Inscrits pre-save · ${total.list.length}` : 'Inscrits pre-save';
+        const tab = currentTab();
+        const all = tabs.find(t => t.id === '__all__');
+
+        $('subs-eyebrow').textContent = all ? `Inscrits pre-save · ${all.list.length} personnes au total` : 'Inscrits pre-save';
 
         $('subs-tabs').innerHTML = tabs.map(t => `
-          <button class="subtab${t.id === subs.active ? ' active' : ''}" type="button" data-sheet="${esc(t.id)}">
+          <button class="subtab${t.id === subs.active ? ' active' : ''}" type="button" role="tab" aria-selected="${t.id === subs.active}" data-sheet="${esc(t.id)}">
+            ${t.cover ? `<img src="${esc(t.cover)}" alt="">` : `<span class="tab-ico">${t.id === '__all__' ? '∑' : '♪'}</span>`}
             ${esc(t.label)} <span class="count">${t.list.length}</span>
           </button>`).join('');
-        $('subs-tabs').querySelectorAll('.subtab').forEach(b => b.addEventListener('click', () => {
-          subs.active = b.dataset.sheet;
-          renderSubs();
-        }));
 
-        const tab = tabs.find(t => t.id === subs.active);
-        const list = $('subs-list');
         if (!tab) {
-          list.innerHTML = '<li><span class="meta">Aucun inscrit pour le moment.</span></li>';
-          $('subs-stats').textContent = '';
+          $('subs-total').innerHTML = '0';
+          $('subs-list').innerHTML = '<li class="empty-state"><b>🎧</b>Aucun inscrit pour le moment.</li>';
+          $('ig-bar').classList.add('hidden');
           return;
         }
 
-        const ig = tab.list.filter(u => !u.sms).length;
-        const sms = tab.list.length - ig;
-        $('subs-stats').textContent = `${ig} Instagram · ${sms} SMS` + (tab.duplicates ? ` · ${tab.duplicates} doublon${tab.duplicates > 1 ? 's' : ''} ignoré${tab.duplicates > 1 ? 's' : ''}` : '');
+        // Statistiques du morceau
+        const ig = tab.list.filter(u => !u.sms);
+        const sms = tab.list.filter(u => u.sms);
+        const todo = tab.list.filter(u => !isDone(tab, u));
+        const recent = tab.list.filter(u => u.ts && Date.now() - u.ts < 864e5).length;
+        const pct = n => tab.list.length ? Math.round(n / tab.list.length * 100) : 0;
 
-        list.innerHTML = tab.list.length ? tab.list.map(u => {
+        $('subs-total').innerHTML = `${tab.list.length}<small>inscrit${tab.list.length > 1 ? 's' : ''} · ${esc(tab.label)}</small>`;
+        $('st-all').textContent = tab.list.length;
+        $('st-all-sub').textContent = recent ? `+${recent} en 24 h` : (tab.duplicates ? `${tab.duplicates} doublon${tab.duplicates > 1 ? 's' : ''} ignoré${tab.duplicates > 1 ? 's' : ''}` : 'uniques');
+        $('st-ig').textContent = ig.length;
+        $('st-ig-sub').textContent = `${pct(ig.length)} %`;
+        $('st-sms').textContent = sms.length;
+        $('st-sms-sub').textContent = `${pct(sms.length)} %`;
+        $('st-todo').textContent = todo.length;
+        $('st-todo-sub').textContent = `${tab.list.length - todo.length} contacté${tab.list.length - todo.length > 1 ? 's' : ''}`;
+        document.querySelectorAll('#subs-stats-grid .stat').forEach(b => b.classList.toggle('active', b.dataset.filter === subs.filter && subs.filter !== 'all'));
+        document.querySelectorAll('#subs-filter button').forEach(b => b.classList.toggle('active', b.dataset.filter === subs.filter));
+        $('subs-sort').value = subs.sort;
+
+        // Barre "ouvrir les profils Instagram"
+        const igDone = ig.filter(u => isDone(tab, u)).length;
+        const queue = igQueue(tab);
+        const batch = +$('ig-batch').value;
+        const n = batch ? Math.min(batch, queue.length) : queue.length;
+        $('ig-bar').classList.toggle('hidden', !ig.length);
+        $('ig-bar-title').textContent = queue.length
+          ? `${queue.length} profil${queue.length > 1 ? 's' : ''} Instagram à contacter`
+          : 'Tous les profils Instagram ont été ouverts ✓';
+        $('ig-bar-sub').textContent = `${igDone} / ${ig.length} déjà ouvert${igDone > 1 ? 's' : ''}` + (subs.query ? ' · recherche appliquée' : '');
+        $('ig-progress').style.width = `${ig.length ? igDone / ig.length * 100 : 0}%`;
+        $('btn-open-ig').disabled = !queue.length;
+        $('btn-open-ig').textContent = !queue.length ? 'Terminé' : (n === queue.length && n > 1 ? `Ouvrir les ${n}` : `Ouvrir ${n} profil${n > 1 ? 's' : ''}`);
+
+        // Liste
+        const list = visibleList(tab);
+        $('subs-shown').textContent = list.length === tab.list.length
+          ? `${list.length} affiché${list.length > 1 ? 's' : ''}`
+          : `${list.length} sur ${tab.list.length} affiché${list.length > 1 ? 's' : ''}`;
+
+        $('subs-list').innerHTML = list.length ? list.map(u => {
+          const doneNow = isDone(tab, u);
+          const when = u.ts ? timeAgo(u.ts) : (u.date || `Inscription n° ${u.idx + 1}`);
+          const tracks = tab.id === '__all__' ? `<span class="track-tag">${esc(u.tracks.join(' · '))}</span> · ` : '';
           const link = u.sms
-            ? `<a class="handle" href="sms:${esc(u.contact.replace(/[^\d+]/g, ''))}">${esc(u.contact)}</a>`
-            : `<a class="handle" href="https://instagram.com/${encodeURIComponent(u.contact)}" target="_blank" rel="noopener">@${esc(u.contact)}</a>`;
-          return `<li>${link}<span class="meta">${esc(u.date)}<span class="pill ${u.sms ? 'sms' : 'ig'}">${u.sms ? 'SMS' : 'IG'}</span></span></li>`;
-        }).join('') : '<li><span class="meta">Aucun inscrit pour ce morceau.</span></li>';
+            ? `<a class="handle" href="sms:${esc(u.contact.replace(/[^\d+]/g, ''))}" data-mark="${esc(u.key)}">${esc(u.contact)}</a>`
+            : `<a class="handle" href="${esc(igUrl(u))}" target="_blank" rel="noopener" data-mark="${esc(u.key)}">@${esc(u.contact)}</a>`;
+          return `
+            <li class="${doneNow ? 'done' : ''}">
+              <div class="avatar ${u.sms ? 'sms' : 'ig'}">${u.sms ? ICON_PHONE : esc(u.contact.replace(/[^a-z0-9]/gi, '').charAt(0) || '@')}</div>
+              <div class="sub-main">
+                ${link}
+                <div class="sub-meta">${tracks}${esc(when)}</div>
+              </div>
+              <button class="done-btn${doneNow ? ' on' : ''}" type="button" data-toggle="${esc(u.key)}" title="${doneNow ? 'Remettre à contacter' : 'Marquer comme contacté'}">
+                ${ICON_CHECK}<span>${doneNow ? 'Contacté' : 'À contacter'}</span>
+              </button>
+            </li>`;
+        }).join('') : `<li class="empty-state"><b>🔍</b>${tab.list.length ? 'Aucun résultat avec ces filtres.' : 'Aucun inscrit pour ce morceau.'}</li>`;
       }
 
-      function copySubs(wantSms, button) {
-        const tab = (subs.sheets || []).find(t => t.id === subs.active);
+      // ─── Actions ────────────────────────────────────────────────
+      $('subs-tabs').addEventListener('click', e => {
+        const b = e.target.closest('.subtab');
+        if (!b) return;
+        subs.active = b.dataset.sheet;
+        $('popup-notice').classList.add('hidden');
+        renderSubs();
+      });
+
+      function setFilter(f) {
+        subs.filter = subs.filter === f && f !== 'all' ? 'all' : f;
+        renderSubs();
+      }
+      document.querySelectorAll('#subs-filter button').forEach(b => b.addEventListener('click', () => setFilter(b.dataset.filter)));
+      document.querySelectorAll('#subs-stats-grid .stat').forEach(b => b.addEventListener('click', () => setFilter(b.dataset.filter)));
+      $('subs-sort').addEventListener('change', e => { subs.sort = e.target.value; renderSubs(); });
+      $('ig-batch').addEventListener('change', renderSubs);
+      $('subs-search').addEventListener('input', e => { subs.query = e.target.value; renderSubs(); });
+
+      // Clic sur "À contacter" / "Contacté", ou ouverture d'un profil / SMS
+      $('subs-list').addEventListener('click', e => {
+        const tab = currentTab();
         if (!tab) return;
-        const text = tab.list.filter(u => u.sms === wantSms).map(u => wantSms ? u.contact : '@' + u.contact).join('\n');
-        if (!text) return;
-        navigator.clipboard.writeText(text).then(() => {
-          const old = button.textContent;
-          button.textContent = 'Copié !';
-          setTimeout(() => { button.textContent = old; }, 1800);
-        });
-      }
+        const toggle = e.target.closest('[data-toggle]');
+        const mark = e.target.closest('[data-mark]');
+        const key = toggle ? toggle.dataset.toggle : mark ? mark.dataset.mark : null;
+        const u = key && tab.list.find(x => x.key === key);
+        if (!u) return;
+        if (toggle) setDone(tab, u, !isDone(tab, u));
+        else setDone(tab, u, true);
+        renderSubs();
+      });
 
-      $('btn-copy-ig').addEventListener('click', e => copySubs(false, e.currentTarget));
-      $('btn-copy-sms').addEventListener('click', e => copySubs(true, e.currentTarget));
+      // Ouvre les profils Instagram dans des onglets (par lots)
+      $('btn-open-ig').addEventListener('click', () => {
+        const tab = currentTab();
+        if (!tab) return;
+        const batch = +$('ig-batch').value;
+        const targets = batch ? igQueue(tab).slice(0, batch) : igQueue(tab);
+        if (!targets.length) return;
+        if (targets.length > 25 && !confirm(`Ouvrir ${targets.length} onglets Instagram d'un coup ?`)) return;
+
+        let blocked = 0;
+        targets.forEach(u => {
+          const w = window.open(igUrl(u), '_blank');
+          if (w) {
+            try { w.opener = null; } catch (err) { /* rien */ }
+            setDone(tab, u, true);
+          } else {
+            blocked++;
+          }
+        });
+
+        const notice = $('popup-notice');
+        if (blocked) {
+          notice.innerHTML = `⚠️ Ton navigateur a bloqué ${blocked} onglet${blocked > 1 ? 's' : ''}. Autorise les pop-ups pour ce site
+            (icône 🚫 à droite de la barre d'adresse → <b>Toujours autoriser</b>), puis reclique : les profils déjà ouverts sont cochés.
+            Sur téléphone, choisis plutôt « Par 5 » ou ouvre les profils un par un.`;
+          notice.classList.remove('hidden');
+        } else {
+          notice.classList.add('hidden');
+        }
+        renderSubs();
+      });
+
+      $('btn-copy-sms').addEventListener('click', e => {
+        const tab = currentTab();
+        if (!tab) return;
+        const text = visibleList(tab).filter(u => u.sms).map(u => u.contact).join('\n');
+        const button = e.currentTarget;
+        if (!text) {
+          button.textContent = 'Aucun numéro';
+        } else {
+          navigator.clipboard.writeText(text);
+          button.textContent = 'Numéros copiés ✓';
+        }
+        setTimeout(() => { button.textContent = 'Copier les numéros'; }, 1800);
+      });
+
+      $('btn-reset-done').addEventListener('click', () => {
+        const tab = currentTab();
+        if (!tab || !confirm(`Remettre tous les inscrits de « ${tab.label} » à contacter ?`)) return;
+        tab.list.forEach(u => setDone(tab, u, false));
+        renderSubs();
+      });
+
       $('btn-refresh-subs').addEventListener('click', () => loadSubs(true));
       $('btn-change-key').addEventListener('click', () => {
         $('subs-setup').classList.remove('hidden');

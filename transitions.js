@@ -3,11 +3,14 @@
  * Gère le fondu d'entrée, de sortie et le préchargement des images de fond.
  */
 (function () {
-  // 1. Préchargement en mémoire cache de toutes les covers pour éliminer les saccades
-  const covers = ['cover_accelere.jpg', 'cover_detail.jpg', 'cover_envie.jpg'];
-  covers.forEach(src => {
-    const img = new Image();
-    img.src = src;
+  // 1. Préchargement des covers (après le chargement de la page, pour ne pas la ralentir)
+  window.addEventListener('load', function () {
+    const releases = (window.CONFIG && window.CONFIG.releases) || [];
+    releases.slice(0, 4).forEach(function (r) {
+      if (!r.cover) return;
+      const img = new Image();
+      img.src = r.cover;
+    });
   });
 
   // 2. Affichage fluide de la page (Entrée)

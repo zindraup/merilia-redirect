@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="theme-color" content="#060608">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <title>MERILIA - Site Officiel</title>
@@ -16,14 +16,14 @@
   <meta property="og:title" content="MERILIA - Site Officiel">
   <meta property="og:description"
     content="Découvrez l'univers musical de MERILIA. Dernier single disponible sur toutes les plateformes de streaming.">
-  <meta property="og:image" content="cover_accelere.jpg">
+  <meta property="og:image" content="https://merilia.saint-drop.com/cover_accelere.jpg">
   <meta property="og:url" content="https://merilia.saint-drop.com/">
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="MERILIA - Site Officiel">
   <meta name="twitter:description" content="Découvrez l'univers musical de MERILIA. Dernier single disponible sur toutes les plateformes de streaming.">
-  <meta name="twitter:image" content="cover_accelere.jpg">
+  <meta name="twitter:image" content="https://merilia.saint-drop.com/cover_accelere.jpg">
 
   <!-- Données Structurées Schema.org -->
   <script type="application/ld+json">
@@ -47,9 +47,9 @@
 
   <!-- Moteur de transition fluide de pages -->
   <link rel="stylesheet" href="transitions.css">
+  <noscript><style>body { opacity: 1 !important; }</style></noscript>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="preload" as="image" href="cover_accelere.jpg">
-  <link rel="preload" as="image" href="cover_detail.jpg">
-  <link rel="preload" as="image" href="cover_envie.jpg">
 
   <style>
     /* ============================================
@@ -979,12 +979,13 @@
        RESPONSIVE MOBILE
        ============================================ */
     @media (max-width: 600px) {
+      /* 2 cartes par ligne sur téléphone (la grille est en flex) */
       .releases-grid {
-        grid-template-columns: repeat(2, 1fr);
         gap: 12px;
       }
 
       .release-card {
+        width: calc(50% - 6px);
         padding: 10px;
         border-radius: 16px;
       }
@@ -1011,10 +1012,10 @@
 
 <body>
   <!-- Ambiance d'arrière-plan avec grain et lueur diffuse -->
-  <div class="bg-ambient">
+  <div class="bg-ambient" aria-hidden="true">
     <div class="bg-blur-orb" id="ambient-orb"></div>
   </div>
-  <div class="bg-noise"></div>
+  <div class="bg-noise" aria-hidden="true"></div>
 
 
 
@@ -1054,11 +1055,11 @@
 
     <!-- ============================================
          DISCOGRAPHIE SECTION (COMPACTE & SCALABLE)
-         ============================================ */ -->
+         ============================================ -->
     <section class="discography-section" id="musique" aria-label="Discographie MERILIA">
       <div class="discography-header">
         <h2 class="discography-title">Discographie</h2>
-        <span class="discography-count" id="disco-count">3 Titres</span>
+        <span class="discography-count" id="disco-count"></span>
       </div>
 
       <!-- La grille est dynamiquement peuplée depuis config.js -->
@@ -1096,7 +1097,7 @@
   <!-- ============================================
        MODALE / DRAWER ÉCOUTER (BOTTOM SHEET)
        ============================================ -->
-  <div class="player-modal-backdrop" id="listen-modal" aria-hidden="true" role="dialog">
+  <div class="player-modal-backdrop" id="listen-modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="modal-title">
     <div class="player-modal-sheet" id="listen-sheet">
       <div class="sheet-handle"></div>
 
@@ -1123,168 +1124,127 @@
   <!-- Modale pre-save injectée dynamiquement par modal.js -->
 
   <script src="config.js"></script>
+  <script src="site.js"></script>
   <script src="transitions.js"></script>
   <script src="modal.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
-      const releases = CONFIG.releases || [];
+      const M = window.MERILIA;
+      const esc = M.esc;
+      const releases = M.releases();
       if (!releases.length) return;
 
-      // Morceau Featured (le premier ayant featured: true ou releases[0])
-      const featured = releases.find(r => r.featured) || releases[0];
+      // Morceau mis en avant : le plus récent (automatique selon les dates de config.js)
+      const featured = M.featured();
+      const released = M.isReleased(featured);
 
-      // ────────────────────────────────────────────
-      // Détermine si le morceau featured est sorti
-      // en comparant Date.now() avec sa releaseDate
-      // ────────────────────────────────────────────
-      function isReleased(rel) {
-        if (rel.status === 'available') return true;
-        if (rel.releaseDate) {
-          return Date.now() >= new Date(rel.releaseDate).getTime();
-        }
-        return false;
-      }
-
-      // Configuration du Hero
-      const heroTitle = document.getElementById('hero-title');
-      const heroCover = document.getElementById('hero-cover-img');
-      const heroBadgeText = document.getElementById('hero-badge-text');
-      const heroMeta = document.getElementById('hero-meta');
-      const heroCtaText = document.getElementById('hero-cta-text');
+      // ─── HERO ───────────────────────────────────
       const heroCtaBtn = document.getElementById('hero-cta-btn');
       const heroArtFrame = document.getElementById('hero-art-frame');
+      const heroCover = document.getElementById('hero-cover-img');
+      const year = M.year(featured);
 
-      if (featured) {
-        heroTitle.textContent = featured.title;
-        heroCover.src = featured.cover;
-        heroCover.alt = `MERILIA - ${featured.title}`;
+      document.getElementById('hero-title').textContent = featured.title;
+      heroCover.src = featured.cover;
+      heroCover.alt = `${M.artist} - ${featured.title}`;
+      document.getElementById('hero-badge-text').textContent = released ? 'NOUVEAU SINGLE' : 'NOUVEAU SINGLE · PRE-SAVE';
+      document.getElementById('hero-meta').textContent = released
+        ? `${year ? year + ' · ' : ''}Single`
+        : `${year ? year + ' · ' : ''}Single · En pré-sauvegarde`;
+      document.getElementById('hero-cta-text').textContent = released ? 'ÉCOUTER' : 'PRE-SAVE';
 
-        const released = isReleased(featured);
-
-        // Badge dynamique selon statut
-        heroBadgeText.textContent = released ? 'NOUVEAU SINGLE' : 'NOUVEAU SINGLE · PRE-SAVE';
-
-        heroMeta.textContent = released
-          ? `${featured.year || '2026'} · Single`
-          : `${featured.year || '2026'} · Single · En pré-sauvegarde`;
-
-        // Label du bouton CTA
-        if (released) {
-          heroCtaText.textContent = 'ÉCOUTER';
+      const triggerFeatured = (e) => {
+        e.preventDefault();
+        if (!released) {
+          if (window.openPreSaveModal) window.openPreSaveModal(featured);
+        } else if (M.availablePlatforms(featured).length) {
+          openListenModal(featured);
         } else {
-          heroCtaText.textContent = featured.ctaLabel || 'PRE-SAVE';
+          window.location.href = M.pageUrl(featured);
         }
+      };
 
-        // Action Hero CTA & Clic sur Artwork
-        const triggerFeatured = (e) => {
-          e.preventDefault();
-          const hasStreamingLinks = featured.links && Object.values(featured.links).some(l => l && !l.endsWith('.html'));
-          if (released && hasStreamingLinks) {
-            // Morceau sorti avec liens → ouvre le drawer d'écoute
-            openListenModal(featured);
-          } else if (!released) {
-            // En pre-save → ouvre la modale d'inscription directement via modal.js
-            if (window.openPreSaveModal) window.openPreSaveModal(featured);
-          } else if (featured.pageUrl) {
-            window.location.href = featured.pageUrl;
-          }
-        };
+      heroCtaBtn.addEventListener('click', triggerFeatured);
+      heroArtFrame.addEventListener('click', triggerFeatured);
+      heroArtFrame.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') triggerFeatured(e);
+      });
 
-        heroCtaBtn.addEventListener('click', triggerFeatured);
-        heroArtFrame.addEventListener('click', triggerFeatured);
-        heroArtFrame.addEventListener('keydown', (e) => {
-          if (e.key === 'Enter' || e.key === ' ') {
-            e.preventDefault();
-            triggerFeatured(e);
-          }
+      // Raccourcis 1-tap sous le bouton (même ouverture que la page du titre)
+      const quickContainer = document.getElementById('hero-quick-links');
+      quickContainer.innerHTML = '';
+      if (released) {
+        ['spotify', 'apple', 'youtube', 'deezer', 'amazon'].forEach(key => {
+          const url = M.linkFor(featured, key);
+          if (!url) return;
+          const p = M.PLATFORMS.find(x => x.key === key);
+          const btn = document.createElement('a');
+          btn.className = 'quick-icon-btn';
+          btn.href = url;
+          btn.title = `${p.name} · Écouter "${featured.title}"`;
+          btn.setAttribute('aria-label', `${p.name} - Écouter ${featured.title}`);
+          btn.innerHTML = M.ICONS[key];
+          M.bindPlatform(btn, featured, key);
+          quickContainer.appendChild(btn);
         });
+      }
 
-        // Raccourcis plateformes sous le bouton (seulement si sorti)
-        const quickContainer = document.getElementById('hero-quick-links');
-        quickContainer.innerHTML = '';
-
-        const heroPlatformDefs = [
-          { key: 'spotify', name: 'Spotify', icon: '<svg viewBox="0 0 24 24"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.503 17.306c-.215.353-.674.464-1.027.249-2.863-1.748-6.467-2.144-10.712-1.173-.404.092-.81-.157-.903-.561-.092-.403.157-.809.561-.902 4.646-1.063 8.625-.615 11.832 1.34.353.215.464.674.249 1.027zm1.468-3.259c-.27.44-.847.579-1.287.308-3.277-2.014-8.273-2.597-12.149-1.42-.497.151-1.024-.131-1.174-.627-.151-.497.131-1.024.627-1.174 4.429-1.344 9.94-.693 13.676 1.605.44.271.579.848.308 1.288zm.139-3.391c-3.931-2.333-10.428-2.55-14.218-1.4c-.603.183-1.246-.168-1.429-.771-.183-.603.168-1.246.771-1.429 4.343-1.32 11.523-1.054 16.002 1.604.542.321.721 1.024.399 1.565-.321.543-1.024.722-1.565.401-.001 0-.001 0-.001 0z"/></svg>' },
-          { key: 'apple', name: 'Apple Music', icon: '<svg viewBox="0 0 24 24"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 6.85c.66-.82 1.11-1.96.99-3.1-.96.04-2.18.66-2.87 1.47-.61.71-1.15 1.87-1.01 2.99 1.09.08 2.22-.56 2.89-1.36z"/></svg>' },
-          { key: 'youtube', name: 'YouTube', icon: '<svg viewBox="0 0 24 24"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/></svg>' },
-          { key: 'deezer', name: 'Deezer', icon: '<svg viewBox="0 0 24 24"><path d="M19.125 15.656h4.875v3.469h-4.875v-3.469zm-6.375 0h4.875v3.469h-4.875v-3.469zm-6.375 0h4.875v3.469h-4.875v-3.469zm-6.375 0h4.875v3.469h-4.875v-3.469zm19.125-5.25h4.875v3.469h-4.875v-3.469zm-6.375 0h4.875v3.469h-4.875v-3.469zm-6.375 0h4.875v3.469h-4.875v-3.469zm-6.375 0h4.875v3.469h-4.875v-3.469zm19.125-5.25h4.875v3.469h-4.875v-3.469zm-6.375 0h4.875v3.469h-4.875v-3.469zm-6.375 10.5h4.875v3.469h-4.875v-3.469zm0-15.75h4.875v3.469h-4.875v-3.469zm-6.375 10.5h4.875v3.469h-4.875v-3.469z"/></svg>' },
-          { key: 'amazon', name: 'Amazon Music', icon: '<svg viewBox="0 0 24 24"><path d="M13.945 14.795c-.2-.095-.494-.286-.884-.286-.494 0-.885.19-1.286.476-.39.381-.585.857-.585 1.428 0 .572.195 1.048.585 1.429.39.38.79.476 1.286.476.39 0 .684-.095.984-.286.299-.19.499-.38.599-.666v-2.285c-.199-.19-.499-.286-.699-.381zm5.744 4.095c-.199.19-.399.19-.599.095-2.197-1.524-5.195-2.286-8.791-2.286-2.497 0-4.895.381-7.093 1.143-.299.095-.499 0-.599-.19-.099-.19 0-.476.199-.571 2.298-.857 4.895-1.334 7.492-1.334 3.896 0 7.093.857 9.49 2.476.199.095.2.381-.099.667zm.499-.857c-.1.19-.399.19-.599.095-1.798-1.143-4.096-1.714-6.993-1.714-2.098 0-4.196.285-6.194.952-.199.095-.399 0-.499-.19-.1-.19 0-.38.199-.476 2.098-.667 4.296-1.048 6.494-1.048 2.997 0 5.594.667 7.492 1.81.199.19.2.38.1.571zm-4.795-8.857c0-.762-.099-1.333-.3-1.81-.199-.476-.499-.857-.899-1.143-.399-.285-.898-.571-1.398-.666-.5-.096-1.099-.191-1.698-.191-1.399 0-2.597.286-3.497.857-.899.572-1.398 1.429-1.598 2.572-.099.476.199.666.599.666.399 0 .699-.19.899-.571.299-.667.699-1.143 1.199-1.429.499-.285 1.198-.476 1.998-.476.499 0 .999.095 1.398.286.399.19.699.476.899.857.199.38.3 1.047.3 1.904v.762c-.799-.095-1.698-.095-2.697.095-1.399.19-2.497.667-3.297 1.333-.799.667-1.199 1.62-1.199 2.762 0 .667.1 1.238.4 1.81.299.571.699.952 1.298 1.238.599.286 1.299.476 2.098.476 1.099 0 2.098-.381 2.897-1.048.799-.666 1.199-1.428 1.299-2.285.299.476.699.857 1.198 1.047.499.191.999.286 1.598.286 1.099 0 2.098-.381 2.997-1.143.199-.19.199-.381 0-.571-.1-.19-.299-.19-.499-.096-.699.572-1.498.858-2.298.858-.499 0-.898-.096-1.198-.286-.3-.19-.499-.572-.499-1.048v-6.095z"/></svg>' }
-        ];
-
-        heroPlatformDefs.forEach(p => {
-          let url = featured.links?.[p.key];
-          if (p.key === 'spotify' && isIOS) {
-            url = (featured.links?.spotify_ios || url || '').replace(/\/intl-[a-z]{2}(-[a-z]{2})?\//i, '/');
-          }
-          if (url && url.trim() !== '') {
-            const btn = document.createElement('a');
-            btn.className = 'quick-icon-btn';
-            btn.href = url;
-            if (p.key === 'spotify' && isIOS) {
-              btn.addEventListener('click', (e) => {
-                e.preventDefault();
-                window.location.href = url;
-              });
-            } else {
-              btn.target = '_blank';
-              btn.rel = 'noopener';
-            }
-            btn.title = `${p.name} · Écouter "${featured.title}"`;
-            btn.setAttribute('aria-label', `${p.name} - Écouter ${featured.title}`);
-            btn.innerHTML = p.icon;
-            quickContainer.appendChild(btn);
-          }
-        });
+      // Bascule automatique du hero à l'heure de sortie si la page reste ouverte
+      if (!released) {
+        const wait = M.releaseTime(featured) - Date.now();
+        if (wait > 0 && wait < 864e5) setTimeout(() => window.location.reload(), wait + 1000);
       }
 
       // ─── DISCOGRAPHIE ───────────────────────────
       const grid = document.getElementById('releases-grid');
       const countEl = document.getElementById('disco-count');
-      
-      const releasedTracks = releases.filter(r => r.status === 'available');
-      const catalogueList = releasedTracks.length > 0 ? releasedTracks : releases.filter(r => r.id !== featured.id);
+
+      const releasedTracks = releases.filter(r => M.isReleased(r));
+      const catalogueList = releasedTracks.length ? releasedTracks : releases.filter(r => r.id !== featured.id);
 
       countEl.textContent = `${catalogueList.length} Titre${catalogueList.length > 1 ? 's' : ''}`;
 
       catalogueList.forEach((rel) => {
+        const isOut = M.isReleased(rel);
+        const badge = rel === featured && isOut ? 'NOUVEAU SINGLE' : 'SINGLE';
+        const relYear = M.year(rel);
         const card = document.createElement('article');
         card.className = 'release-card';
         card.setAttribute('role', 'button');
         card.setAttribute('tabindex', '0');
-        card.setAttribute('aria-label', `${rel.title} - ${rel.badge || 'Single'}`);
+        card.setAttribute('aria-label', `${rel.title} - ${badge}`);
 
         card.innerHTML = `
           <div class="release-card-cover-wrap">
-            <img src="${rel.cover}" alt="MERILIA - ${rel.title}" class="release-card-img" loading="lazy">
+            <img src="${esc(rel.cover)}" alt="${esc(M.artist)} - ${esc(rel.title)}" class="release-card-img" loading="lazy">
             <div class="card-play-overlay">
-              <div class="card-play-bubble" aria-label="Écouter ${rel.title}">
+              <div class="card-play-bubble" aria-label="Écouter ${esc(rel.title)}">
                 <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg>
               </div>
             </div>
           </div>
           <div class="release-card-body">
-            <span class="release-card-tag">${rel.badge || 'SINGLE'}</span>
-            <h3 class="release-card-title">${rel.title}</h3>
-            <p class="release-card-year">${rel.year || '2026'} &middot; Single</p>
+            <span class="release-card-tag">${badge}</span>
+            <h3 class="release-card-title">${esc(rel.title)}</h3>
+            <p class="release-card-year">${relYear ? esc(relYear) + ' &middot; ' : ''}Single</p>
             <div class="release-card-actions">
               <span class="card-action-listen">
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z" /></svg>
-                ${rel.status === 'presave' ? 'Pre-Save' : 'Écouter'}
+                ${isOut ? 'Écouter' : 'Pre-Save'}
               </span>
-              ${rel.pageUrl ? `<a href="${rel.pageUrl}" class="card-action-page-link" onclick="event.stopPropagation()">Page &rarr;</a>` : ''}
+              <a href="${esc(M.pageUrl(rel))}" class="card-action-page-link">Page &rarr;</a>
             </div>
           </div>
         `;
+        card.querySelector('.card-action-page-link').addEventListener('click', e => e.stopPropagation());
 
         const onCardClick = () => {
-          const hasStreamingLinks = rel.links && Object.values(rel.links).some(l => l && !l.endsWith('.html'));
-          if (rel.status === 'available' && hasStreamingLinks) {
-            openListenModal(rel);
-          } else if (rel.status === 'presave') {
+          if (!isOut) {
             if (window.openPreSaveModal) window.openPreSaveModal(rel);
-          } else if (rel.pageUrl) {
-            window.location.href = rel.pageUrl;
+          } else if (M.availablePlatforms(rel).length) {
+            openListenModal(rel);
+          } else {
+            window.location.href = M.pageUrl(rel);
           }
         };
 
@@ -1301,86 +1261,38 @@
 
       // Bio dynamique
       const bioEl = document.querySelector('.about-desc');
-      if (bioEl && CONFIG.bio) bioEl.textContent = CONFIG.bio;
+      if (bioEl && M.config.bio) bioEl.textContent = M.config.bio;
 
       // ─── MODALE D'ÉCOUTE (DRAWER) ───────────────
       const listenModal = document.getElementById('listen-modal');
-      const modalClose = document.getElementById('modal-close-btn');
-      const modalCover = document.getElementById('modal-cover');
-      const modalTitle = document.getElementById('modal-title');
-      const modalTag = document.getElementById('modal-tag');
       const modalList = document.getElementById('modal-platforms');
       const modalPageLink = document.getElementById('modal-page-link');
 
       function openListenModal(rel) {
-        modalCover.src = rel.cover;
-        modalTitle.textContent = rel.title;
-        modalTag.textContent = rel.badge || 'SINGLE';
+        document.getElementById('modal-cover').src = rel.cover;
+        document.getElementById('modal-title').textContent = rel.title;
+        document.getElementById('modal-tag').textContent = rel === featured ? 'NOUVEAU SINGLE' : 'SINGLE';
 
-        if (rel.pageUrl) {
-          modalPageLink.style.display = 'inline-block';
-          modalPageLink.href = rel.pageUrl;
-          modalPageLink.textContent = `Accéder à la page streaming de "${rel.title}" →`;
-        } else {
-          modalPageLink.style.display = 'none';
-        }
+        modalPageLink.style.display = 'inline-block';
+        modalPageLink.href = M.pageUrl(rel);
+        modalPageLink.textContent = `Accéder à la page streaming de "${rel.title}" →`;
 
         modalList.innerHTML = '';
-        const platformDefs = [
-          { key: 'spotify', name: 'Spotify', icon: '<svg viewBox="0 0 24 24"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.503 17.306c-.215.353-.674.464-1.027.249-2.863-1.748-6.467-2.144-10.712-1.173-.404.092-.81-.157-.903-.561-.092-.403.157-.809.561-.902 4.646-1.063 8.625-.615 11.832 1.34.353.215.464.674.249 1.027zm1.468-3.259c-.27.44-.847.579-1.287.308-3.277-2.014-8.273-2.597-12.149-1.42-.497.151-1.024-.131-1.174-.627-.151-.497.131-1.024.627-1.174 4.429-1.344 9.94-.693 13.676 1.605.44.271.579.848.308 1.288zm.139-3.391c-3.931-2.333-10.428-2.55-14.218-1.4c-.603.183-1.246-.168-1.429-.771-.183-.603.168-1.246.771-1.429 4.343-1.32 11.523-1.054 16.002 1.604.542.321.721 1.024.399 1.565-.321.543-1.024.722-1.565.401-.001 0-.001 0-.001 0z"/></svg>' },
-          { key: 'apple', name: 'Apple Music', icon: '<svg viewBox="0 0 24 24"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 6.85c.66-.82 1.11-1.96.99-3.1-.96.04-2.18.66-2.87 1.47-.61.71-1.15 1.87-1.01 2.99 1.09.08 2.22-.56 2.89-1.36z"/></svg>' },
-          { key: 'youtube', name: 'YouTube', icon: '<svg viewBox="0 0 24 24"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/></svg>' },
-          { key: 'deezer', name: 'Deezer', icon: '<svg viewBox="0 0 24 24"><path d="M19.125 15.656h4.875v3.469h-4.875v-3.469zm-6.375 0h4.875v3.469h-4.875v-3.469zm-6.375 0h4.875v3.469h-4.875v-3.469zm-6.375 0h4.875v3.469h-4.875v-3.469zm19.125-5.25h4.875v3.469h-4.875v-3.469zm-6.375 0h4.875v3.469h-4.875v-3.469zm-6.375 0h4.875v3.469h-4.875v-3.469zm-6.375 0h4.875v3.469h-4.875v-3.469zm19.125-5.25h4.875v3.469h-4.875v-3.469zm-6.375 0h4.875v3.469h-4.875v-3.469zm-6.375 10.5h4.875v3.469h-4.875v-3.469zm0-15.75h4.875v3.469h-4.875v-3.469zm-6.375 10.5h4.875v3.469h-4.875v-3.469z"/></svg>' },
-          { key: 'amazon', name: 'Amazon Music', icon: '<svg viewBox="0 0 24 24"><path d="M13.9 14.8c-.2-.1-.5-.3-.9-.3-.5 0-.9.2-1.3.5-.4.4-.6.9-.6 1.5 0 .6.2 1.1.6 1.5.4.4.8.5 1.3.5.4 0 .7-.1 1-.3.3-.2.5-.4.6-.7v-2.3c-.2-.2-.5-.3-.7-.4zm5.7 4.1c-.2.2-.4.2-.6.1-2.2-1.5-5.2-2.3-8.8-2.3-2.5 0-4.9.4-7.1 1.2-.3.1-.5 0-.6-.2-.1-.2 0-.5.2-.6 2.3-.9 4.9-1.3 7.5-1.3 3.9 0 7.1.9 9.5 2.5.2.1.2.4-.1.6zm.5-.9c-.1.2-.4.2-.6.1-1.8-1.2-4.1-1.8-7-1.8-2.1 0-4.2.3-6.2 1-.2.1-.4 0-.5-.2-.1-.2 0-.4.2-.5 2.1-.7 4.3-1.1 6.5-1.1 3 0 5.6.7 7.5 1.9.2.2.2.4.1.6z"/></svg>' },
-          { key: 'tidal', name: 'Tidal', icon: '<svg viewBox="0 0 24 24"><path d="M12.012 3.992L8.008 7.996 4.004 3.992 0 7.996 4.004 12l4.004-4.004L12.012 12l-4.004 4.004 4.004 4.004 4.004-4.004L12.012 12l4.004-4.004-4.004-4.004zM16.042 7.996l3.979-3.979L24 7.996l-3.979 3.979z"/></svg>' },
-          { key: 'qobuz', name: 'Qobuz', icon: '<svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 14c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4zm0-6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/></svg>' }
-        ];
-
-        let hasAnyLink = false;
-        platformDefs.forEach(p => {
-          let url = rel.links?.[p.key];
-          if (p.key === 'spotify' && isIOS) {
-            url = (rel.links?.spotify_ios || url || '').replace(/\/intl-[a-z]{2}(-[a-z]{2})?\//i, '/');
-          }
-          if (url && url.trim() !== '') {
-            hasAnyLink = true;
-            const a = document.createElement('a');
-            a.className = 'sheet-platform-row';
-            a.dataset.plat = p.key;
-            if (p.key === 'spotify' && isIOS) {
-              a.href = '#';
-              a.addEventListener('click', (e) => {
-                e.preventDefault();
-                window.location.href = url;
-              });
-            } else {
-              a.href = url;
-              a.target = '_blank';
-              a.rel = 'noopener';
-            }
-            a.innerHTML = `
-              <div class="sheet-platform-left">
-                <div class="sheet-platform-icon">${p.icon}</div>
-                <span class="sheet-platform-name">${p.name}</span>
-              </div>
-              <span class="sheet-platform-action">ÉCOUTER &rarr;</span>
-            `;
-            modalList.appendChild(a);
-          }
-        });
-
-        if (!hasAnyLink) {
-          const banner = document.createElement('a');
-          banner.className = 'sheet-platform-row';
-          banner.href = rel.pageUrl || '#';
-          banner.innerHTML = `
+        M.availablePlatforms(rel).forEach(p => {
+          const a = document.createElement('a');
+          a.className = 'sheet-platform-row';
+          a.dataset.plat = p.key;
+          a.href = M.linkFor(rel, p.key);
+          a.innerHTML = `
             <div class="sheet-platform-left">
-              <span class="sheet-platform-name">Accéder à la page du single</span>
+              <div class="sheet-platform-icon">${M.ICONS[p.key]}</div>
+              <span class="sheet-platform-name">${p.name}</span>
             </div>
-            <span class="sheet-platform-action">OUVRIR &rarr;</span>
+            <span class="sheet-platform-action">ÉCOUTER &rarr;</span>
           `;
-          modalList.appendChild(banner);
-        }
+          M.bindPlatform(a, rel, p.key);
+          modalList.appendChild(a);
+        });
 
         listenModal.classList.add('is-open');
         listenModal.setAttribute('aria-hidden', 'false');
@@ -1391,15 +1303,11 @@
         listenModal.setAttribute('aria-hidden', 'true');
       }
 
-      modalClose.addEventListener('click', closeListenModal);
+      document.getElementById('modal-close-btn').addEventListener('click', closeListenModal);
       listenModal.addEventListener('click', (e) => { if (e.target === listenModal) closeListenModal(); });
 
-      // ESC ferme les modales
       document.addEventListener('keydown', e => {
-        if (e.key === 'Escape') {
-          if (listenModal.classList.contains('is-open')) closeListenModal();
-          if (window.closeModal) window.closeModal();
-        }
+        if (e.key === 'Escape' && listenModal.classList.contains('is-open')) closeListenModal();
       });
     });
   </script>

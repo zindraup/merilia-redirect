@@ -3,218 +3,1089 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin - Liste Envie</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#060608">
+  <title>MERILIA — Admin</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <style>
     :root {
       --bg: #060608;
       --bg2: #0e0e12;
+      --bg3: #15151b;
+      --line: rgba(255, 255, 255, 0.08);
+      --line2: rgba(255, 255, 255, 0.16);
+      --t1: #ffffff;
+      --t2: rgba(240, 240, 248, 0.75);
+      --t3: rgba(220, 220, 230, 0.45);
       --silver: #d0d0dc;
+      --silver-light: #e2e2ee;
       --silver-bright: #eeeef4;
-      --font: 'Inter', sans-serif;
+      --ok: #3ddc84;
+      --warn: #ffb648;
+      --err: #ff5a5a;
+      --font: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      --ease: cubic-bezier(0.16, 1, 0.3, 1);
     }
-    
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html, body { background: var(--bg); }
+
     body {
-      background: var(--bg);
-      color: #fff;
+      color: var(--t1);
       font-family: var(--font);
-      padding: 40px 20px;
-      margin: 0;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+      padding: 32px 16px 80px;
     }
 
-    .container {
-      max-width: 600px;
-      margin: 0 auto;
-    }
+    .wrap { max-width: 760px; margin: 0 auto; }
 
-    header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 40px;
-    }
-
-    h1 {
-      font-size: 24px;
-      font-weight: 800;
-      letter-spacing: -0.02em;
-      background: linear-gradient(135deg, #fff, var(--silver));
+    .brand {
+      font-size: 28px;
+      font-weight: 900;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      background: linear-gradient(135deg, #888, var(--silver-bright), #fff, var(--silver-bright), #888);
       -webkit-background-clip: text;
+      background-clip: text;
       -webkit-text-fill-color: transparent;
     }
 
-    .stats {
-      font-size: 14px;
-      color: rgba(255,255,255,0.4);
+    .sub {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--t3);
+      margin-top: 4px;
+    }
+
+    header.top {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 28px;
+      flex-wrap: wrap;
     }
 
     .card {
       background: var(--bg2);
-      border: 1px solid rgba(255,255,255,0.05);
-      border-radius: 16px;
+      border: 1px solid var(--line);
+      border-radius: 20px;
       padding: 24px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
     }
 
-    .list-header {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 20px;
-      padding-bottom: 15px;
-      border-bottom: 1px solid rgba(255,255,255,0.05);
+    .card + .card { margin-top: 20px; }
+
+    h2 {
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-bottom: 16px;
     }
 
-    .btn-copy {
-      background: var(--silver-bright);
+    p.help { font-size: 13px; line-height: 1.6; color: var(--t2); margin-bottom: 16px; }
+    p.help a { color: var(--silver-bright); }
+    p.help code, li code {
+      background: rgba(255, 255, 255, 0.07);
+      border-radius: 6px;
+      padding: 1px 6px;
+      font-size: 12px;
+    }
+
+    ol.steps { font-size: 13px; line-height: 1.7; color: var(--t2); padding-left: 20px; margin-bottom: 18px; }
+    ol.steps a { color: var(--silver-bright); }
+
+    label.field { display: block; margin-bottom: 14px; }
+    label.field > span {
+      display: block;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--t3);
+      margin-bottom: 6px;
+    }
+    label.field small { display: block; color: var(--t3); font-size: 11.5px; margin-top: 5px; line-height: 1.4; }
+
+    input[type="text"], input[type="password"], input[type="url"], input[type="datetime-local"] {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 12px 14px;
+      color: #fff;
+      font-family: var(--font);
+      font-size: 16px;
+      outline: none;
+      transition: border-color .2s, background .2s;
+      color-scheme: dark;
+    }
+
+    input:focus { border-color: var(--silver-bright); background: rgba(255, 255, 255, 0.07); }
+    input.invalid { border-color: var(--err); }
+
+    .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0 14px; }
+    @media (max-width: 560px) { .grid2 { grid-template-columns: 1fr; } }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px 20px;
+      border-radius: 50px;
+      border: 1px solid var(--line2);
+      background: rgba(255, 255, 255, 0.06);
+      color: #fff;
+      font-family: var(--font);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all .25s var(--ease);
+      white-space: nowrap;
+    }
+    .btn:hover { background: rgba(255, 255, 255, 0.12); }
+    .btn:disabled { opacity: .5; pointer-events: none; }
+
+    .btn.primary {
+      background: linear-gradient(135deg, #999, var(--silver-light), #fff, var(--silver-light), #999);
+      background-size: 300% 300%;
       color: var(--bg);
       border: none;
-      padding: 8px 16px;
-      border-radius: 8px;
-      font-weight: 600;
-      font-size: 13px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.7);
+    }
+    .btn.primary:hover { transform: translateY(-1px); }
+    .btn.danger { color: var(--err); border-color: rgba(255, 90, 90, 0.35); }
+    .btn.danger:hover { background: rgba(255, 90, 90, 0.1); }
+    .btn.small { padding: 8px 14px; font-size: 10.5px; }
+    .btn.full { width: 100%; }
+
+    .linkbtn {
+      background: none;
+      border: none;
+      color: var(--t3);
+      font-family: var(--font);
+      font-size: 12px;
+      text-decoration: underline;
+      text-underline-offset: 3px;
       cursor: pointer;
-      transition: transform 0.2s;
+    }
+    .linkbtn:hover { color: #fff; }
+
+    .row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+    .row.end { justify-content: flex-end; }
+    .row.between { justify-content: space-between; }
+
+    .msg { font-size: 13px; line-height: 1.5; margin-top: 12px; min-height: 1em; }
+    .msg.err { color: var(--err); }
+    .msg.ok { color: var(--ok); }
+    .msg.info { color: var(--t2); }
+
+    /* Liste des titres */
+    .rel {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .rel:last-child { border-bottom: none; }
+    .rel img {
+      width: 56px;
+      height: 56px;
+      border-radius: 12px;
+      object-fit: cover;
+      flex-shrink: 0;
+      background: var(--bg3);
+    }
+    .rel-info { flex: 1; min-width: 0; }
+    .rel-title { font-size: 16px; font-weight: 800; }
+    .rel-meta { font-size: 12px; color: var(--t3); margin-top: 3px; line-height: 1.5; }
+    .rel-actions { display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; }
+
+    .pill {
+      display: inline-block;
+      font-size: 9.5px;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      padding: 3px 8px;
+      border-radius: 20px;
+      margin-right: 6px;
+      vertical-align: 1px;
+    }
+    .pill.live { background: rgba(61, 220, 132, 0.12); color: var(--ok); }
+    .pill.soon { background: rgba(255, 182, 72, 0.12); color: var(--warn); }
+    .pill.nolinks { background: rgba(255, 90, 90, 0.12); color: var(--err); }
+
+    @media (max-width: 560px) {
+      .rel { flex-wrap: wrap; }
+      .rel-actions { width: 100%; justify-content: flex-start; }
     }
 
-    .btn-copy:active { transform: scale(0.95); }
+    /* Pochette */
+    .cover-drop {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 14px;
+      border: 1px dashed var(--line2);
+      border-radius: 16px;
+      cursor: pointer;
+      transition: border-color .2s, background .2s;
+    }
+    .cover-drop:hover, .cover-drop.drag { border-color: var(--silver-bright); background: rgba(255, 255, 255, 0.03); }
+    .cover-drop img {
+      width: 96px;
+      height: 96px;
+      border-radius: 14px;
+      object-fit: cover;
+      background: var(--bg3);
+      flex-shrink: 0;
+    }
+    .cover-drop .hint { font-size: 13px; color: var(--t2); line-height: 1.5; }
+    .cover-drop input { display: none; }
 
-    .user-list {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-      max-height: 400px;
-      overflow-y: auto;
+    .section-title {
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--t3);
+      margin: 22px 0 12px;
     }
 
-    .user-item {
+    .hidden { display: none !important; }
+
+    .status-box {
+      margin-top: 16px;
+      padding: 14px 16px;
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--line);
+      font-size: 13px;
+      line-height: 1.7;
+      color: var(--t2);
+    }
+    .status-box a { color: var(--silver-bright); }
+
+    .tabs { display: flex; gap: 6px; margin-bottom: 20px; }
+    .tab {
+      padding: 9px 16px;
+      border-radius: 50px;
+      border: 1px solid var(--line);
+      background: transparent;
+      color: var(--t3);
+      font-family: var(--font);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+    .tab.active { background: rgba(255, 255, 255, 0.1); color: #fff; border-color: var(--line2); }
+
+    ul.subs { list-style: none; max-height: 420px; overflow-y: auto; }
+    ul.subs li {
       display: flex;
       justify-content: space-between;
-      padding: 12px 0;
-      border-bottom: 1px solid rgba(255,255,255,0.03);
+      gap: 10px;
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+      font-size: 14px;
     }
-
-    .user-item:last-child { border: none; }
-
-    .handle {
-      font-weight: 600;
-      color: var(--silver);
-    }
-
-    .date {
-      font-size: 12px;
-      color: rgba(255,255,255,0.3);
-    }
-
-    .empty-state {
-      text-align: center;
-      padding: 40px 0;
-      color: rgba(255,255,255,0.2);
-    }
-
-    /* Style for the Google Sheet setup instruction */
-    .setup-box {
-      margin-top: 30px;
-      padding: 20px;
-      background: rgba(192,192,204,0.05);
-      border-radius: 12px;
-      font-size: 13px;
-      line-height: 1.6;
-      border: 1px dashed rgba(255,255,255,0.1);
-    }
-    
-    code {
-      display: block;
-      background: #000;
-      padding: 10px;
-      border-radius: 6px;
-      margin-top: 10px;
-      color: #7d7;
-      overflow-x: auto;
-    }
+    ul.subs li span:last-child { color: var(--t3); font-size: 12px; white-space: nowrap; }
   </style>
 </head>
+
 <body>
-  <div class="container">
-    <header>
-      <h1>Dashboard Inscrits</h1>
-      <div class="stats" id="count-label">0 inscrit(s)</div>
+  <div class="wrap">
+    <header class="top">
+      <div>
+        <div class="brand">MERILIA</div>
+        <div class="sub">Espace admin</div>
+      </div>
+      <div class="row hidden" id="session-actions">
+        <a class="btn small" href="index.html" target="_blank" rel="noopener">Voir le site</a>
+        <button class="btn small" type="button" id="btn-lock">Verrouiller</button>
+      </div>
     </header>
 
-    <div class="card">
-      <div class="list-header">
-        <span style="font-weight: 600;">Liste des pseudos</span>
-        <button class="btn-copy" onclick="copyAll()">Copier tout</button>
+    <!-- ===== PREMIÈRE CONNEXION ===== -->
+    <section class="card hidden" id="view-setup">
+      <h2>Première connexion sur cet appareil</h2>
+      <p class="help">
+        Le site est hébergé sur GitHub Pages : l'admin publie directement dans le dépôt
+        <code id="repo-label"></code>. Il faut un jeton GitHub limité à ce dépôt (à faire une seule fois par appareil).
+      </p>
+      <ol class="steps">
+        <li>Ouvre <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">github.com → Fine-grained tokens → Generate new token</a>.</li>
+        <li><b>Repository access</b> : <i>Only select repositories</i> → <code id="repo-label-2"></code>.</li>
+        <li><b>Permissions → Repository → Contents</b> : <i>Read and write</i>. Rien d'autre.</li>
+        <li>Expiration : la durée de ton choix (1 an max). Génère et colle-le ci-dessous.</li>
+      </ol>
+      <form id="form-setup" autocomplete="off">
+        <label class="field">
+          <span>Jeton GitHub</span>
+          <input type="password" id="setup-token" placeholder="github_pat_…" required>
+        </label>
+        <div class="grid2">
+          <label class="field">
+            <span>Choisis un mot de passe admin</span>
+            <input type="password" id="setup-pw" autocomplete="new-password" minlength="8" required>
+            <small>8 caractères minimum. Il chiffre le jeton sur cet appareil.</small>
+          </label>
+          <label class="field">
+            <span>Confirme le mot de passe</span>
+            <input type="password" id="setup-pw2" autocomplete="new-password" minlength="8" required>
+          </label>
+        </div>
+        <button class="btn primary full" type="submit" id="btn-setup">Connecter</button>
+        <div class="msg" id="setup-msg"></div>
+      </form>
+    </section>
+
+    <!-- ===== CONNEXION ===== -->
+    <section class="card hidden" id="view-login">
+      <h2>Connexion</h2>
+      <form id="form-login">
+        <input type="text" name="username" value="merilia-admin" autocomplete="username" class="hidden" readonly>
+        <label class="field">
+          <span>Mot de passe</span>
+          <input type="password" id="login-pw" autocomplete="current-password" required autofocus>
+        </label>
+        <button class="btn primary full" type="submit" id="btn-login">Entrer</button>
+        <div class="msg" id="login-msg"></div>
+      </form>
+      <div class="row end" style="margin-top: 14px;">
+        <button class="linkbtn" type="button" id="btn-reset">Mot de passe oublié / nouveau jeton</button>
+      </div>
+    </section>
+
+    <!-- ===== TABLEAU DE BORD ===== -->
+    <section class="hidden" id="view-dash">
+      <div class="tabs">
+        <button class="tab active" type="button" data-tab="releases">Titres</button>
+        <button class="tab" type="button" data-tab="subs">Inscrits pre-save</button>
       </div>
 
-      <ul class="user-list" id="user-list">
-        <!-- Les noms apparaîtront ici -->
-        <li class="empty-state">Chargement de la liste...</li>
-      </ul>
-    </div>
+      <div id="tab-releases">
+        <div class="card">
+          <div class="row between" style="margin-bottom: 6px;">
+            <h2 style="margin: 0;">Titres</h2>
+            <button class="btn primary small" type="button" id="btn-new">+ Nouveau titre</button>
+          </div>
+          <div id="release-list"><p class="help">Chargement…</p></div>
+        </div>
 
-    <div class="setup-box">
-      <strong>⚙️ Comment activer la récolte :</strong><br>
-      1. Crée un Google Sheet.<br>
-      2. Va dans Extensions > Apps Script.<br>
-      3. Colle le code que je t'ai donné et clique sur "Déployer".<br>
-      4. Copie l'URL obtenue et colle-la dans ton <code>index.html</code>.
-    </div>
+        <!-- Formulaire titre -->
+        <div class="card hidden" id="editor">
+          <h2 id="editor-title">Nouveau titre</h2>
+          <form id="form-release" autocomplete="off" novalidate>
+            <div class="grid2">
+              <label class="field">
+                <span>Nom du titre</span>
+                <input type="text" id="f-title" required placeholder="Ex : Accélère">
+              </label>
+              <label class="field">
+                <span>Adresse de la page</span>
+                <input type="text" id="f-id" required pattern="[a-z0-9-]+" placeholder="accelere">
+                <small id="f-id-hint">merilia.saint-drop.com/<b>…</b>.html</small>
+              </label>
+            </div>
+
+            <label class="field">
+              <span>Date et heure de sortie (heure de Paris)</span>
+              <input type="datetime-local" id="f-date">
+              <small>Avant cette date : compte à rebours + pre-save. À 0 : les liens s'affichent tout seuls. Vide = déjà sorti.</small>
+            </label>
+
+            <div class="field">
+              <span class="section-title" style="display:block; margin-top: 4px;">Pochette</span>
+              <label class="cover-drop" id="cover-drop">
+                <img id="f-cover-preview" alt="">
+                <div class="hint" id="cover-hint">Clique ou glisse l'image ici (JPG/PNG/WebP).<br>Redimensionnée automatiquement en 1400 px.</div>
+                <input type="file" id="f-cover" accept="image/*">
+              </label>
+            </div>
+
+            <div class="section-title">Liens des plateformes <span style="text-transform:none; letter-spacing:0; font-weight:500;">— optionnels, ajoutables plus tard</span></div>
+            <div class="grid2" id="links-grid"></div>
+
+            <div class="row end" style="margin-top: 8px;">
+              <button class="btn" type="button" id="btn-cancel">Annuler</button>
+              <button class="btn primary" type="submit" id="btn-publish">Publier</button>
+            </div>
+            <div class="msg" id="editor-msg"></div>
+          </form>
+        </div>
+
+        <div class="status-box hidden" id="deploy-status"></div>
+      </div>
+
+      <div id="tab-subs" class="hidden">
+        <div class="card">
+          <div class="row between" style="margin-bottom: 10px;">
+            <h2 style="margin: 0;" id="subs-count">Inscrits</h2>
+            <button class="btn small" type="button" id="btn-copy-subs">Copier tout</button>
+          </div>
+          <ul class="subs" id="subs-list"><li><span>Chargement…</span></li></ul>
+        </div>
+      </div>
+    </section>
   </div>
 
   <script>
-    // URL de ton Google Script (à remplir plus tard)
-    const SHEET_API_URL = 'https://script.google.com/macros/s/AKfycbyKzkcj_uCQzfkTubH6LJ9H_Q67q0x4SKi_5qnlpc6QfKcIgbvPrnBgZvov7v9hyqm8/exec'; 
+    (function () {
+      'use strict';
 
-    async function loadUsers() {
-      const listEl = document.getElementById('user-list');
-      
-      if (!SHEET_API_URL) {
-        listEl.innerHTML = '<li class="empty-state">Tu dois configurer ton Google Sheet pour voir les vrais inscrits.</li>';
-        return;
+      // ─── Réglages du dépôt ──────────────────────────────────────
+      const REPO = { owner: 'zindraup', name: 'merilia-redirect', branch: 'main' };
+      const API = `https://api.github.com/repos/${REPO.owner}/${REPO.name}`;
+      const VAULT_KEY = 'merilia-admin-vault';
+      const RESERVED_IDS = ['index', 'admin', 'presave', 'release', 'release-template', 'config', 'site', 'modal', 'transitions'];
+      const LINK_FIELDS = [
+        { key: 'spotify', label: 'Spotify', ph: 'https://spotify.openinapp.co/…' },
+        { key: 'spotify_ios', label: 'Spotify direct (iPhone)', ph: 'https://open.spotify.com/track/…', hint: 'Lien open.spotify.com : ouvre l\'app directement sur iPhone' },
+        { key: 'apple', label: 'Apple Music', ph: 'https://…' },
+        { key: 'youtube', label: 'YouTube', ph: 'https://…' },
+        { key: 'deezer', label: 'Deezer', ph: 'https://…' },
+        { key: 'amazon', label: 'Amazon Music', ph: 'https://…' },
+        { key: 'tidal', label: 'Tidal', ph: 'https://…' },
+        { key: 'qobuz', label: 'Qobuz', ph: 'https://…' }
+      ];
+
+      const $ = id => document.getElementById(id);
+      let token = null;
+      let state = { config: null, editingId: null, coverBlob: null };
+
+      $('repo-label').textContent = `${REPO.owner}/${REPO.name}`;
+      $('repo-label-2').textContent = `${REPO.owner}/${REPO.name}`;
+
+      function show(view) {
+        ['view-setup', 'view-login', 'view-dash'].forEach(v => $(v).classList.toggle('hidden', v !== view));
+        $('session-actions').classList.toggle('hidden', view !== 'view-dash');
       }
 
-      try {
-        const response = await fetch(SHEET_API_URL);
-        const data = await response.json();
-        
-        if (data.length === 0) {
-          listEl.innerHTML = '<li class="empty-state">Aucun inscrit pour le moment.</li>';
-          return;
+      function msg(el, text, kind) {
+        el.textContent = text || '';
+        el.className = 'msg ' + (kind || '');
+      }
+
+      function esc(str) {
+        return String(str == null ? '' : str)
+          .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+      }
+
+      // ─── Coffre chiffré (jeton GitHub protégé par le mot de passe) ─
+      const enc = new TextEncoder();
+      const dec = new TextDecoder();
+      const b64 = buf => btoa(String.fromCharCode(...new Uint8Array(buf)));
+      const unb64 = str => Uint8Array.from(atob(str), c => c.charCodeAt(0));
+
+      async function deriveKey(password, salt) {
+        const base = await crypto.subtle.importKey('raw', enc.encode(password), 'PBKDF2', false, ['deriveKey']);
+        return crypto.subtle.deriveKey(
+          { name: 'PBKDF2', salt, iterations: 310000, hash: 'SHA-256' },
+          base, { name: 'AES-GCM', length: 256 }, false, ['encrypt', 'decrypt']
+        );
+      }
+
+      async function saveVault(password, secret) {
+        const salt = crypto.getRandomValues(new Uint8Array(16));
+        const iv = crypto.getRandomValues(new Uint8Array(12));
+        const key = await deriveKey(password, salt);
+        const data = await crypto.subtle.encrypt({ name: 'AES-GCM', iv }, key, enc.encode(secret));
+        localStorage.setItem(VAULT_KEY, JSON.stringify({ salt: b64(salt), iv: b64(iv), data: b64(data) }));
+      }
+
+      async function openVault(password) {
+        const raw = JSON.parse(localStorage.getItem(VAULT_KEY));
+        const key = await deriveKey(password, unb64(raw.salt));
+        const data = await crypto.subtle.decrypt({ name: 'AES-GCM', iv: unb64(raw.iv) }, key, unb64(raw.data));
+        return dec.decode(data);
+      }
+
+      function hasVault() {
+        try { return !!localStorage.getItem(VAULT_KEY); } catch (e) { return false; }
+      }
+
+      // ─── API GitHub ─────────────────────────────────────────────
+      async function gh(path, opts = {}, tk = token) {
+        const res = await fetch(path.startsWith('http') ? path : API + path, {
+          ...opts,
+          headers: {
+            Accept: 'application/vnd.github+json',
+            Authorization: `Bearer ${tk}`,
+            'X-GitHub-Api-Version': '2022-11-28',
+            ...(opts.body ? { 'Content-Type': 'application/json' } : {})
+          },
+          cache: 'no-store'
+        });
+        if (!res.ok) {
+          let detail = '';
+          try { detail = (await res.json()).message; } catch (e) { /* rien */ }
+          const err = new Error(`GitHub ${res.status}${detail ? ' : ' + detail : ''}`);
+          err.status = res.status;
+          throw err;
+        }
+        return res.status === 204 ? null : res.json();
+      }
+
+      function utf8ToB64(str) {
+        const bytes = enc.encode(str);
+        let bin = '';
+        for (let i = 0; i < bytes.length; i += 0x8000) bin += String.fromCharCode(...bytes.subarray(i, i + 0x8000));
+        return btoa(bin);
+      }
+
+      function b64ToUtf8(str) {
+        return dec.decode(unb64(str.replace(/\n/g, '')));
+      }
+
+      async function readFile(path) {
+        const data = await gh(`/contents/${encodeURIComponent(path)}?ref=${REPO.branch}`);
+        return b64ToUtf8(data.content);
+      }
+
+      // Un seul commit pour tous les fichiers → un seul redéploiement du site
+      async function commitFiles(message, files) {
+        const ref = await gh(`/git/ref/heads/${REPO.branch}`);
+        const parentSha = ref.object.sha;
+        const parent = await gh(`/git/commits/${parentSha}`);
+
+        const tree = [];
+        for (const f of files) {
+          if (f.delete) {
+            tree.push({ path: f.path, mode: '100644', type: 'blob', sha: null });
+            continue;
+          }
+          const blob = await gh('/git/blobs', {
+            method: 'POST',
+            body: JSON.stringify(f.base64 ? { content: f.base64, encoding: 'base64' } : { content: f.content, encoding: 'utf-8' })
+          });
+          tree.push({ path: f.path, mode: '100644', type: 'blob', sha: blob.sha });
         }
 
-        listEl.innerHTML = '';
-        document.getElementById('count-label').textContent = `${data.length} inscrit(s)`;
-        
-        data.forEach(user => {
-          const li = document.createElement('li');
-          li.className = 'user-item';
-          li.innerHTML = `
-            <span class="handle">@${user.handle}</span>
-            <span class="date">${user.date}</span>
-          `;
-          listEl.appendChild(li);
+        const newTree = await gh('/git/trees', { method: 'POST', body: JSON.stringify({ base_tree: parent.tree.sha, tree }) });
+        const commit = await gh('/git/commits', {
+          method: 'POST',
+          body: JSON.stringify({ message, tree: newTree.sha, parents: [parentSha] })
         });
-      } catch (e) {
-        listEl.innerHTML = '<li class="empty-state">Erreur de connexion au Sheet.</li>';
+        await gh(`/git/refs/heads/${REPO.branch}`, { method: 'PATCH', body: JSON.stringify({ sha: commit.sha }) });
+        return commit.sha;
       }
-    }
 
-    function copyAll() {
-      const handles = Array.from(document.querySelectorAll('.handle'))
-                           .map(el => el.textContent)
-                           .join('\n');
-      
-      if (!handles) return;
-      
-      navigator.clipboard.writeText(handles).then(() => {
-        const btn = document.querySelector('.btn-copy');
-        const oldText = btn.textContent;
-        btn.textContent = 'Copié !';
-        setTimeout(() => btn.textContent = oldText, 2000);
+      // ─── config.js <-> objet ────────────────────────────────────
+      const CONFIG_START = '/*CONFIG-START*/';
+      const CONFIG_END = '/*CONFIG-END*/';
+
+      function parseConfig(js) {
+        const a = js.indexOf(CONFIG_START);
+        const b = js.indexOf(CONFIG_END);
+        if (a < 0 || b < 0) throw new Error('config.js n\'a pas le format attendu (marqueurs CONFIG-START / CONFIG-END absents).');
+        return { head: js.slice(0, a), data: JSON.parse(js.slice(a + CONFIG_START.length, b)), tail: js.slice(b + CONFIG_END.length) };
+      }
+
+      function serializeConfig(parsed) {
+        return parsed.head + CONFIG_START + JSON.stringify(parsed.data, null, 2) + CONFIG_END + parsed.tail;
+      }
+
+      // Même tri que site.js : du plus récent au plus ancien, sans date = ancien
+      function sortReleases(list) {
+        const t = r => {
+          const v = r.releaseDate ? new Date(r.releaseDate).getTime() : NaN;
+          return isNaN(v) ? null : v;
+        };
+        return list.map((r, i) => ({ r, i })).sort((a, b) => {
+          const ta = t(a.r), tb = t(b.r);
+          if (ta === null && tb === null) return a.i - b.i;
+          if (ta === null) return 1;
+          if (tb === null) return -1;
+          return tb - ta;
+        }).map(x => x.r);
+      }
+
+      function fillTemplate(tpl, rel, conf) {
+        const map = { ID: rel.id, TITLE: rel.title, COVER: rel.cover, ARTIST: conf.artist, SITE_URL: conf.siteUrl };
+        return tpl.replace(/\{\{(ID|TITLE|COVER|ARTIST|SITE_URL)\}\}/g, (_, k) => esc(map[k]));
+      }
+
+      // Met à jour les métadonnées de index.html (aperçus de partage + hero sans JS)
+      function updateIndexHtml(html, featured, conf) {
+        const abs = `${conf.siteUrl}/${featured.cover}`;
+        return html
+          .replace(/(<meta property="og:image" content=")[^"]*(")/, `$1${esc(abs)}$2`)
+          .replace(/(<meta name="twitter:image" content=")[^"]*(")/, `$1${esc(abs)}$2`)
+          .replace(/(<link rel="preload" as="image" href=")[^"]*(")/, `$1${esc(featured.cover)}$2`)
+          .replace(/(<img src=")[^"]*(" alt="[^"]*" class="hero-artwork-img")/, `$1${esc(featured.cover)}$2`)
+          .replace(/(<h1 class="hero-track-title" id="hero-title">)[^<]*(<\/h1>)/, `$1${esc(featured.title.toUpperCase())}$2`);
+      }
+
+      // sitemap.xml pour le référencement (accueil + une page par titre)
+      function buildSitemap(conf) {
+        const urls = [`${conf.siteUrl}/`].concat((conf.releases || []).map(r => `${conf.siteUrl}/${r.id}.html`));
+        return [
+          '<?xml version="1.0" encoding="UTF-8"?>',
+          '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
+          ...urls.map(u => `  <url><loc>${esc(u)}</loc></url>`),
+          '</urlset>',
+          ''
+        ].join('\n');
+      }
+
+      // ─── Dates (heure de Paris) ─────────────────────────────────
+      function parisOffsetMinutes(date) {
+        const parts = new Intl.DateTimeFormat('en-US', {
+          timeZone: 'Europe/Paris', hour12: false,
+          year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit'
+        }).formatToParts(date).reduce((o, p) => (o[p.type] = p.value, o), {});
+        const asUtc = Date.UTC(+parts.year, +parts.month - 1, +parts.day, +parts.hour % 24, +parts.minute, +parts.second);
+        return Math.round((asUtc - date.getTime()) / 60000);
+      }
+
+      // "2026-11-20T00:00" (heure de Paris) → ISO UTC
+      function parisLocalToIso(value) {
+        if (!value) return '';
+        const [d, t] = value.split('T');
+        const [y, mo, da] = d.split('-').map(Number);
+        const [h, mi] = (t || '00:00').split(':').map(Number);
+        const guess = Date.UTC(y, mo - 1, da, h, mi);
+        const offset = parisOffsetMinutes(new Date(guess));
+        return new Date(guess - offset * 60000).toISOString();
+      }
+
+      // ISO → "2026-11-20T00:00" (heure de Paris) pour le champ du formulaire
+      function isoToParisLocal(iso) {
+        if (!iso) return '';
+        const date = new Date(iso);
+        if (isNaN(date)) return '';
+        const local = new Date(date.getTime() + parisOffsetMinutes(date) * 60000);
+        return local.toISOString().slice(0, 16);
+      }
+
+      function formatParis(iso) {
+        return new Date(iso).toLocaleString('fr-FR', {
+          timeZone: 'Europe/Paris', weekday: 'short', day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit'
+        });
+      }
+
+      function slugify(str) {
+        return String(str).normalize('NFD').replace(/[̀-ͯ]/g, '')
+          .toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 60);
+      }
+
+      // ─── Pochette : redimensionnement en JPEG ───────────────────
+      function loadImage(file) {
+        return new Promise((resolve, reject) => {
+          const url = URL.createObjectURL(file);
+          const img = new Image();
+          img.onload = () => resolve({ img, url });
+          img.onerror = () => reject(new Error('Image illisible.'));
+          img.src = url;
+        });
+      }
+
+      async function prepareCover(file) {
+        const { img, url } = await loadImage(file);
+        const max = 1400;
+        const scale = Math.min(1, max / Math.max(img.naturalWidth, img.naturalHeight));
+        const canvas = document.createElement('canvas');
+        canvas.width = Math.round(img.naturalWidth * scale);
+        canvas.height = Math.round(img.naturalHeight * scale);
+        const ctx = canvas.getContext('2d');
+        ctx.fillStyle = '#060608';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.imageSmoothingQuality = 'high';
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+        URL.revokeObjectURL(url);
+        const blob = await new Promise(r => canvas.toBlob(r, 'image/jpeg', 0.88));
+        return { blob, width: canvas.width, height: canvas.height };
+      }
+
+      function blobToB64(blob) {
+        return new Promise((resolve, reject) => {
+          const fr = new FileReader();
+          fr.onload = () => resolve(String(fr.result).split(',')[1]);
+          fr.onerror = reject;
+          fr.readAsDataURL(blob);
+        });
+      }
+
+      // ─── Connexion ──────────────────────────────────────────────
+      $('form-setup').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const m = $('setup-msg');
+        const tk = $('setup-token').value.trim();
+        const pw = $('setup-pw').value;
+        if (pw.length < 8) return msg(m, 'Mot de passe trop court (8 caractères minimum).', 'err');
+        if (pw !== $('setup-pw2').value) return msg(m, 'Les deux mots de passe ne correspondent pas.', 'err');
+
+        $('btn-setup').disabled = true;
+        msg(m, 'Vérification du jeton…', 'info');
+        try {
+          const repo = await gh('', {}, tk);
+          if (!repo.permissions || !repo.permissions.push) {
+            throw new Error('Ce jeton peut lire le dépôt mais pas écrire. Mets « Contents : Read and write ».');
+          }
+          await saveVault(pw, tk);
+          $('setup-token').value = $('setup-pw').value = $('setup-pw2').value = '';
+          token = tk;
+          enterDashboard();
+        } catch (err) {
+          msg(m, err.status === 401 ? 'Jeton invalide ou expiré.' : err.status === 404 ? 'Ce jeton n\'a pas accès au dépôt ' + REPO.owner + '/' + REPO.name + '.' : err.message, 'err');
+        } finally {
+          $('btn-setup').disabled = false;
+        }
       });
-    }
 
-    loadUsers();
+      $('form-login').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const m = $('login-msg');
+        $('btn-login').disabled = true;
+        msg(m, 'Déverrouillage…', 'info');
+        try {
+          token = await openVault($('login-pw').value);
+        } catch (err) {
+          $('btn-login').disabled = false;
+          return msg(m, 'Mot de passe incorrect.', 'err');
+        }
+        $('login-pw').value = '';
+        $('btn-login').disabled = false;
+        msg(m, '');
+        enterDashboard();
+      });
+
+      $('btn-reset').addEventListener('click', () => {
+        if (!confirm('Effacer la connexion enregistrée sur cet appareil ? Il faudra recoller un jeton GitHub.')) return;
+        localStorage.removeItem(VAULT_KEY);
+        token = null;
+        show('view-setup');
+      });
+
+      $('btn-lock').addEventListener('click', () => {
+        token = null;
+        state = { config: null, editingId: null, coverBlob: null };
+        show(hasVault() ? 'view-login' : 'view-setup');
+      });
+
+      // ─── Tableau de bord ────────────────────────────────────────
+      async function enterDashboard() {
+        show('view-dash');
+        await loadReleases();
+      }
+
+      async function loadReleases() {
+        const list = $('release-list');
+        list.innerHTML = '<p class="help">Chargement…</p>';
+        try {
+          state.config = parseConfig(await readFile('config.js'));
+          renderReleaseList();
+        } catch (err) {
+          if (err.status === 401) {
+            list.innerHTML = '<p class="help">Le jeton GitHub a expiré ou a été révoqué. Clique sur « Verrouiller » puis « Mot de passe oublié / nouveau jeton ».</p>';
+          } else {
+            list.innerHTML = `<p class="help">Impossible de lire config.js : ${esc(err.message)}</p>`;
+          }
+        }
+      }
+
+      function renderReleaseList() {
+        const conf = state.config.data;
+        const releases = sortReleases(conf.releases || []);
+        const list = $('release-list');
+        if (!releases.length) {
+          list.innerHTML = '<p class="help">Aucun titre pour l\'instant.</p>';
+          return;
+        }
+        list.innerHTML = releases.map((r, i) => {
+          const t = r.releaseDate ? new Date(r.releaseDate).getTime() : NaN;
+          const upcoming = !isNaN(t) && t > Date.now();
+          const nLinks = Object.keys(r.links || {}).filter(k => (r.links[k] || '').trim()).length;
+          const coverUrl = `${conf.siteUrl}/${r.cover}`;
+          return `
+            <div class="rel">
+              <img src="${esc(coverUrl)}" alt="" loading="lazy">
+              <div class="rel-info">
+                <div class="rel-title">${esc(r.title)}${i === 0 ? ' <span class="pill live" style="margin-left:6px;">EN AVANT</span>' : ''}</div>
+                <div class="rel-meta">
+                  <span class="pill ${upcoming ? 'soon' : 'live'}">${upcoming ? 'PRE-SAVE' : 'SORTI'}</span>
+                  ${!isNaN(t) ? esc(formatParis(r.releaseDate)) : 'Date non renseignée'}<br>
+                  ${nLinks ? `${nLinks} lien${nLinks > 1 ? 's' : ''}` : '<span class="pill nolinks">AUCUN LIEN</span>'} · /${esc(r.id)}.html
+                </div>
+              </div>
+              <div class="rel-actions">
+                <a class="btn small" href="${esc(conf.siteUrl)}/${esc(r.id)}.html" target="_blank" rel="noopener">Page</a>
+                <button class="btn small" type="button" data-edit="${esc(r.id)}">Modifier</button>
+                <button class="btn small danger" type="button" data-delete="${esc(r.id)}">Supprimer</button>
+              </div>
+            </div>`;
+        }).join('');
+        list.querySelectorAll('[data-edit]').forEach(b => b.addEventListener('click', () => openEditor(b.dataset.edit)));
+        list.querySelectorAll('[data-delete]').forEach(b => b.addEventListener('click', () => deleteRelease(b.dataset.delete)));
+      }
+
+      // ─── Formulaire ─────────────────────────────────────────────
+      $('links-grid').innerHTML = LINK_FIELDS.map(f => `
+        <label class="field">
+          <span>${f.label}</span>
+          <input type="url" id="f-link-${f.key}" placeholder="${f.ph}" inputmode="url">
+          ${f.hint ? `<small>${f.hint}</small>` : ''}
+        </label>`).join('');
+
+      let idTouched = false;
+      $('f-title').addEventListener('input', () => {
+        if (!state.editingId && !idTouched) $('f-id').value = slugify($('f-title').value);
+        updateIdHint();
+      });
+      $('f-id').addEventListener('input', () => {
+        idTouched = true;
+        $('f-id').value = $('f-id').value.toLowerCase().replace(/[^a-z0-9-]/g, '');
+        updateIdHint();
+      });
+      function updateIdHint() {
+        const host = state.config ? state.config.data.siteUrl.replace(/^https?:\/\//, '') : '';
+        $('f-id-hint').innerHTML = `${esc(host)}/<b>${esc($('f-id').value || '…')}</b>.html`;
+      }
+
+      // Pochette : clic ou glisser-déposer
+      const drop = $('cover-drop');
+      ['dragenter', 'dragover'].forEach(ev => drop.addEventListener(ev, e => { e.preventDefault(); drop.classList.add('drag'); }));
+      ['dragleave', 'drop'].forEach(ev => drop.addEventListener(ev, e => { e.preventDefault(); drop.classList.remove('drag'); }));
+      drop.addEventListener('drop', e => { if (e.dataTransfer.files[0]) handleCover(e.dataTransfer.files[0]); });
+      $('f-cover').addEventListener('change', e => { if (e.target.files[0]) handleCover(e.target.files[0]); });
+
+      async function handleCover(file) {
+        try {
+          const { blob, width, height } = await prepareCover(file);
+          state.coverBlob = blob;
+          $('f-cover-preview').src = URL.createObjectURL(blob);
+          $('cover-hint').innerHTML = `${esc(file.name)}<br>${width} × ${height} px · ${Math.round(blob.size / 1024)} Ko` +
+            (Math.abs(width - height) > 4 ? '<br><span style="color:var(--warn)">⚠️ Image non carrée : elle sera recadrée à l\'affichage.</span>' : '');
+        } catch (err) {
+          msg($('editor-msg'), err.message, 'err');
+        }
+      }
+
+      $('btn-new').addEventListener('click', () => openEditor(null));
+      $('btn-cancel').addEventListener('click', closeEditor);
+
+      function openEditor(id) {
+        const rel = id ? state.config.data.releases.find(r => r.id === id) : null;
+        state.editingId = id;
+        state.coverBlob = null;
+        idTouched = !!id;
+        $('editor-title').textContent = rel ? `Modifier « ${rel.title} »` : 'Nouveau titre';
+        $('f-title').value = rel ? rel.title : '';
+        $('f-id').value = rel ? rel.id : '';
+        $('f-id').disabled = !!rel; // l'adresse d'une page déjà partagée ne change pas
+        $('f-date').value = rel ? isoToParisLocal(rel.releaseDate) : '';
+        $('f-cover').value = '';
+        $('f-cover-preview').src = rel ? `${state.config.data.siteUrl}/${rel.cover}` : '';
+        $('cover-hint').innerHTML = rel
+          ? 'Pochette actuelle. Clique ou glisse une image pour la remplacer.'
+          : 'Clique ou glisse l\'image ici (JPG/PNG/WebP).<br>Redimensionnée automatiquement en 1400 px.';
+        LINK_FIELDS.forEach(f => { $(`f-link-${f.key}`).value = rel && rel.links ? (rel.links[f.key] || '') : ''; });
+        document.querySelectorAll('#form-release input').forEach(i => i.classList.remove('invalid'));
+        msg($('editor-msg'), '');
+        updateIdHint();
+        $('editor').classList.remove('hidden');
+        $('editor').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        if (!rel) setTimeout(() => $('f-title').focus(), 300);
+      }
+
+      function closeEditor() {
+        $('editor').classList.add('hidden');
+        state.editingId = null;
+        state.coverBlob = null;
+      }
+
+      function validate() {
+        const errors = [];
+        const mark = (el, bad) => { el.classList.toggle('invalid', bad); return bad; };
+        const title = $('f-title').value.trim();
+        const id = $('f-id').value.trim();
+        if (mark($('f-title'), !title)) errors.push('Le nom du titre est obligatoire.');
+        if (!state.editingId) {
+          const taken = state.config.data.releases.some(r => r.id === id);
+          if (mark($('f-id'), !/^[a-z0-9][a-z0-9-]*$/.test(id) || RESERVED_IDS.includes(id) || taken)) {
+            errors.push(taken ? 'Cette adresse de page existe déjà.' : 'Adresse de page invalide (lettres, chiffres et tirets).');
+          }
+          if (!state.coverBlob) errors.push('Ajoute une pochette.');
+        }
+        LINK_FIELDS.forEach(f => {
+          const el = $(`f-link-${f.key}`);
+          const v = el.value.trim();
+          if (mark(el, !!v && !/^https?:\/\/\S+$/i.test(v))) errors.push(`Lien ${f.label} invalide (doit commencer par https://).`);
+        });
+        return errors;
+      }
+
+      $('form-release').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const m = $('editor-msg');
+        const errors = validate();
+        if (errors.length) return msg(m, errors.join(' '), 'err');
+
+        $('btn-publish').disabled = true;
+        msg(m, 'Publication en cours…', 'info');
+        try {
+          // Toujours repartir de la version en ligne (évite d'écraser une autre modif)
+          const parsed = parseConfig(await readFile('config.js'));
+          const conf = parsed.data;
+          const isNew = !state.editingId;
+          const id = isNew ? $('f-id').value.trim() : state.editingId;
+          const existing = conf.releases.find(r => r.id === id);
+          if (!isNew && !existing) throw new Error('Ce titre n\'existe plus dans config.js. Recharge la page.');
+
+          const links = {};
+          LINK_FIELDS.forEach(f => {
+            const v = $(`f-link-${f.key}`).value.trim();
+            if (v) links[f.key] = v;
+          });
+
+          const rel = Object.assign({}, existing || {}, {
+            id,
+            title: $('f-title').value.trim(),
+            releaseDate: parisLocalToIso($('f-date').value),
+            links
+          });
+
+          const files = [];
+          if (state.coverBlob) {
+            const coverPath = `cover_${id}.jpg`;
+            rel.cover = isNew ? coverPath : `${coverPath}?v=${Date.now().toString(36)}`;
+            files.push({ path: coverPath, base64: await blobToB64(state.coverBlob) });
+          }
+          if (!rel.year && !rel.releaseDate) rel.year = String(new Date().getFullYear());
+
+          conf.releases = sortReleases(isNew ? [rel, ...conf.releases] : conf.releases.map(r => r.id === id ? rel : r));
+          conf.updatedAt = new Date().toISOString();
+
+          const [tpl, indexHtml] = await Promise.all([readFile('release-template.html'), readFile('index.html')]);
+          files.push({ path: 'config.js', content: serializeConfig(parsed) });
+          // Toutes les pages titre sont régénérées : une évolution du gabarit s'applique partout
+          conf.releases.forEach(r => files.push({ path: `${r.id}.html`, content: fillTemplate(tpl, r, conf) }));
+          files.push({ path: 'index.html', content: updateIndexHtml(indexHtml, conf.releases[0], conf) });
+          files.push({ path: 'sitemap.xml', content: buildSitemap(conf) });
+
+          await commitFiles(`${isNew ? 'Nouveau titre' : 'Mise à jour'} : ${rel.title} (via admin)`, files);
+
+          state.config = parsed;
+          renderReleaseList();
+          closeEditor();
+          msg(m, '');
+          watchDeploy(conf.updatedAt, `${conf.siteUrl}/${id}.html`, rel.title);
+        } catch (err) {
+          msg(m, `Échec de la publication : ${err.message}`, 'err');
+        } finally {
+          $('btn-publish').disabled = false;
+        }
+      });
+
+      async function deleteRelease(id) {
+        const rel = state.config.data.releases.find(r => r.id === id);
+        if (!rel) return;
+        if (!confirm(`Supprimer « ${rel.title} » du site ?\nSa page /${id}.html ne sera plus accessible.`)) return;
+        try {
+          const parsed = parseConfig(await readFile('config.js'));
+          const conf = parsed.data;
+          conf.releases = conf.releases.filter(r => r.id !== id);
+          conf.updatedAt = new Date().toISOString();
+          const files = [
+            { path: 'config.js', content: serializeConfig(parsed) },
+            { path: `${id}.html`, delete: true },
+            { path: 'sitemap.xml', content: buildSitemap(conf) }
+          ];
+          const coverPath = (rel.cover || '').split('?')[0];
+          if (coverPath === `cover_${id}.jpg`) files.push({ path: coverPath, delete: true });
+          if (conf.releases.length) {
+            files.push({ path: 'index.html', content: updateIndexHtml(await readFile('index.html'), sortReleases(conf.releases)[0], conf) });
+          }
+          await commitFiles(`Suppression : ${rel.title} (via admin)`, files);
+          state.config = parsed;
+          renderReleaseList();
+          watchDeploy(conf.updatedAt, `${conf.siteUrl}/index.html`, 'le site');
+        } catch (err) {
+          alert(`Échec de la suppression : ${err.message}`);
+        }
+      }
+
+      // Suit la mise en ligne (GitHub Pages met ~1 min à redéployer)
+      let watchTimer = null;
+      function watchDeploy(stamp, pageUrl, label) {
+        const box = $('deploy-status');
+        box.classList.remove('hidden');
+        box.innerHTML = `✅ Enregistré sur GitHub.<br>⏳ Mise en ligne de ${esc(label)} en cours (environ 1 minute)…`;
+        clearInterval(watchTimer);
+        const started = Date.now();
+        watchTimer = setInterval(async () => {
+          try {
+            const res = await fetch(`${state.config.data.siteUrl}/config.js?check=${Date.now()}`, { cache: 'no-store' });
+            const text = await res.text();
+            if (text.includes(stamp)) {
+              clearInterval(watchTimer);
+              box.innerHTML = `✅ En ligne : <a href="${esc(pageUrl)}" target="_blank" rel="noopener">${esc(pageUrl)}</a><br>
+                <span style="color:var(--t3)">Si ton téléphone affiche encore l'ancienne version, recharge la page (cache de quelques minutes).</span>`;
+              return;
+            }
+          } catch (e) { /* on réessaie */ }
+          if (Date.now() - started > 5 * 60000) {
+            clearInterval(watchTimer);
+            box.innerHTML = `✅ Enregistré sur GitHub. La mise en ligne prend plus de temps que prévu : vérifie dans quelques minutes <a href="${esc(pageUrl)}" target="_blank" rel="noopener">${esc(pageUrl)}</a>.`;
+          }
+        }, 8000);
+      }
+
+      // ─── Onglets ────────────────────────────────────────────────
+      document.querySelectorAll('.tab').forEach(t => t.addEventListener('click', () => {
+        document.querySelectorAll('.tab').forEach(x => x.classList.toggle('active', x === t));
+        $('tab-releases').classList.toggle('hidden', t.dataset.tab !== 'releases');
+        $('tab-subs').classList.toggle('hidden', t.dataset.tab !== 'subs');
+        if (t.dataset.tab === 'subs') loadSubs();
+      }));
+
+      // ─── Inscrits pre-save (Google Sheet) ───────────────────────
+      async function loadSubs() {
+        const list = $('subs-list');
+        const api = state.config && state.config.data.presaveApi;
+        list.innerHTML = '<li><span>Chargement…</span></li>';
+        try {
+          const res = await fetch(`${api}?action=list`);
+          const data = JSON.parse(await res.text());
+          if (!Array.isArray(data)) throw new Error('format');
+          $('subs-count').textContent = `${data.length} inscrit(s)`;
+          list.innerHTML = data.length
+            ? data.map(u => `<li><span class="handle">${esc(u.contact || u.handle || '')}</span><span>${esc(u.track || '')} · ${esc(u.date || '')}</span></li>`).join('')
+            : '<li><span>Aucun inscrit pour le moment.</span></li>';
+        } catch (e) {
+          list.innerHTML = `<li><span style="color:var(--t2); line-height:1.6;">La liste n'est pas lisible depuis le site : le script Google ne renvoie pas les inscrits (et c'est plus sûr ainsi, ce sont des numéros de téléphone). Consulte-les directement dans ton Google Sheet.</span></li>`;
+        }
+      }
+
+      $('btn-copy-subs').addEventListener('click', () => {
+        const text = Array.from(document.querySelectorAll('#subs-list .handle')).map(el => el.textContent).join('\n');
+        if (text) navigator.clipboard.writeText(text);
+      });
+
+      // ─── Démarrage ──────────────────────────────────────────────
+      if (!window.crypto || !crypto.subtle) {
+        document.querySelector('.wrap').insertAdjacentHTML('beforeend', '<p class="help">Ouvre cette page en https pour te connecter.</p>');
+      } else {
+        show(hasVault() ? 'view-login' : 'view-setup');
+      }
+    })();
   </script>
 </body>
 </html>

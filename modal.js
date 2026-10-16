@@ -165,7 +165,7 @@
       padding: 16px 16px 16px 36px;
       color: #fff;
       font-family: var(--font, sans-serif);
-      font-size: 15px;
+      font-size: 16px;
       outline: none;
       transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
       box-sizing: border-box;
@@ -334,7 +334,7 @@
         <div id="modal-content">
           <h3 class="modal-title-text" style="text-align: center;">Rejoindre la liste</h3>
           <p class="modal-text" id="modal-desc">
-            Laisse ton Instagram ou numéro pour recevoir le lien de <strong>Accélère</strong> dès la sortie.
+            Laisse ton Instagram ou numéro pour recevoir le lien de <strong></strong> dès la sortie.
           </p>
 
           <div class="option-toggle">
@@ -370,10 +370,10 @@
             </svg>
           </div>
           <h3>T'es bien inscrit(e) !</h3>
-          <p id="success-message">Tu recevras le lien direct vers <strong>Accélère</strong> en avant-première dès sa sortie. 🔥</p>
+          <p id="success-message">Tu recevras le lien direct vers <strong></strong> en avant-première dès sa sortie. 🔥</p>
 
           <div id="spotify-prompt" class="spotify-prompt">
-            <p style="font-size: 13px; color: var(--t2, #ccc); margin-bottom: 14px;">Veux-tu aussi ajouter <strong class="modal-track-name">Accélère</strong> directement sur ton Spotify ?</p>
+            <p style="font-size: 13px; color: var(--t2, #ccc); margin-bottom: 14px;">Veux-tu aussi ajouter <strong class="modal-track-name"></strong> directement sur ton Spotify ?</p>
             <div style="display: flex; flex-direction: column; align-items: center; gap: 8px; width: 100%;">
               <button class="cta-btn btn-spotify" id="btn-spotify-presave" style="max-width: 100%; width: 100%;">Pre-save sur Spotify</button>
               <button class="cta-btn btn-later" id="btn-spotify-close">Fermer</button>
@@ -391,7 +391,7 @@
     sms: `<svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>`
   };
 
-  const SHEET_API_URL = 'https://script.google.com/macros/s/AKfycbyKzkcj_uCQzfkTubH6LJ9H_Q67q0x4SKi_5qnlpc6QfKcIgbvPrnBgZvov7v9hyqm8/exec';
+  const SHEET_API_URL = (typeof CONFIG !== 'undefined' && CONFIG.presaveApi) || '';
 
   let isBackdropClick = false;
   let isSubmitted = false;
@@ -439,12 +439,12 @@
     // Récupérer le release par défaut (config.js si disponible)
     function resolveRelease(rel) {
       if (rel && typeof rel === 'object') return rel;
-      if (typeof CONFIG !== 'undefined' && CONFIG.currentRelease) return CONFIG.currentRelease;
-      return { title: 'Accélère', sheet: 'ACCELERE' };
+      if (window.MERILIA && window.MERILIA.featured()) return window.MERILIA.featured();
+      return { title: '' };
     }
 
     function updateTextsForRelease(rel) {
-      const title = rel.title || 'Accélère';
+      const title = rel.title || '';
       if (currentMode === 'ig') {
         modalDesc.innerHTML = `Laisse ton Instagram pour recevoir le lien de <strong>${title}</strong> dès la sortie.`;
       } else {
@@ -535,14 +535,14 @@
       modalSubmitBtn.style.pointerEvents = 'none';
 
       const rel = activeRelease || resolveRelease();
-      const sheetName = rel.sheet || (rel.id ? rel.id.toUpperCase() : (rel.title ? rel.title.toUpperCase() : 'ACCELERE'));
+      const sheetName = rel.sheet || (rel.id ? rel.id.toUpperCase() : (rel.title || '').toUpperCase());
 
       const payload = {
         contact: value,
         method: currentMode,
-        track: rel.title || 'Accélère',
+        track: rel.title || '',
         sheet: sheetName,
-        date: new Date().toLocaleString()
+        date: new Date().toLocaleString('fr-FR', { timeZone: 'Europe/Paris' })
       };
 
       if (SHEET_API_URL) {
@@ -570,8 +570,8 @@
 
             if (btnSpotifyPresave) {
               btnSpotifyPresave.onclick = () => {
-                const url = rel.spotifyPreSaveUrl || rel.preSaveUrl || 'https://spotify.openinapp.co/31xu3';
-                window.open(url, '_blank');
+                const url = rel.spotifyPreSaveUrl || rel.preSaveUrl;
+                if (url) window.open(url, '_blank');
                 closeModal();
               };
             }

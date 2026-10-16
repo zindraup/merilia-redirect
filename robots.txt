@@ -1,0 +1,7 @@
+User-agent: *
+Disallow: /admin.html
+Disallow: /presave.html
+Disallow: /release.html
+Disallow: /release-template.html
+
+Sitemap: https://merilia.saint-drop.com/sitemap.xml
